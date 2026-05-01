@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33122.133
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocxValidation", "DocxValidation\DocxValidation.csproj", "{20A0C8BF-0D09-465F-B61E-866AF5C020E7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{20A0C8BF-0D09-465F-B61E-866AF5C020E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20A0C8BF-0D09-465F-B61E-866AF5C020E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20A0C8BF-0D09-465F-B61E-866AF5C020E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20A0C8BF-0D09-465F-B61E-866AF5C020E7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CC92BD4E-BA50-4925-AD0B-15606AA6DF2F}
+	EndGlobalSection
+EndGlobal
