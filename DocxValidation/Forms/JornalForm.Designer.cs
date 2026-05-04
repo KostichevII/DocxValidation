@@ -280,7 +280,7 @@
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.FileList);
             this.Name = "JornalForm";
-            this.Text = "JornalForm";
+            this.Text = "Журналы";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.JornalForm_FormClosed);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();

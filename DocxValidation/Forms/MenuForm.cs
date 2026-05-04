@@ -19,7 +19,7 @@ namespace DocxValidation
 
         private void Btemplates_Click(object sender, EventArgs e)
         {
-
+            OpenOrCreateForm<TemplateForm>();
         }
 
         private void Bvalidation_Click(object sender, EventArgs e)

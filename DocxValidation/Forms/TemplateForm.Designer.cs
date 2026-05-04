@@ -1,6 +1,6 @@
 ﻿namespace DocxValidation
 {
-    partial class ValidationForm
+    partial class TemplateForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,8 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.Label label2;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ValidationForm));
+            this.label2 = new System.Windows.Forms.Label();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.проверкаДокументовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -37,16 +36,8 @@
             this.историяПроверокToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.настройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.DocAdress = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.FileDialogButton = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.label18 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.label23 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.label22 = new System.Windows.Forms.Label();
@@ -64,9 +55,6 @@
             this.label20 = new System.Windows.Forms.Label();
             this.MainF = new System.Windows.Forms.ComboBox();
             this.FontS = new System.Windows.Forms.NumericUpDown();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.TextType = new System.Windows.Forms.ComboBox();
-            this.TextB = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel13 = new System.Windows.Forms.TableLayoutPanel();
@@ -119,11 +107,27 @@
             this.SpA = new System.Windows.Forms.NumericUpDown();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
-            label2 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.ParamsClear = new System.Windows.Forms.Button();
+            this.TextType = new System.Windows.Forms.ComboBox();
+            this.TextB = new System.Windows.Forms.Button();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.CheckSavedTypes = new System.Windows.Forms.CheckedListBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel16 = new System.Windows.Forms.TableLayoutPanel();
+            this.label18 = new System.Windows.Forms.Label();
+            this.CreateDate = new System.Windows.Forms.TextBox();
+            this.tableLayoutPanel15 = new System.Windows.Forms.TableLayoutPanel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.TemplateName = new System.Windows.Forms.TextBox();
+            this.TemplateList = new System.Windows.Forms.ListBox();
+            this.TemplateCreate = new System.Windows.Forms.Button();
+            this.TemplateImport = new System.Windows.Forms.Button();
+            this.TemplateDelete = new System.Windows.Forms.Button();
+            this.TemplateSave = new System.Windows.Forms.Button();
+            this.RefreshB = new System.Windows.Forms.Button();
             this.toolStrip1.SuspendLayout();
-            this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -131,7 +135,6 @@
             this.panel4.SuspendLayout();
             this.tableLayoutPanel8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FontS)).BeginInit();
-            this.panel5.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.tableLayoutPanel13.SuspendLayout();
@@ -158,16 +161,21 @@
             this.tableLayoutPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SpB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SpA)).BeginInit();
+            this.panel5.SuspendLayout();
+            this.panel6.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.tableLayoutPanel16.SuspendLayout();
+            this.tableLayoutPanel15.SuspendLayout();
             this.SuspendLayout();
             // 
             // label2
             // 
-            label2.AutoSize = true;
-            label2.Location = new System.Drawing.Point(205, 10);
-            label2.Name = "label2";
-            label2.Size = new System.Drawing.Size(117, 13);
-            label2.TabIndex = 0;
-            label2.Text = "Параметры проверки";
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(185, 11);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(154, 13);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Параметры проверки текста";
             // 
             // toolStrip1
             // 
@@ -188,7 +196,6 @@
             this.редактированиеШаблоновToolStripMenuItem,
             this.историяПроверокToolStripMenuItem,
             this.настройкиToolStripMenuItem});
-            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
             this.toolStripDropDownButton1.Size = new System.Drawing.Size(151, 22);
@@ -221,113 +228,35 @@
             // toolStripButton1
             // 
             this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(60, 22);
             this.toolStripButton1.Text = "Помощь";
             // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.panel1.Controls.Add(this.DocAdress);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.FileDialogButton);
-            this.panel1.Location = new System.Drawing.Point(12, 28);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(227, 96);
-            this.panel1.TabIndex = 1;
-            // 
-            // DocAdress
-            // 
-            this.DocAdress.Location = new System.Drawing.Point(12, 26);
-            this.DocAdress.Name = "DocAdress";
-            this.DocAdress.Size = new System.Drawing.Size(202, 20);
-            this.DocAdress.TabIndex = 3;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(43, 10);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(130, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Проверяемый документ";
-            // 
-            // FileDialogButton
-            // 
-            this.FileDialogButton.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.FileDialogButton.Location = new System.Drawing.Point(12, 52);
-            this.FileDialogButton.Name = "FileDialogButton";
-            this.FileDialogButton.Size = new System.Drawing.Size(202, 26);
-            this.FileDialogButton.TabIndex = 1;
-            this.FileDialogButton.Text = "Открыть диалоговое окно";
-            this.FileDialogButton.UseVisualStyleBackColor = false;
-            this.FileDialogButton.Click += new System.EventHandler(this.FileDialogButton_Click);
-            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
-            this.openFileDialog1.Filter = "Документ Microsoft Word (.docx)| *.docx";
-            // 
-            // panel2
-            // 
-            this.panel2.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.panel2.Controls.Add(this.button1);
-            this.panel2.Controls.Add(this.label18);
-            this.panel2.Location = new System.Drawing.Point(12, 130);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(227, 261);
-            this.panel2.TabIndex = 2;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(12, 230);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(202, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Выбрать шаблон";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(61, 10);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(101, 13);
-            this.label18.TabIndex = 0;
-            this.label18.Text = "Загрузка шаблона";
+            this.openFileDialog1.Filter = "Файл \"TEMP\" (.temp)| *.temp";
             // 
             // panel3
             // 
             this.panel3.AutoScroll = true;
             this.panel3.AutoScrollMinSize = new System.Drawing.Size(0, 900);
             this.panel3.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.panel3.Controls.Add(this.label23);
             this.panel3.Controls.Add(this.groupBox4);
-            this.panel3.Controls.Add(this.panel5);
             this.panel3.Controls.Add(this.groupBox3);
-            this.panel3.Controls.Add(label2);
-            this.panel3.Location = new System.Drawing.Point(245, 28);
+            this.panel3.Controls.Add(this.label2);
+            this.panel3.Location = new System.Drawing.Point(245, 80);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(533, 394);
+            this.panel3.Size = new System.Drawing.Size(533, 262);
             this.panel3.TabIndex = 3;
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(34, 41);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(66, 13);
-            this.label23.TabIndex = 11;
-            this.label23.Text = "Тип текста:";
             // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.groupBox5);
             this.groupBox4.Controls.Add(this.panel4);
             this.groupBox4.Controls.Add(this.tableLayoutPanel8);
-            this.groupBox4.Location = new System.Drawing.Point(31, 406);
+            this.groupBox4.Location = new System.Drawing.Point(31, 366);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(463, 216);
             this.groupBox4.TabIndex = 10;
@@ -529,48 +458,13 @@
             0,
             0});
             // 
-            // panel5
-            // 
-            this.panel5.Controls.Add(this.TextType);
-            this.panel5.Controls.Add(this.TextB);
-            this.panel5.Location = new System.Drawing.Point(104, 35);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(313, 31);
-            this.panel5.TabIndex = 9;
-            // 
-            // TextType
-            // 
-            this.TextType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.TextType.FormattingEnabled = true;
-            this.TextType.Items.AddRange(new object[] {
-            "Основной текст",
-            "Заголовки",
-            "Подписи к рисунка/таблицы",
-            "Заголовки таблиц",
-            "Основной текст таблицы"});
-            this.TextType.Location = new System.Drawing.Point(4, 3);
-            this.TextType.Name = "TextType";
-            this.TextType.Size = new System.Drawing.Size(225, 21);
-            this.TextType.TabIndex = 7;
-            this.TextType.TextChanged += new System.EventHandler(this.TextType_TextChanged);
-            // 
-            // TextB
-            // 
-            this.TextB.Location = new System.Drawing.Point(232, 3);
-            this.TextB.Name = "TextB";
-            this.TextB.Size = new System.Drawing.Size(75, 23);
-            this.TextB.TabIndex = 8;
-            this.TextB.Text = "Принять";
-            this.TextB.UseVisualStyleBackColor = true;
-            this.TextB.Click += new System.EventHandler(this.TextB_Click);
-            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.groupBox6);
             this.groupBox3.Controls.Add(this.tableLayoutPanel7);
             this.groupBox3.Controls.Add(this.groupBox1);
             this.groupBox3.Controls.Add(this.groupBox2);
-            this.groupBox3.Location = new System.Drawing.Point(31, 72);
+            this.groupBox3.Location = new System.Drawing.Point(31, 27);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(463, 328);
             this.groupBox3.TabIndex = 7;
@@ -825,6 +719,11 @@
             this.ListSpacing.Name = "ListSpacing";
             this.ListSpacing.Size = new System.Drawing.Size(73, 20);
             this.ListSpacing.TabIndex = 0;
+            this.ListSpacing.Value = new decimal(new int[] {
+            125,
+            0,
+            0,
+            131072});
             // 
             // label25
             // 
@@ -1289,36 +1188,246 @@
             this.label13.Text = "пт";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // button2
+            // label23
             // 
-            this.button2.Location = new System.Drawing.Point(13, 395);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(226, 42);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "Проверить документ";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(3, 7);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(66, 13);
+            this.label23.TabIndex = 11;
+            this.label23.Text = "Тип текста:";
             // 
-            // ValidationForm
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.ParamsClear);
+            this.panel5.Controls.Add(this.label23);
+            this.panel5.Controls.Add(this.TextType);
+            this.panel5.Controls.Add(this.TextB);
+            this.panel5.Location = new System.Drawing.Point(15, 11);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(280, 86);
+            this.panel5.TabIndex = 9;
+            // 
+            // ParamsClear
+            // 
+            this.ParamsClear.Location = new System.Drawing.Point(6, 58);
+            this.ParamsClear.Name = "ParamsClear";
+            this.ParamsClear.Size = new System.Drawing.Size(264, 23);
+            this.ParamsClear.TabIndex = 12;
+            this.ParamsClear.Text = "Очистить";
+            this.ParamsClear.UseVisualStyleBackColor = true;
+            this.ParamsClear.Click += new System.EventHandler(this.ParamsClear_Click);
+            // 
+            // TextType
+            // 
+            this.TextType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.TextType.FormattingEnabled = true;
+            this.TextType.Items.AddRange(new object[] {
+            "Основной текст",
+            "Заголовки",
+            "Подписи к рисункам/таблицам",
+            "Заголовки таблиц",
+            "Основной текст таблицы"});
+            this.TextType.Location = new System.Drawing.Point(70, 4);
+            this.TextType.Name = "TextType";
+            this.TextType.Size = new System.Drawing.Size(200, 21);
+            this.TextType.TabIndex = 7;
+            this.TextType.TextChanged += new System.EventHandler(this.TextType_TextChanged);
+            // 
+            // TextB
+            // 
+            this.TextB.Location = new System.Drawing.Point(6, 30);
+            this.TextB.Name = "TextB";
+            this.TextB.Size = new System.Drawing.Size(264, 23);
+            this.TextB.TabIndex = 8;
+            this.TextB.Text = "Принять";
+            this.TextB.UseVisualStyleBackColor = true;
+            this.TextB.Click += new System.EventHandler(this.TextB_Click);
+            // 
+            // panel6
+            // 
+            this.panel6.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.panel6.Controls.Add(this.CheckSavedTypes);
+            this.panel6.Controls.Add(this.panel5);
+            this.panel6.Location = new System.Drawing.Point(245, 349);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(533, 100);
+            this.panel6.TabIndex = 5;
+            // 
+            // CheckSavedTypes
+            // 
+            this.CheckSavedTypes.FormattingEnabled = true;
+            this.CheckSavedTypes.Items.AddRange(new object[] {
+            "Основной текст",
+            "Заголовки",
+            "Подписи к рисункам/таблицам",
+            "Заголовки таблиц",
+            "Основной текст таблицы"});
+            this.CheckSavedTypes.Location = new System.Drawing.Point(301, 8);
+            this.CheckSavedTypes.Name = "CheckSavedTypes";
+            this.CheckSavedTypes.SelectionMode = System.Windows.Forms.SelectionMode.None;
+            this.CheckSavedTypes.Size = new System.Drawing.Size(219, 79);
+            this.CheckSavedTypes.TabIndex = 10;
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.panel1.Controls.Add(this.tableLayoutPanel16);
+            this.panel1.Controls.Add(this.tableLayoutPanel15);
+            this.panel1.Location = new System.Drawing.Point(245, 24);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(533, 50);
+            this.panel1.TabIndex = 6;
+            // 
+            // tableLayoutPanel16
+            // 
+            this.tableLayoutPanel16.ColumnCount = 2;
+            this.tableLayoutPanel16.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel16.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel16.Controls.Add(this.label18, 0, 0);
+            this.tableLayoutPanel16.Controls.Add(this.CreateDate, 1, 0);
+            this.tableLayoutPanel16.Location = new System.Drawing.Point(306, 8);
+            this.tableLayoutPanel16.Name = "tableLayoutPanel16";
+            this.tableLayoutPanel16.RowCount = 1;
+            this.tableLayoutPanel16.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel16.Size = new System.Drawing.Size(202, 25);
+            this.tableLayoutPanel16.TabIndex = 1;
+            // 
+            // label18
+            // 
+            this.label18.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(3, 0);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(84, 26);
+            this.label18.TabIndex = 0;
+            this.label18.Text = "Дата создания";
+            this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // CreateDate
+            // 
+            this.CreateDate.Location = new System.Drawing.Point(93, 3);
+            this.CreateDate.Name = "CreateDate";
+            this.CreateDate.ReadOnly = true;
+            this.CreateDate.Size = new System.Drawing.Size(106, 20);
+            this.CreateDate.TabIndex = 1;
+            // 
+            // tableLayoutPanel15
+            // 
+            this.tableLayoutPanel15.ColumnCount = 2;
+            this.tableLayoutPanel15.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel15.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel15.Controls.Add(this.label1, 0, 0);
+            this.tableLayoutPanel15.Controls.Add(this.TemplateName, 1, 0);
+            this.tableLayoutPanel15.Location = new System.Drawing.Point(21, 8);
+            this.tableLayoutPanel15.Name = "tableLayoutPanel15";
+            this.tableLayoutPanel15.RowCount = 1;
+            this.tableLayoutPanel15.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel15.Size = new System.Drawing.Size(274, 25);
+            this.tableLayoutPanel15.TabIndex = 0;
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(76, 26);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Имя шаблона";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // TemplateName
+            // 
+            this.TemplateName.Location = new System.Drawing.Point(85, 3);
+            this.TemplateName.Name = "TemplateName";
+            this.TemplateName.Size = new System.Drawing.Size(183, 20);
+            this.TemplateName.TabIndex = 1;
+            // 
+            // TemplateList
+            // 
+            this.TemplateList.FormattingEnabled = true;
+            this.TemplateList.Location = new System.Drawing.Point(13, 24);
+            this.TemplateList.Name = "TemplateList";
+            this.TemplateList.Size = new System.Drawing.Size(226, 290);
+            this.TemplateList.TabIndex = 7;
+            this.TemplateList.SelectedIndexChanged += new System.EventHandler(this.TemplateList_SelectedIndexChanged);
+            // 
+            // TemplateCreate
+            // 
+            this.TemplateCreate.Location = new System.Drawing.Point(13, 343);
+            this.TemplateCreate.Name = "TemplateCreate";
+            this.TemplateCreate.Size = new System.Drawing.Size(226, 23);
+            this.TemplateCreate.TabIndex = 8;
+            this.TemplateCreate.Text = "Создать новый шаблон";
+            this.TemplateCreate.UseVisualStyleBackColor = true;
+            this.TemplateCreate.Click += new System.EventHandler(this.TemplateCreate_Click);
+            // 
+            // TemplateImport
+            // 
+            this.TemplateImport.Location = new System.Drawing.Point(13, 368);
+            this.TemplateImport.Name = "TemplateImport";
+            this.TemplateImport.Size = new System.Drawing.Size(226, 23);
+            this.TemplateImport.TabIndex = 9;
+            this.TemplateImport.Text = "Импортировать шаблон";
+            this.TemplateImport.UseVisualStyleBackColor = true;
+            this.TemplateImport.Click += new System.EventHandler(this.TemplateImport_Click);
+            // 
+            // TemplateDelete
+            // 
+            this.TemplateDelete.Location = new System.Drawing.Point(13, 393);
+            this.TemplateDelete.Name = "TemplateDelete";
+            this.TemplateDelete.Size = new System.Drawing.Size(226, 23);
+            this.TemplateDelete.TabIndex = 10;
+            this.TemplateDelete.Text = "Удалить шаблон";
+            this.TemplateDelete.UseVisualStyleBackColor = true;
+            this.TemplateDelete.Click += new System.EventHandler(this.TemplateDelete_Click);
+            // 
+            // TemplateSave
+            // 
+            this.TemplateSave.Location = new System.Drawing.Point(13, 418);
+            this.TemplateSave.Name = "TemplateSave";
+            this.TemplateSave.Size = new System.Drawing.Size(226, 23);
+            this.TemplateSave.TabIndex = 11;
+            this.TemplateSave.Text = "Сохранить изменения";
+            this.TemplateSave.UseVisualStyleBackColor = true;
+            this.TemplateSave.Click += new System.EventHandler(this.TemplateSave_Click);
+            // 
+            // RefreshB
+            // 
+            this.RefreshB.Location = new System.Drawing.Point(12, 316);
+            this.RefreshB.Name = "RefreshB";
+            this.RefreshB.Size = new System.Drawing.Size(227, 23);
+            this.RefreshB.TabIndex = 12;
+            this.RefreshB.Text = "Обновить список";
+            this.RefreshB.UseVisualStyleBackColor = true;
+            this.RefreshB.Click += new System.EventHandler(this.RefreshB_Click);
+            // 
+            // TemplateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(800, 449);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.panel3);
-            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.RefreshB);
+            this.Controls.Add(this.TemplateSave);
+            this.Controls.Add(this.TemplateDelete);
+            this.Controls.Add(this.TemplateImport);
+            this.Controls.Add(this.TemplateCreate);
+            this.Controls.Add(this.TemplateList);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.panel6);
+            this.Controls.Add(this.panel3);
             this.Controls.Add(this.toolStrip1);
-            this.Name = "ValidationForm";
-            this.Text = "Validation";
+            this.Name = "TemplateForm";
+            this.Text = "Редактор шаблонов";
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
@@ -1330,7 +1439,6 @@
             this.tableLayoutPanel8.ResumeLayout(false);
             this.tableLayoutPanel8.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FontS)).EndInit();
-            this.panel5.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
             this.tableLayoutPanel13.ResumeLayout(false);
@@ -1370,6 +1478,14 @@
             this.tableLayoutPanel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SpB)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SpA)).EndInit();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
+            this.panel6.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.tableLayoutPanel16.ResumeLayout(false);
+            this.tableLayoutPanel16.PerformLayout();
+            this.tableLayoutPanel15.ResumeLayout(false);
+            this.tableLayoutPanel15.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1378,11 +1494,7 @@
         #endregion
 
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button FileDialogButton;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
         private System.Windows.Forms.ToolStripMenuItem проверкаДокументовToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem редактированиеШаблоновToolStripMenuItem;
@@ -1424,8 +1536,6 @@
         private System.Windows.Forms.NumericUpDown SpA;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.ComboBox TextType;
         private System.Windows.Forms.Button TextB;
@@ -1447,8 +1557,6 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.ComboBox AddF;
         private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.TextBox DocAdress;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel9;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel10;
@@ -1467,5 +1575,22 @@
         private System.Windows.Forms.NumericUpDown ListTextInd;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.CheckedListBox CheckSavedTypes;
+        private System.Windows.Forms.Button ParamsClear;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel16;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.TextBox CreateDate;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel15;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox TemplateName;
+        private System.Windows.Forms.ListBox TemplateList;
+        private System.Windows.Forms.Button TemplateCreate;
+        private System.Windows.Forms.Button TemplateImport;
+        private System.Windows.Forms.Button TemplateDelete;
+        private System.Windows.Forms.Button TemplateSave;
+        private System.Windows.Forms.Button RefreshB;
     }
 }

@@ -108,7 +108,7 @@
             this.Controls.Add(this.Btemplates);
             this.Controls.Add(this.Bvalidation);
             this.Name = "MenuForm";
-            this.Text = "DocxValidation";
+            this.Text = "Меню";
             this.ResumeLayout(false);
 
         }

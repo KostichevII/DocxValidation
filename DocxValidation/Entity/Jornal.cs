@@ -176,11 +176,11 @@ namespace JornalWriter
                     {
                         filePath= file;
                         File.Create(file);
-                        return true;
+                        created = true;
                     }
                     counter++;
                 }
-                return false;
+                return true;
             }
             public void AddRecord(string message, string type, string Module)
             {

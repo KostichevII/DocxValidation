@@ -252,6 +252,7 @@ namespace DocChecker
     public class CheckerFuncs
     {
         static Jornal jornal = new Jornal();
+
         // Метод для конвертации типов
         public static double ConvertValue(string OutputType, string InputType, double InputValue)
         {
@@ -345,7 +346,37 @@ namespace DocChecker
             }
             return "unknow";
         }
+        private static Expection ExpectionTake(List<Expection> expList, ExpectionType type)
+        {
+            int index = -1;
 
+            for (int i =0; i< expList.Count; i++)
+            {
+                if (expList[i].Type == type)
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            if (index != -1 )
+            {
+                return expList[index];
+            }
+            else
+            {
+                foreach(Expection exp in expList)
+                {
+                    if (exp.Type == ExpectionType.MainText)
+                    {
+                        return exp;
+                    }
+                }
+            }
+
+            jornal.AddRecord("Ошибка поиска настроек оформления: не обнаружено оформление основного текста", "Error", "ExpectionTake");
+            throw new Exception("Не обнаружен стиль оформления для основного текста");
+        }
         public static string ReadWordDocument(string path, Expection exp, bool MakeJornal)
         {
             jornal.CreateRecordSession();
@@ -372,187 +403,216 @@ namespace DocChecker
 
         }
 
-        //// Метод проверки документа
-        //public static string CheckDocument(string path, List<Expection> exp, bool MakeJornal)
-        //{
-        //    jornal.CreateRecordSession();
-        //    jornal.AddRecord("Начало проверки", "Normal", "ReadWordDocument");
-        //    try
-        //    {
-        //        using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(path, false))
-        //        {
-        //            jornal.AddRecord("Документ успешно открыт", "Normal", "ReadWordDocument");
-        //            Body body = wordDoc.MainDocumentPart.Document.Body;
+        // Метод проверки документа
+        public static string CheckDocument(string path, List<Expection> exp, bool MakeJornal)
+        {
+            jornal.CreateRecordSession();
+            jornal.AddRecord("Начало проверки", "Normal", "ReadWordDocument");
+            try
+            {
+                using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(path, false))
+                {
+                    jornal.AddRecord("Документ успешно открыт", "Normal", "ReadWordDocument");
+                    Body body = wordDoc.MainDocumentPart.Document.Body;
+
+                    string result = CheckAllElements(body, exp, GetStyleList(wordDoc), 200, wordDoc.MainDocumentPart.NumberingDefinitionsPart.Numbering);
+                    jornal.RecordsWrite();
+                    return result;
+                }
+            }
+
+            catch (Exception e)
+            {
+                jornal.AddRecord($"Не удалось открыть файл :{e}", "Fatal", "ReadWordDocument");
+                jornal.RecordsWrite();
+                return null;
+            }
+        }
+        // Метод проверки элементов
+        public static string CheckAllElements(Body body, List<Expection> exp, List<Style> styles, int parSymbols, Numbering numbering)
+        {
+            string Result = "";
+            StringBuilder OutPut = new StringBuilder("");
+            int Paragraphcounter = 1;
+            int TableCounter = 1;
+
+            foreach (var element in body.Elements())
+            {
+                if (element is Paragraph)
+                {
+                    Paragraph paragraph = (Paragraph)element;
+                    if (!String.IsNullOrWhiteSpace(paragraph.InnerText.ToString()))
+                    {
+                        try
+                        {
+                            Result = MainParagraphCheck(paragraph, styles, exp, numbering);
+
+                            if (Result != "")
+                            {
+                                OutPut.AppendLine($"В параграфе {Paragraphcounter} обнаружены ошибки:");
+                                if (paragraph.InnerText.ToString().Length <= parSymbols)
+                                {
+                                    OutPut.AppendLine($"Текст параграфа: {paragraph.InnerText.ToString()}");
+                                }
+                                else
+                                {
+                                    OutPut.AppendLine($"Первые {parSymbols} символов параграфа: {paragraph.InnerText.ToString().Substring(0, parSymbols)}");
+                                }
+                                OutPut.AppendLine("Обнаруженные ошибки:");
+                                OutPut.AppendLine(Result);
+                            }
+                        }
+                        catch(Exception e)
+                        {
+                            OutPut.AppendLine($"Параграф {Paragraphcounter}: ошибка проверки");
+                            jornal.AddRecord($"Ошибка проверки таблицы {Paragraphcounter}: {e.ToString()}", "Error", "MainParagraphCheck");
+                        }
+                        Paragraphcounter++;
+                    }
+                }
+
+                if (element is Table)
+                {
+                    Table table = (Table)element;
+
+                    try
+                    {
+                        Result = CheckTable(table, exp, styles, numbering, TableCounter);
+
+                        if (Result != "")
+                        {
+                            OutPut.AppendLine(Result);
+                        }
+                    }
+                    catch(Exception e)
+                    {
+                        OutPut.AppendLine($"Таблица {TableCounter}: ошибка проверки");
+                        jornal.AddRecord($"Ошибка проверки таблицы {TableCounter}: {e.ToString()}", "Error", "CheckTable");
+                    }
+                    TableCounter++;
+                }
+            }
+            Console.WriteLine(OutPut.ToString());
+            return OutPut.ToString();
+        }
 
 
-        //            string result = CheckAllParagraphs(body, exp, GetStyleList(wordDoc), 200, wordDoc.MainDocumentPart.NumberingDefinitionsPart.Numbering);
-        //            jornal.RecordsWrite();
-        //            return result;
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        jornal.AddRecord($"Не удалось открыть файл :{e}", "Fatal", "ReadWordDocument");
-        //        jornal.RecordsWrite();
-        //        return null;
-        //    }
-        //}
-        //// Метод проверки элементов
-        //public static string CheckAllElements(Body body, List<Expection> exp, List<Style> styles, int parSymbols, Numbering numbering)
-        //{
-        //    string Result = "";
-        //    StringBuilder OutPut = new StringBuilder("");
-        //    int Paragraphcounter = 1;
-        //    int TableCounter = 1;
+        // Метод проверки таблиц
+        private static string CheckTable(Table table, List<Expection> expList, List<Style> styles, Numbering numbering, int tableNum)
+        {
+            // Получаем размеры заголовка таблицы
+            int HeaderSize = TableHeaderSizeCalc(table);
+            int rowCounter = 0;
+            int cellCounter = 0;
+            string ErrorMessage = "";
+            StringBuilder OutPutMessage = new StringBuilder("");
+            List<(int row, int cell, string Error)> Errors = new List<(int row, int cell, string Error)>();
 
-        //    foreach (var element in body.Elements())
-        //    {
-        //        if (element is Paragraph)
-        //        {
-        //            Paragraph paragraph = (Paragraph)element;
-        //            if (!String.IsNullOrWhiteSpace(paragraph.InnerText.ToString()))
-        //            {
-        //                Result = CheckParagraph(paragraph, styles, exp, numbering);
+            //  Перебираем все строки
+            foreach (TableRow row in table.Elements<TableRow>())
+            {
+                rowCounter++;
+                cellCounter = 0;
+                //  Перебираем все ячейки в строке
+                foreach (TableCell cell in row.Elements<TableCell>())
+                {
+                    cellCounter++;
+                    //  Перебираем все параграфы в ячейке
+                    foreach (Paragraph para in cell.Elements<Paragraph>())
+                    {
+                        Expection exp = new Expection();
+                        try
+                        {
+                            if (rowCounter <= HeaderSize)
+                            {
+                                exp = ExpectionTake(expList, ExpectionType.TableHeader);
+                            }
+                            else
+                            {
+                                exp = ExpectionTake(expList, ExpectionType.TableText);
+                            }
+                        }
+                        catch (Exception error)
+                        {
+                            throw error;
+                        }
 
-        //                if (Result != "")
-        //                {
-        //                    OutPut.AppendLine($"В параграфе {Paragraphcounter} обнаружены ошибки:");
-        //                    if (paragraph.InnerText.ToString().Length <= parSymbols)
-        //                    {
-        //                        OutPut.AppendLine($"Текст параграфа: {paragraph.InnerText.ToString()}");
-        //                    }
-        //                    else
-        //                    {
-        //                        OutPut.AppendLine($"Первые {parSymbols} символов параграфа: {paragraph.InnerText.ToString().Substring(0, parSymbols)}");
-        //                    }
-        //                    OutPut.AppendLine("Обнаруженные ошибки:");
-        //                    OutPut.AppendLine(Result);
-        //                }
+                        ErrorMessage = CheckParagraph(para, styles, exp, numbering);
 
-        //                Paragraphcounter++;
-        //            }
-        //        }
+                        if (ErrorMessage != "")
+                        {
+                            OutPutMessage.AppendLine($"В {cellCounter} ячейке {rowCounter} строки обнаружены ошибки: \n{ErrorMessage}");
+                        }
+                    }
+                }
+            }
 
-        //        if (element is Table)
-        //        {
-        //            Table table = (Table)element;
+            if (OutPutMessage.ToString() != "")
+            {
+                return $"В таблице {tableNum} обнаружены ошибки: \n{OutPutMessage}";
+            }
+            else
+            {
+                return "";
+            }
+        }
+        // Метод, подсчитывающий размер заголовка таблицы. Возвращает -1 если была ошибка подсчёта.
+        private static int TableHeaderSizeCalc(Table table)
+        {
+            int HeaderSize = 1;
+            int rowCellCounter;
+            List<int> VerticalMergedCollum = new List<int>();
 
-        //            Result = CheckTable(table, styles, exp, numbering);
+            foreach (TableRow row in table.Elements<TableRow>())
+            {
+                rowCellCounter = -1;
 
-        //            if (Result != "")
-        //            {
-        //                OutPut.AppendLine($"В таблице {TableCounter} обнаружены ошибки:");
-        //                OutPut.AppendLine("Обнаруженные ошибки:");
-        //                OutPut.AppendLine(Result);
-        //            }
+                //  Перебираем все ячейки в строке
+                foreach (TableCell cell in row.Elements<TableCell>())
+                {
+                    rowCellCounter++;
 
-        //            TableCounter++;
-        //        }
-        //    }
-        //    Console.WriteLine(OutPut.ToString());
-        //    return OutPut.ToString();
-        //}
-
-
-        //// Метод проверки таблиц
-        //private static string CheckTable(Table table, Expection exp, List<Style> styles, Numbering numbering, int tableNum)
-        //{
-        //    // Получаем размеры заголовка таблицы
-        //    int HeaderSize = TableHeaderSizeCalc(table);
-        //    int rowCounter = 0;
-        //    int cellCounter = 0;
-        //    string ErrorMessage = "";
-        //    StringBuilder OutPutMessage = new StringBuilder("");
-        //    List<(int row, int cell, string Error)> Errors = new List<(int row, int cell, string Error)>();
-
-        //    //  Перебираем все строки
-        //    foreach (TableRow row in table.Elements<TableRow>())
-        //    {
-        //        rowCounter++;
-        //        cellCounter = 0;
-        //        //  Перебираем все ячейки в строке
-        //        foreach (TableCell cell in row.Elements<TableCell>())
-        //        {
-        //            cellCounter++;
-        //            //  Перебираем все параграфы в ячейке
-        //            foreach (Paragraph para in cell.Elements<Paragraph>())
-        //            {
-        //                ErrorMessage = CheckParagraph(para, styles, exp, numbering);
-
-        //                if (ErrorMessage != "")
-        //                {
-        //                    OutPutMessage.AppendLine($"В {cellCounter} ячейке {rowCounter} строки обнаружены ошибки: \n{ErrorMessage}");
-        //                }
-        //            }
-        //        }
-        //    }
-
-        //    if (OutPutMessage.ToString() != "")
-        //    {
-        //        return $"В таблице {tableNum} обнаружены ошибки: \n{OutPutMessage}";
-        //    }
-        //    else
-        //    {
-        //        return "";
-        //    }
-        //}
-        //// Метод, подсчитывающий размер заголовка таблицы. Возвращает -1 если была ошибка подсчёта.
-        //private static int TableHeaderSizeCalc(Table table)
-        //{
-        //    int HeaderSize = 1;
-        //    int rowCellCounter;
-        //    List<int> VerticalMergedCollum = new List<int>();
-
-        //    foreach (TableRow row in table.Elements<TableRow>())
-        //    {
-        //        rowCellCounter= -1;
-
-        //        //  Перебираем все ячейки в строке
-        //        foreach (TableCell cell in row.Elements<TableCell>())
-        //        {
-        //            rowCellCounter++;
-
-        //            if (cell.TableCellProperties != null)
-        //            {
-        //                // Добавляем в список индексы столбцов, где есть вертикальное слияние
-        //                if (cell.TableCellProperties.VerticalMerge != null)
-        //                {
-        //                    if (cell.TableCellProperties.VerticalMerge.Val.Value.ToString() == "restart")
-        //                    {
-        //                        VerticalMergedCollum.Add(rowCellCounter);
-        //                    }
-        //                }
+                    if (cell.TableCellProperties != null)
+                    {
+                        // Добавляем в список индексы столбцов, где есть вертикальное слияние
+                        if (cell.TableCellProperties.VerticalMerge != null)
+                        {
+                            if (cell.TableCellProperties.VerticalMerge.Val.Value.ToString() == "restart")
+                            {
+                                VerticalMergedCollum.Add(rowCellCounter);
+                            }
+                        }
 
 
-        //                // Если столбце ячейки есть в списке столбцов, где не закончено слияние, проверяем продолжено ли слияние
-        //                if (VerticalMergedCollum.Contains(rowCellCounter))
-        //                {
-        //                    int ListIndex = VerticalMergedCollum.IndexOf(rowCellCounter);
+                        // Если столбце ячейки есть в списке столбцов, где не закончено слияние, проверяем продолжено ли слияние
+                        if (VerticalMergedCollum.Contains(rowCellCounter))
+                        {
+                            int ListIndex = VerticalMergedCollum.IndexOf(rowCellCounter);
 
-        //                    // Если слияние не продолжено, то удаляем из списка
-        //                    if (cell.TableCellProperties.VerticalMerge == null)
-        //                    {
-        //                        VerticalMergedCollum.RemoveAt(rowCellCounter);
-        //                    }
-        //                }
+                            // Если слияние не продолжено, то удаляем из списка
+                            if (cell.TableCellProperties.VerticalMerge == null)
+                            {
+                                VerticalMergedCollum.RemoveAt(rowCellCounter);
+                            }
+                        }
 
 
-        //            }
-        //        }
+                    }
+                }
 
-        //        // Проверяем пуст ли список
-        //        if (VerticalMergedCollum.Count == 0)
-        //        {
-        //            return HeaderSize;
-        //        }
-        //        else
-        //        {
-        //            HeaderSize++;
-        //        }
-        //    }
+                // Проверяем пуст ли список
+                if (VerticalMergedCollum.Count == 0)
+                {
+                    return HeaderSize;
+                }
+                else
+                {
+                    HeaderSize++;
+                }
+            }
 
-        //    return -1;
-        //}
+            return -1;
+        }
 
         // Чтение списка стилей
         static private List<Style> GetStyleList(WordprocessingDocument doc)
@@ -590,7 +650,31 @@ namespace DocChecker
             }
             return false;
         }
-        // Проверка параграфа
+
+        // Проверка параграфа (основная)
+        public static string MainParagraphCheck(Paragraph paragraph, List<Style> styles, List<Expection> expList, Numbering numbering)
+        {
+            Expection exp = new Expection();
+
+            try
+            {
+                if (ParagraphIsHeader(paragraph, styles))
+                {
+                    exp = ExpectionTake(expList, ExpectionType.MainTextHeader);
+                }
+                else
+                {
+                    exp = ExpectionTake(expList, ExpectionType.MainText);
+                }
+            }
+            catch (Exception error)
+            {
+                throw error;
+            }
+
+            return CheckParagraph(paragraph, styles, exp, numbering);
+        }
+        // Проверка параграфа (вспомогательный метод без проверки типа)
         public static string CheckParagraph(Paragraph paragraph, List<Style> styles, Expection exp, Numbering numbering)
         {
             string ErrorMessage = "";
@@ -636,6 +720,9 @@ namespace DocChecker
 
             return ErrorMessage;
         }
+
+
+
         // Проверка параграфов
         public static string CheckAllParagraphs(Body body, Expection exp, List<Style> styles, int parSymbols, Numbering numbering)
         {
@@ -682,6 +769,8 @@ namespace DocChecker
             return OutPut.ToString();
         }
 
+
+
         // Методы проверки абзацев
 
         // Получение выравнивания текста
@@ -701,7 +790,7 @@ namespace DocChecker
             if (paragraph.ParagraphStyleId != null)
             {
                 var style = GetStyleWithInheritance(paragraph.ParagraphStyleId.ToString(), StyleValues.Paragraph, styles);
-                if (style == null)
+                if (style != null)
                 {
                     if(style.StyleParagraphProperties.Justification != null)
                     {
@@ -712,7 +801,7 @@ namespace DocChecker
 
             var defaultStyle = GetDefaultParagraphStyle(styles);
             // Уровень 3: Стиль "Normal" (по умолчанию для абзацев)
-            if (defaultStyle != null)
+            if (defaultStyle != null && defaultStyle.StyleParagraphProperties != null)
             {
                 if (defaultStyle.StyleParagraphProperties.Justification != null)
                 {
@@ -737,7 +826,7 @@ namespace DocChecker
 
             if (recString != expString)
             {
-                return $"Неверно заданые параметры выравнивнивания: \nОПолучено: {recString}  Ожидаемо: {expString}";
+                return $"Неверно заданые параметры выравнивнивания: \nПолучено: {recString}  Ожидалось: {expString}";
             }
 
             return "";
@@ -1111,7 +1200,7 @@ namespace DocChecker
             string hanging = paraInd?.Hanging?.Value ?? listInd?.Hanging?.Value;
             string firstLine = paraInd?.FirstLine?.Value ?? listInd?.FirstLine?.Value;
 
-            string tab = level.LevelSuffix.Val?.Value.ToString() ?? "tab";
+            string tab = level.LevelSuffix?.Val?.Value.ToString() ?? "tab";
 
             // Разрешаем конфликт Hanging и FirstLine // hanging имеет приоритет
             if (hanging != null)
