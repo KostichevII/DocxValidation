@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DocChecker;
+using DocumentFormat.OpenXml.Presentation;
 
 namespace DocxValidation
 {
@@ -16,16 +17,50 @@ namespace DocxValidation
     {
         string CurrectType = "";
         List<FieldSaver> FieldsSavers = new List<FieldSaver>();
-        List<FieldSaver> TempSavers = new List<FieldSaver>();
+        List<FieldSaver> Save = new List<FieldSaver>();
+
         List<DocChecker.CheckerClasses.Expection> SavedExpections = new List<DocChecker.CheckerClasses.Expection>();
+        Template template = null;
+        bool templateGood = true;
 
         public ValidationForm()
         {
             InitializeComponent();
         }
 
+        private DocChecker.CheckerClasses.ExpectionType StringConvertToExp(string Stype)
+        {
+            switch (Stype)
+            {
+                case "Основной текст":
+                    {
+                        return CheckerClasses.ExpectionType.MainText;
+                    }
+                case "Заголовки":
+                    {
+                        return CheckerClasses.ExpectionType.MainTextHeader;
+                    }
+                case "Подписи к рисункам/таблицам":
+                    {
+                        return CheckerClasses.ExpectionType.MainTextLabel;
+                    }
+                case "Заголовки таблиц":
+                    {
+                        return CheckerClasses.ExpectionType.TableHeader;
+                    }
+                case "Основной текст таблицы":
+                    {
+                        return CheckerClasses.ExpectionType.TableText;
+                    }
+                default:
+                    {
+                        return CheckerClasses.ExpectionType.Unknow;
+                    }
+            }
+        }
         private bool ReadFields(DocChecker.CheckerClasses.ExpectionType type)
         {
+
             DocChecker.CheckerClasses.Expection Exp = new DocChecker.CheckerClasses.Expection();
             int SavedPos = -1;
             
@@ -429,6 +464,49 @@ namespace DocxValidation
             MessageBox.Show("Ошибка: Обязательно должны быть заданы параметры для основного текста");
             return false;
         }
+        private void ChangeChecks()
+        {
+            bool check;
+            for (int i = 0; i < CheckSavedTypes.Items.Count; i++)
+            {
+                check = false;
+                foreach (var exp in SavedExpections)
+                {
+                    if (StringConvertToExp(CheckSavedTypes.Items[i].ToString()) == exp.Type)
+                    {
+                        CheckSavedTypes.SetItemChecked(i, true);
+                        check = true;
+                        break;
+                    }
+                }
+                if (!check)
+                {
+                    CheckSavedTypes.SetItemChecked(i, false);
+                }
+            }
+           
+        }
+        private void TempChangeCheck()
+        {
+            bool check;
+            for (int i = 0; i < CheckSavedTypes.Items.Count; i++)
+            {
+                check = false;
+                foreach (var exp in FieldsSavers)
+                {
+                    if (CheckSavedTypes.Items[i].ToString() == exp.TypeToString())
+                    {
+                        CheckSavedTypes.SetItemChecked(i, true);
+                        check = true;
+                        break;
+                    }
+                }
+                if (!check)
+                {
+                    CheckSavedTypes.SetItemChecked(i, false);
+                }
+            }
+        }
 
         private void FileDialogButton_Click(object sender, EventArgs e)
         {
@@ -488,6 +566,11 @@ namespace DocxValidation
 
             if (CheckSave())
             {
+                if (!templateGood)
+                {
+                    MessageBox.Show("Не выбраны действия с выбранным шаблоном");
+                    return;
+                }
                 string result = DocChecker.CheckerFuncs.CheckDocument(DocAdress.Text, SavedExpections, true);
                 using (var tw = new StreamWriter("result.txt", false))
                 {
@@ -497,43 +580,12 @@ namespace DocxValidation
         }
         private void TextB_Click(object sender, EventArgs e)
         {
-
-            DocChecker.CheckerClasses.ExpectionType type;
-
-            switch (TextType.Text)
+            DocChecker.CheckerClasses.ExpectionType type = StringConvertToExp(TextType.Text);
+            if (type == CheckerClasses.ExpectionType.Unknow)
             {
-                case "Основной текст":
-                    {
-                        type = CheckerClasses.ExpectionType.MainText;
-                        break;
-                    }
-                case "Заголовки":
-                    {
-                        type = CheckerClasses.ExpectionType.MainTextHeader;
-                        break;
-                    }
-                case "Подписи к рисункам/таблицам":
-                    {
-                        type = CheckerClasses.ExpectionType.MainTextLabel;
-                        break;
-                    }
-                case "Заголовки таблиц":
-                    {
-                        type = CheckerClasses.ExpectionType.TableHeader;
-                        break;
-                    }
-                case "Основной текст таблицы":
-                    {
-                        type = CheckerClasses.ExpectionType.TableText;
-                        break;
-                    }
-                default:
-                    {
-                        MessageBox.Show("Выберите тип текста, параметры которого хотите сохранить");
-                        return;
-                    }
+                MessageBox.Show("Выберите тип текста, параметры которого хотите сохранить");
+                return;
             }
-
             if (ReadFields(type))
             {
                 int couter = 0;
@@ -551,19 +603,79 @@ namespace DocxValidation
         }
         private void TableFileDialog_Click(object sender, EventArgs e)
         {
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "templates");
+            if (!Directory.Exists(path))
+            {
+                openFileDialog2.InitialDirectory= Directory.GetCurrentDirectory();
+            }
+            else
+            {
+                openFileDialog2.InitialDirectory = path;
+            }
 
+            try
+            {
+                if (openFileDialog2.ShowDialog() == DialogResult.Cancel)
+                    return;
+                string fileName = openFileDialog2.FileName;
+                template = new Template();
+                if (!template.ReadFile(fileName))
+                {
+                    MessageBox.Show("Ошибка чтения файла");
+                    template = null;
+                    return;
+                }
+                Save = FieldsSavers;
+                FieldsSavers = template.Fields;
+                templateGood = false;
+                TextB.Enabled = false;
+                ParamsClear.Enabled = false;
+                ParametrsReturn.Enabled = true;
+                TableParamSave.Enabled = true;
+
+                TemplateDate.Text = template.date.Date.ToString("d");
+                TemplateName.Text = template.Name;
+                TemplatePath.Text = template.filepath;
+
+                TempChangeCheck();
+
+            }
+            catch (Exception ex)
+            {
+                template = null;
+                MessageBox.Show($"Ошибка импорта файла: {ex.Message}");
+            }
         }
-
         private void TableParamSave_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                SavedExpections = template.ConvertToExpection();
+                FieldsSavers = template.Fields;
+                ChangeChecks();
+                TextB.Enabled = true;
+                ParamsClear.Enabled = true;
+                templateGood = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка сохранения параметров: {ex.Message}");
+                return;
+            }
         }
-
         private void ParametrsReturn_Click(object sender, EventArgs e)
         {
-
+            TextB.Enabled = true;
+            ParamsClear.Enabled = true;
+            templateGood = true;
+            ParametrsReturn.Enabled = false;
+            TableParamSave.Enabled = false;
+            FieldsSavers = Save;
+            TemplateDate.Text = "";
+            TemplateName.Text = "";
+            TemplatePath.Text = "";
+            ChangeChecks();
         }
-
         private void ParamsClear_Click(object sender, EventArgs e)
         {
             SetStandartFields();

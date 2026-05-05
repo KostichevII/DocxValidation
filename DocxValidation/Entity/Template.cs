@@ -5,17 +5,18 @@ using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
+using DocChecker;
 
 namespace DocxValidation
 {
-    public class Tempalate
+    public class Template
     {
         public List<FieldSaver> Fields;
         public string Name;
         public DateTime date;
         public string filepath;
 
-        public Tempalate()
+        public Template()
         {
             ClearTemplate();
         }
@@ -209,6 +210,18 @@ namespace DocxValidation
             }
             return true;
         }
-
+        public List<DocChecker.CheckerClasses.Expection> ConvertToExpection()
+        {
+            try
+            {
+                List<DocChecker.CheckerClasses.Expection> Exp = new List<CheckerClasses.Expection>();
+                foreach(var saver in Fields)
+                {
+                    Exp.Add(saver.ConvertToExpection());
+                }
+                return Exp;
+            }
+            catch(Exception e)  { throw e; };
         }
+    }
 }

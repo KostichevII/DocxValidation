@@ -28,7 +28,7 @@ namespace DocxValidation
         int currectPos = -1;
         List<FieldSaver> FieldsSavers = new List<FieldSaver>();
         List<FieldSaver> TempSavers = new List<FieldSaver>();
-        Tempalate template = new Tempalate();
+        Template template = new Template();
 
         private void SaveFields(string Type)
         {

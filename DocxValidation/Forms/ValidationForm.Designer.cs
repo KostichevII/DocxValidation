@@ -46,13 +46,13 @@
             this.TableParamSave = new System.Windows.Forms.Button();
             this.ParametrsReturn = new System.Windows.Forms.Button();
             this.tableLayoutPanel16 = new System.Windows.Forms.TableLayoutPanel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.TemplatePath = new System.Windows.Forms.TextBox();
             this.label33 = new System.Windows.Forms.Label();
             this.tableLayoutPanel15 = new System.Windows.Forms.TableLayoutPanel();
             this.label31 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.TemplateName = new System.Windows.Forms.TextBox();
+            this.TemplateDate = new System.Windows.Forms.TextBox();
             this.TableFileDialog = new System.Windows.Forms.Button();
             this.label18 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -133,6 +133,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.panel6 = new System.Windows.Forms.Panel();
             this.CheckSavedTypes = new System.Windows.Forms.CheckedListBox();
+            this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             label2 = new System.Windows.Forms.Label();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -283,7 +284,6 @@
             // 
             // openFileDialog1
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.Filter = "Документ Microsoft Word (.docx)| *.docx";
             // 
             // panel2
@@ -302,6 +302,7 @@
             // 
             // TableParamSave
             // 
+            this.TableParamSave.Enabled = false;
             this.TableParamSave.Location = new System.Drawing.Point(12, 173);
             this.TableParamSave.Name = "TableParamSave";
             this.TableParamSave.Size = new System.Drawing.Size(202, 23);
@@ -312,6 +313,7 @@
             // 
             // ParametrsReturn
             // 
+            this.ParametrsReturn.Enabled = false;
             this.ParametrsReturn.Location = new System.Drawing.Point(12, 202);
             this.ParametrsReturn.Name = "ParametrsReturn";
             this.ParametrsReturn.Size = new System.Drawing.Size(200, 23);
@@ -325,7 +327,7 @@
             this.tableLayoutPanel16.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel16.ColumnCount = 1;
             this.tableLayoutPanel16.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel16.Controls.Add(this.textBox1, 0, 1);
+            this.tableLayoutPanel16.Controls.Add(this.TemplatePath, 0, 1);
             this.tableLayoutPanel16.Controls.Add(this.label33, 0, 0);
             this.tableLayoutPanel16.Location = new System.Drawing.Point(12, 92);
             this.tableLayoutPanel16.Name = "tableLayoutPanel16";
@@ -335,13 +337,13 @@
             this.tableLayoutPanel16.Size = new System.Drawing.Size(200, 45);
             this.tableLayoutPanel16.TabIndex = 4;
             // 
-            // textBox1
+            // TemplatePath
             // 
-            this.textBox1.Location = new System.Drawing.Point(4, 18);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(194, 20);
-            this.textBox1.TabIndex = 2;
+            this.TemplatePath.Location = new System.Drawing.Point(4, 18);
+            this.TemplatePath.Name = "TemplatePath";
+            this.TemplatePath.ReadOnly = true;
+            this.TemplatePath.Size = new System.Drawing.Size(194, 20);
+            this.TemplatePath.TabIndex = 2;
             // 
             // label33
             // 
@@ -364,8 +366,8 @@
             this.tableLayoutPanel15.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel15.Controls.Add(this.label31, 0, 0);
             this.tableLayoutPanel15.Controls.Add(this.label32, 0, 1);
-            this.tableLayoutPanel15.Controls.Add(this.textBox2, 1, 0);
-            this.tableLayoutPanel15.Controls.Add(this.textBox3, 1, 1);
+            this.tableLayoutPanel15.Controls.Add(this.TemplateName, 1, 0);
+            this.tableLayoutPanel15.Controls.Add(this.TemplateDate, 1, 1);
             this.tableLayoutPanel15.Location = new System.Drawing.Point(12, 26);
             this.tableLayoutPanel15.Name = "tableLayoutPanel15";
             this.tableLayoutPanel15.RowCount = 2;
@@ -400,21 +402,21 @@
             this.label32.Text = "Дата создания:";
             this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // textBox2
+            // TemplateName
             // 
-            this.textBox2.Location = new System.Drawing.Point(98, 4);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(100, 20);
-            this.textBox2.TabIndex = 2;
+            this.TemplateName.Location = new System.Drawing.Point(98, 4);
+            this.TemplateName.Name = "TemplateName";
+            this.TemplateName.ReadOnly = true;
+            this.TemplateName.Size = new System.Drawing.Size(100, 20);
+            this.TemplateName.TabIndex = 2;
             // 
-            // textBox3
+            // TemplateDate
             // 
-            this.textBox3.Location = new System.Drawing.Point(98, 31);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(100, 20);
-            this.textBox3.TabIndex = 3;
+            this.TemplateDate.Location = new System.Drawing.Point(98, 31);
+            this.TemplateDate.Name = "TemplateDate";
+            this.TemplateDate.ReadOnly = true;
+            this.TemplateDate.Size = new System.Drawing.Size(100, 20);
+            this.TemplateDate.TabIndex = 3;
             // 
             // TableFileDialog
             // 
@@ -1476,6 +1478,10 @@
             this.CheckSavedTypes.Size = new System.Drawing.Size(219, 79);
             this.CheckSavedTypes.TabIndex = 10;
             // 
+            // openFileDialog2
+            // 
+            this.openFileDialog2.Filter = "Файл \"TEMP\" (.temp)| *.temp";
+            // 
             // ValidationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1653,16 +1659,17 @@
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.CheckedListBox CheckSavedTypes;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox TemplatePath;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel16;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel15;
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.Label label32;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox TemplateName;
+        private System.Windows.Forms.TextBox TemplateDate;
         private System.Windows.Forms.Button TableParamSave;
         private System.Windows.Forms.Button ParametrsReturn;
         private System.Windows.Forms.Button ParamsClear;
+        private System.Windows.Forms.OpenFileDialog openFileDialog2;
     }
 }
