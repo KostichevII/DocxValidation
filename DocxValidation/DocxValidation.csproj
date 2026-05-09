@@ -84,11 +84,11 @@
     <Compile Include="Forms\TemplateForm.Designer.cs">
       <DependentUpon>TemplateForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ValidationForm.cs">
+    <Compile Include="Forms\CheckForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\ValidationForm.Designer.cs">
-      <DependentUpon>ValidationForm.cs</DependentUpon>
+    <Compile Include="Forms\CheckForm.Designer.cs">
+      <DependentUpon>CheckForm.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Forms\HistoryForm.resx">
       <DependentUpon>HistoryForm.cs</DependentUpon>
@@ -111,8 +111,8 @@
     <EmbeddedResource Include="Forms\TemplateForm.resx">
       <DependentUpon>TemplateForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ValidationForm.resx">
-      <DependentUpon>ValidationForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\CheckForm.resx">
+      <DependentUpon>CheckForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

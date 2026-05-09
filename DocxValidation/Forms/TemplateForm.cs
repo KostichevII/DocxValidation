@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -86,6 +87,38 @@ namespace DocxValidation
                 FieldsSavers.Add(Fields);
             }
         }
+        private void SaveSectionsFields()
+        {
+            DocChecker.CheckerClasses.SectionInfo PortInfo = new CheckerClasses.SectionInfo();
+            DocChecker.CheckerClasses.SectionInfo LandInfo = new CheckerClasses.SectionInfo();
+            PortInfo.Top = Convert.ToDouble(SectionTopPortrait.Value);
+            PortInfo.Bottom = Convert.ToDouble(SectionBottomPortrait.Value);
+            PortInfo.Left = Convert.ToDouble(SectionLeftPortrait.Value);
+            PortInfo.Right = Convert.ToDouble(SectionRightPortrait.Value);
+            PortInfo.Header = Convert.ToDouble(SectionHeaderPortrait.Value);
+            PortInfo.Footer = Convert.ToDouble(SectionFooterPortrait.Value);
+
+            PortInfo.Orientation = "portrait";
+            PortInfo.PageWidth = 11906;
+            PortInfo.PageHeight = 16838;
+
+
+            LandInfo.Top = Convert.ToDouble(SectionTopLandScape.Value);
+            LandInfo.Bottom = Convert.ToDouble(SectionBottomLandScape.Value);
+            LandInfo.Left = Convert.ToDouble(SectionLeftLandScape.Value);
+            LandInfo.Right = Convert.ToDouble(SectionRightLandScape.Value);
+            LandInfo.Header = Convert.ToDouble(SectionHeaderLandScape.Value);
+            LandInfo.Footer = Convert.ToDouble(SectionFooterLandScape.Value);
+
+            LandInfo.Orientation = "landscape";
+            LandInfo.PageWidth = 16838;
+            LandInfo.PageHeight = 11906;
+
+            template.Sections.Add(PortInfo);
+            template.Sections.Add(LandInfo);
+        }
+
+
         private void SetStandartFields()
         {
             LeftM.Value = 0;
@@ -485,6 +518,7 @@ namespace DocxValidation
                     return;
                 }
                 template.Fields = TempSavers;
+                SaveSectionsFields();
                 template.date = date;
                 template.Name = name;
                 template.SaveFile();

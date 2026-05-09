@@ -127,6 +127,51 @@
             this.TemplateDelete = new System.Windows.Forms.Button();
             this.TemplateSave = new System.Windows.Forms.Button();
             this.RefreshB = new System.Windows.Forms.Button();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel17 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel18 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel19 = new System.Windows.Forms.TableLayoutPanel();
+            this.label31 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
+            this.label33 = new System.Windows.Forms.Label();
+            this.label34 = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
+            this.SectionLeftPortrait = new System.Windows.Forms.NumericUpDown();
+            this.SectionRightPortrait = new System.Windows.Forms.NumericUpDown();
+            this.SectionTopPortrait = new System.Windows.Forms.NumericUpDown();
+            this.SectionBottomPortrait = new System.Windows.Forms.NumericUpDown();
+            this.SectionFooterPortrait = new System.Windows.Forms.NumericUpDown();
+            this.SectionHeaderPortrait = new System.Windows.Forms.NumericUpDown();
+            this.label37 = new System.Windows.Forms.Label();
+            this.label38 = new System.Windows.Forms.Label();
+            this.label39 = new System.Windows.Forms.Label();
+            this.label40 = new System.Windows.Forms.Label();
+            this.label41 = new System.Windows.Forms.Label();
+            this.label42 = new System.Windows.Forms.Label();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel20 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel21 = new System.Windows.Forms.TableLayoutPanel();
+            this.label43 = new System.Windows.Forms.Label();
+            this.label44 = new System.Windows.Forms.Label();
+            this.label45 = new System.Windows.Forms.Label();
+            this.label46 = new System.Windows.Forms.Label();
+            this.label47 = new System.Windows.Forms.Label();
+            this.label48 = new System.Windows.Forms.Label();
+            this.SectionBottomLandScape = new System.Windows.Forms.NumericUpDown();
+            this.SectionFooterLandScape = new System.Windows.Forms.NumericUpDown();
+            this.SectionHeaderLandScape = new System.Windows.Forms.NumericUpDown();
+            this.tableLayoutPanel22 = new System.Windows.Forms.TableLayoutPanel();
+            this.label49 = new System.Windows.Forms.Label();
+            this.label50 = new System.Windows.Forms.Label();
+            this.label51 = new System.Windows.Forms.Label();
+            this.label52 = new System.Windows.Forms.Label();
+            this.SectionLeftLandScape = new System.Windows.Forms.NumericUpDown();
+            this.SectionRightLandScape = new System.Windows.Forms.NumericUpDown();
+            this.SectionTopLandScape = new System.Windows.Forms.NumericUpDown();
+            this.label53 = new System.Windows.Forms.Label();
+            this.label54 = new System.Windows.Forms.Label();
             this.toolStrip1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -166,6 +211,27 @@
             this.panel1.SuspendLayout();
             this.tableLayoutPanel16.SuspendLayout();
             this.tableLayoutPanel15.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            this.groupBox8.SuspendLayout();
+            this.tableLayoutPanel17.SuspendLayout();
+            this.tableLayoutPanel18.SuspendLayout();
+            this.tableLayoutPanel19.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SectionLeftPortrait)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SectionRightPortrait)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SectionTopPortrait)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SectionBottomPortrait)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SectionFooterPortrait)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SectionHeaderPortrait)).BeginInit();
+            this.groupBox9.SuspendLayout();
+            this.tableLayoutPanel20.SuspendLayout();
+            this.tableLayoutPanel21.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SectionBottomLandScape)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SectionFooterLandScape)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SectionHeaderLandScape)).BeginInit();
+            this.tableLayoutPanel22.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SectionLeftLandScape)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SectionRightLandScape)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SectionTopLandScape)).BeginInit();
             this.SuspendLayout();
             // 
             // label2
@@ -242,6 +308,7 @@
             this.panel3.AutoScroll = true;
             this.panel3.AutoScrollMinSize = new System.Drawing.Size(0, 900);
             this.panel3.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.panel3.Controls.Add(this.groupBox7);
             this.panel3.Controls.Add(this.groupBox4);
             this.panel3.Controls.Add(this.groupBox3);
             this.panel3.Controls.Add(this.label2);
@@ -1406,6 +1473,682 @@
             this.RefreshB.UseVisualStyleBackColor = true;
             this.RefreshB.Click += new System.EventHandler(this.RefreshB_Click);
             // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.groupBox9);
+            this.groupBox7.Controls.Add(this.groupBox8);
+            this.groupBox7.Location = new System.Drawing.Point(31, 589);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(463, 292);
+            this.groupBox7.TabIndex = 11;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Параметры настройки форматирования страниц";
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.tableLayoutPanel17);
+            this.groupBox8.Location = new System.Drawing.Point(12, 20);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(435, 115);
+            this.groupBox8.TabIndex = 0;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Параметры книжной ориентации";
+            // 
+            // tableLayoutPanel17
+            // 
+            this.tableLayoutPanel17.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.tableLayoutPanel17.ColumnCount = 2;
+            this.tableLayoutPanel17.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel17.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel17.Controls.Add(this.tableLayoutPanel19, 1, 0);
+            this.tableLayoutPanel17.Controls.Add(this.tableLayoutPanel18, 0, 0);
+            this.tableLayoutPanel17.Location = new System.Drawing.Point(10, 19);
+            this.tableLayoutPanel17.Name = "tableLayoutPanel17";
+            this.tableLayoutPanel17.RowCount = 1;
+            this.tableLayoutPanel17.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel17.Size = new System.Drawing.Size(419, 89);
+            this.tableLayoutPanel17.TabIndex = 0;
+            // 
+            // tableLayoutPanel18
+            // 
+            this.tableLayoutPanel18.ColumnCount = 3;
+            this.tableLayoutPanel18.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel18.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel18.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel18.Controls.Add(this.label39, 2, 2);
+            this.tableLayoutPanel18.Controls.Add(this.label31, 0, 0);
+            this.tableLayoutPanel18.Controls.Add(this.label32, 0, 1);
+            this.tableLayoutPanel18.Controls.Add(this.label33, 0, 2);
+            this.tableLayoutPanel18.Controls.Add(this.SectionLeftPortrait, 1, 0);
+            this.tableLayoutPanel18.Controls.Add(this.SectionRightPortrait, 1, 1);
+            this.tableLayoutPanel18.Controls.Add(this.SectionTopPortrait, 1, 2);
+            this.tableLayoutPanel18.Controls.Add(this.label37, 2, 0);
+            this.tableLayoutPanel18.Controls.Add(this.label38, 2, 1);
+            this.tableLayoutPanel18.Location = new System.Drawing.Point(4, 4);
+            this.tableLayoutPanel18.Name = "tableLayoutPanel18";
+            this.tableLayoutPanel18.RowCount = 3;
+            this.tableLayoutPanel18.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel18.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel18.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel18.Size = new System.Drawing.Size(197, 81);
+            this.tableLayoutPanel18.TabIndex = 0;
+            // 
+            // tableLayoutPanel19
+            // 
+            this.tableLayoutPanel19.ColumnCount = 3;
+            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel19.Controls.Add(this.label42, 2, 2);
+            this.tableLayoutPanel19.Controls.Add(this.label41, 2, 1);
+            this.tableLayoutPanel19.Controls.Add(this.label40, 2, 0);
+            this.tableLayoutPanel19.Controls.Add(this.label34, 0, 0);
+            this.tableLayoutPanel19.Controls.Add(this.label35, 0, 1);
+            this.tableLayoutPanel19.Controls.Add(this.label36, 0, 2);
+            this.tableLayoutPanel19.Controls.Add(this.SectionBottomPortrait, 1, 0);
+            this.tableLayoutPanel19.Controls.Add(this.SectionFooterPortrait, 1, 1);
+            this.tableLayoutPanel19.Controls.Add(this.SectionHeaderPortrait, 1, 2);
+            this.tableLayoutPanel19.Location = new System.Drawing.Point(208, 4);
+            this.tableLayoutPanel19.Name = "tableLayoutPanel19";
+            this.tableLayoutPanel19.RowCount = 3;
+            this.tableLayoutPanel19.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel19.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel19.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel19.Size = new System.Drawing.Size(203, 81);
+            this.tableLayoutPanel19.TabIndex = 1;
+            // 
+            // label31
+            // 
+            this.label31.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(3, 0);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(75, 13);
+            this.label31.TabIndex = 0;
+            this.label31.Text = "Отступ слева";
+            // 
+            // label32
+            // 
+            this.label32.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(3, 26);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(81, 13);
+            this.label32.TabIndex = 1;
+            this.label32.Text = "Отступ справа";
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(3, 52);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(79, 13);
+            this.label33.TabIndex = 2;
+            this.label33.Text = "Отступ сверху";
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(3, 0);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(74, 13);
+            this.label34.TabIndex = 0;
+            this.label34.Text = "Отступ снизу";
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(3, 26);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(107, 13);
+            this.label35.TabIndex = 1;
+            this.label35.Text = "Нижний колонтитул";
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(3, 52);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(109, 13);
+            this.label36.TabIndex = 2;
+            this.label36.Text = "Верхний колонтитул";
+            // 
+            // SectionLeftPortrait
+            // 
+            this.SectionLeftPortrait.DecimalPlaces = 2;
+            this.SectionLeftPortrait.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.SectionLeftPortrait.Location = new System.Drawing.Point(113, 3);
+            this.SectionLeftPortrait.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.SectionLeftPortrait.Name = "SectionLeftPortrait";
+            this.SectionLeftPortrait.Size = new System.Drawing.Size(50, 20);
+            this.SectionLeftPortrait.TabIndex = 3;
+            this.SectionLeftPortrait.Value = new decimal(new int[] {
+            254,
+            0,
+            0,
+            131072});
+            // 
+            // SectionRightPortrait
+            // 
+            this.SectionRightPortrait.DecimalPlaces = 2;
+            this.SectionRightPortrait.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.SectionRightPortrait.Location = new System.Drawing.Point(113, 29);
+            this.SectionRightPortrait.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.SectionRightPortrait.Name = "SectionRightPortrait";
+            this.SectionRightPortrait.Size = new System.Drawing.Size(50, 20);
+            this.SectionRightPortrait.TabIndex = 4;
+            this.SectionRightPortrait.Value = new decimal(new int[] {
+            254,
+            0,
+            0,
+            131072});
+            // 
+            // SectionTopPortrait
+            // 
+            this.SectionTopPortrait.DecimalPlaces = 2;
+            this.SectionTopPortrait.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.SectionTopPortrait.Location = new System.Drawing.Point(113, 55);
+            this.SectionTopPortrait.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.SectionTopPortrait.Name = "SectionTopPortrait";
+            this.SectionTopPortrait.Size = new System.Drawing.Size(50, 20);
+            this.SectionTopPortrait.TabIndex = 5;
+            this.SectionTopPortrait.Value = new decimal(new int[] {
+            254,
+            0,
+            0,
+            131072});
+            // 
+            // SectionBottomPortrait
+            // 
+            this.SectionBottomPortrait.DecimalPlaces = 2;
+            this.SectionBottomPortrait.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.SectionBottomPortrait.Location = new System.Drawing.Point(118, 3);
+            this.SectionBottomPortrait.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.SectionBottomPortrait.Name = "SectionBottomPortrait";
+            this.SectionBottomPortrait.Size = new System.Drawing.Size(50, 20);
+            this.SectionBottomPortrait.TabIndex = 3;
+            this.SectionBottomPortrait.Value = new decimal(new int[] {
+            254,
+            0,
+            0,
+            131072});
+            // 
+            // SectionFooterPortrait
+            // 
+            this.SectionFooterPortrait.DecimalPlaces = 2;
+            this.SectionFooterPortrait.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.SectionFooterPortrait.Location = new System.Drawing.Point(118, 29);
+            this.SectionFooterPortrait.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.SectionFooterPortrait.Name = "SectionFooterPortrait";
+            this.SectionFooterPortrait.Size = new System.Drawing.Size(50, 20);
+            this.SectionFooterPortrait.TabIndex = 4;
+            this.SectionFooterPortrait.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // SectionHeaderPortrait
+            // 
+            this.SectionHeaderPortrait.DecimalPlaces = 2;
+            this.SectionHeaderPortrait.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.SectionHeaderPortrait.Location = new System.Drawing.Point(118, 55);
+            this.SectionHeaderPortrait.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.SectionHeaderPortrait.Name = "SectionHeaderPortrait";
+            this.SectionHeaderPortrait.Size = new System.Drawing.Size(50, 20);
+            this.SectionHeaderPortrait.TabIndex = 5;
+            this.SectionHeaderPortrait.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.Location = new System.Drawing.Point(169, 0);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(21, 13);
+            this.label37.TabIndex = 6;
+            this.label37.Text = "см";
+            this.label37.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.Location = new System.Drawing.Point(169, 26);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(21, 13);
+            this.label38.TabIndex = 7;
+            this.label38.Text = "см";
+            this.label38.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label39
+            // 
+            this.label39.AutoSize = true;
+            this.label39.Location = new System.Drawing.Point(169, 52);
+            this.label39.Name = "label39";
+            this.label39.Size = new System.Drawing.Size(21, 13);
+            this.label39.TabIndex = 8;
+            this.label39.Text = "см";
+            this.label39.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label40
+            // 
+            this.label40.AutoSize = true;
+            this.label40.Location = new System.Drawing.Point(174, 0);
+            this.label40.Name = "label40";
+            this.label40.Size = new System.Drawing.Size(21, 13);
+            this.label40.TabIndex = 9;
+            this.label40.Text = "см";
+            this.label40.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label41
+            // 
+            this.label41.AutoSize = true;
+            this.label41.Location = new System.Drawing.Point(174, 26);
+            this.label41.Name = "label41";
+            this.label41.Size = new System.Drawing.Size(21, 13);
+            this.label41.TabIndex = 10;
+            this.label41.Text = "см";
+            this.label41.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label42
+            // 
+            this.label42.AutoSize = true;
+            this.label42.Location = new System.Drawing.Point(174, 52);
+            this.label42.Name = "label42";
+            this.label42.Size = new System.Drawing.Size(21, 13);
+            this.label42.TabIndex = 11;
+            this.label42.Text = "см";
+            this.label42.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.tableLayoutPanel20);
+            this.groupBox9.Location = new System.Drawing.Point(12, 141);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(435, 115);
+            this.groupBox9.TabIndex = 1;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Параметры альбомной ориентации";
+            // 
+            // tableLayoutPanel20
+            // 
+            this.tableLayoutPanel20.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.tableLayoutPanel20.ColumnCount = 2;
+            this.tableLayoutPanel20.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel20.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel20.Controls.Add(this.tableLayoutPanel21, 1, 0);
+            this.tableLayoutPanel20.Controls.Add(this.tableLayoutPanel22, 0, 0);
+            this.tableLayoutPanel20.Location = new System.Drawing.Point(10, 19);
+            this.tableLayoutPanel20.Name = "tableLayoutPanel20";
+            this.tableLayoutPanel20.RowCount = 1;
+            this.tableLayoutPanel20.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel20.Size = new System.Drawing.Size(419, 89);
+            this.tableLayoutPanel20.TabIndex = 0;
+            // 
+            // tableLayoutPanel21
+            // 
+            this.tableLayoutPanel21.ColumnCount = 3;
+            this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel21.Controls.Add(this.label43, 2, 2);
+            this.tableLayoutPanel21.Controls.Add(this.label44, 2, 1);
+            this.tableLayoutPanel21.Controls.Add(this.label45, 2, 0);
+            this.tableLayoutPanel21.Controls.Add(this.label46, 0, 0);
+            this.tableLayoutPanel21.Controls.Add(this.label47, 0, 1);
+            this.tableLayoutPanel21.Controls.Add(this.label48, 0, 2);
+            this.tableLayoutPanel21.Controls.Add(this.SectionBottomLandScape, 1, 0);
+            this.tableLayoutPanel21.Controls.Add(this.SectionFooterLandScape, 1, 1);
+            this.tableLayoutPanel21.Controls.Add(this.SectionHeaderLandScape, 1, 2);
+            this.tableLayoutPanel21.Location = new System.Drawing.Point(211, 4);
+            this.tableLayoutPanel21.Name = "tableLayoutPanel21";
+            this.tableLayoutPanel21.RowCount = 3;
+            this.tableLayoutPanel21.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel21.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel21.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel21.Size = new System.Drawing.Size(200, 81);
+            this.tableLayoutPanel21.TabIndex = 1;
+            // 
+            // label43
+            // 
+            this.label43.AutoSize = true;
+            this.label43.Location = new System.Drawing.Point(174, 52);
+            this.label43.Name = "label43";
+            this.label43.Size = new System.Drawing.Size(21, 13);
+            this.label43.TabIndex = 11;
+            this.label43.Text = "см";
+            this.label43.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label44
+            // 
+            this.label44.AutoSize = true;
+            this.label44.Location = new System.Drawing.Point(174, 26);
+            this.label44.Name = "label44";
+            this.label44.Size = new System.Drawing.Size(21, 13);
+            this.label44.TabIndex = 10;
+            this.label44.Text = "см";
+            this.label44.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label45
+            // 
+            this.label45.AutoSize = true;
+            this.label45.Location = new System.Drawing.Point(174, 0);
+            this.label45.Name = "label45";
+            this.label45.Size = new System.Drawing.Size(21, 13);
+            this.label45.TabIndex = 9;
+            this.label45.Text = "см";
+            this.label45.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label46
+            // 
+            this.label46.AutoSize = true;
+            this.label46.Location = new System.Drawing.Point(3, 0);
+            this.label46.Name = "label46";
+            this.label46.Size = new System.Drawing.Size(74, 13);
+            this.label46.TabIndex = 0;
+            this.label46.Text = "Отступ снизу";
+            // 
+            // label47
+            // 
+            this.label47.AutoSize = true;
+            this.label47.Location = new System.Drawing.Point(3, 26);
+            this.label47.Name = "label47";
+            this.label47.Size = new System.Drawing.Size(107, 13);
+            this.label47.TabIndex = 1;
+            this.label47.Text = "Нижний колонтитул";
+            // 
+            // label48
+            // 
+            this.label48.AutoSize = true;
+            this.label48.Location = new System.Drawing.Point(3, 52);
+            this.label48.Name = "label48";
+            this.label48.Size = new System.Drawing.Size(109, 13);
+            this.label48.TabIndex = 2;
+            this.label48.Text = "Верхний колонтитул";
+            // 
+            // SectionBottomLandScape
+            // 
+            this.SectionBottomLandScape.DecimalPlaces = 2;
+            this.SectionBottomLandScape.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.SectionBottomLandScape.Location = new System.Drawing.Point(118, 3);
+            this.SectionBottomLandScape.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.SectionBottomLandScape.Name = "SectionBottomLandScape";
+            this.SectionBottomLandScape.Size = new System.Drawing.Size(50, 20);
+            this.SectionBottomLandScape.TabIndex = 3;
+            this.SectionBottomLandScape.Value = new decimal(new int[] {
+            254,
+            0,
+            0,
+            131072});
+            // 
+            // SectionFooterLandScape
+            // 
+            this.SectionFooterLandScape.DecimalPlaces = 2;
+            this.SectionFooterLandScape.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.SectionFooterLandScape.Location = new System.Drawing.Point(118, 29);
+            this.SectionFooterLandScape.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.SectionFooterLandScape.Name = "SectionFooterLandScape";
+            this.SectionFooterLandScape.Size = new System.Drawing.Size(50, 20);
+            this.SectionFooterLandScape.TabIndex = 4;
+            this.SectionFooterLandScape.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // SectionHeaderLandScape
+            // 
+            this.SectionHeaderLandScape.DecimalPlaces = 2;
+            this.SectionHeaderLandScape.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.SectionHeaderLandScape.Location = new System.Drawing.Point(118, 55);
+            this.SectionHeaderLandScape.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.SectionHeaderLandScape.Name = "SectionHeaderLandScape";
+            this.SectionHeaderLandScape.Size = new System.Drawing.Size(50, 20);
+            this.SectionHeaderLandScape.TabIndex = 5;
+            this.SectionHeaderLandScape.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // tableLayoutPanel22
+            // 
+            this.tableLayoutPanel22.ColumnCount = 3;
+            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel22.Controls.Add(this.label49, 2, 2);
+            this.tableLayoutPanel22.Controls.Add(this.label50, 0, 0);
+            this.tableLayoutPanel22.Controls.Add(this.label51, 0, 1);
+            this.tableLayoutPanel22.Controls.Add(this.label52, 0, 2);
+            this.tableLayoutPanel22.Controls.Add(this.SectionLeftLandScape, 1, 0);
+            this.tableLayoutPanel22.Controls.Add(this.SectionRightLandScape, 1, 1);
+            this.tableLayoutPanel22.Controls.Add(this.SectionTopLandScape, 1, 2);
+            this.tableLayoutPanel22.Controls.Add(this.label53, 2, 0);
+            this.tableLayoutPanel22.Controls.Add(this.label54, 2, 1);
+            this.tableLayoutPanel22.Location = new System.Drawing.Point(4, 4);
+            this.tableLayoutPanel22.Name = "tableLayoutPanel22";
+            this.tableLayoutPanel22.RowCount = 3;
+            this.tableLayoutPanel22.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel22.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel22.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel22.Size = new System.Drawing.Size(200, 81);
+            this.tableLayoutPanel22.TabIndex = 0;
+            // 
+            // label49
+            // 
+            this.label49.AutoSize = true;
+            this.label49.Location = new System.Drawing.Point(176, 52);
+            this.label49.Name = "label49";
+            this.label49.Size = new System.Drawing.Size(21, 13);
+            this.label49.TabIndex = 8;
+            this.label49.Text = "см";
+            this.label49.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label50
+            // 
+            this.label50.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label50.AutoSize = true;
+            this.label50.Location = new System.Drawing.Point(3, 0);
+            this.label50.Name = "label50";
+            this.label50.Size = new System.Drawing.Size(111, 26);
+            this.label50.TabIndex = 0;
+            this.label50.Text = "Отступ слева";
+            // 
+            // label51
+            // 
+            this.label51.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label51.AutoSize = true;
+            this.label51.Location = new System.Drawing.Point(3, 26);
+            this.label51.Name = "label51";
+            this.label51.Size = new System.Drawing.Size(111, 26);
+            this.label51.TabIndex = 1;
+            this.label51.Text = "Отступ справа";
+            // 
+            // label52
+            // 
+            this.label52.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label52.AutoSize = true;
+            this.label52.Location = new System.Drawing.Point(3, 52);
+            this.label52.Name = "label52";
+            this.label52.Size = new System.Drawing.Size(111, 29);
+            this.label52.TabIndex = 2;
+            this.label52.Text = "Отступ сверху";
+            // 
+            // SectionLeftLandScape
+            // 
+            this.SectionLeftLandScape.DecimalPlaces = 2;
+            this.SectionLeftLandScape.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.SectionLeftLandScape.Location = new System.Drawing.Point(120, 3);
+            this.SectionLeftLandScape.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.SectionLeftLandScape.Name = "SectionLeftLandScape";
+            this.SectionLeftLandScape.Size = new System.Drawing.Size(50, 20);
+            this.SectionLeftLandScape.TabIndex = 3;
+            this.SectionLeftLandScape.Value = new decimal(new int[] {
+            254,
+            0,
+            0,
+            131072});
+            // 
+            // SectionRightLandScape
+            // 
+            this.SectionRightLandScape.DecimalPlaces = 2;
+            this.SectionRightLandScape.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.SectionRightLandScape.Location = new System.Drawing.Point(120, 29);
+            this.SectionRightLandScape.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.SectionRightLandScape.Name = "SectionRightLandScape";
+            this.SectionRightLandScape.Size = new System.Drawing.Size(50, 20);
+            this.SectionRightLandScape.TabIndex = 4;
+            this.SectionRightLandScape.Value = new decimal(new int[] {
+            254,
+            0,
+            0,
+            131072});
+            // 
+            // SectionTopLandScape
+            // 
+            this.SectionTopLandScape.DecimalPlaces = 2;
+            this.SectionTopLandScape.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.SectionTopLandScape.Location = new System.Drawing.Point(120, 55);
+            this.SectionTopLandScape.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.SectionTopLandScape.Name = "SectionTopLandScape";
+            this.SectionTopLandScape.Size = new System.Drawing.Size(50, 20);
+            this.SectionTopLandScape.TabIndex = 5;
+            this.SectionTopLandScape.Value = new decimal(new int[] {
+            254,
+            0,
+            0,
+            131072});
+            // 
+            // label53
+            // 
+            this.label53.AutoSize = true;
+            this.label53.Location = new System.Drawing.Point(176, 0);
+            this.label53.Name = "label53";
+            this.label53.Size = new System.Drawing.Size(21, 13);
+            this.label53.TabIndex = 6;
+            this.label53.Text = "см";
+            this.label53.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label54
+            // 
+            this.label54.AutoSize = true;
+            this.label54.Location = new System.Drawing.Point(176, 26);
+            this.label54.Name = "label54";
+            this.label54.Size = new System.Drawing.Size(21, 13);
+            this.label54.TabIndex = 7;
+            this.label54.Text = "см";
+            this.label54.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // TemplateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1485,6 +2228,31 @@
             this.tableLayoutPanel16.PerformLayout();
             this.tableLayoutPanel15.ResumeLayout(false);
             this.tableLayoutPanel15.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox8.ResumeLayout(false);
+            this.tableLayoutPanel17.ResumeLayout(false);
+            this.tableLayoutPanel18.ResumeLayout(false);
+            this.tableLayoutPanel18.PerformLayout();
+            this.tableLayoutPanel19.ResumeLayout(false);
+            this.tableLayoutPanel19.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SectionLeftPortrait)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SectionRightPortrait)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SectionTopPortrait)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SectionBottomPortrait)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SectionFooterPortrait)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SectionHeaderPortrait)).EndInit();
+            this.groupBox9.ResumeLayout(false);
+            this.tableLayoutPanel20.ResumeLayout(false);
+            this.tableLayoutPanel21.ResumeLayout(false);
+            this.tableLayoutPanel21.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SectionBottomLandScape)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SectionFooterLandScape)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SectionHeaderLandScape)).EndInit();
+            this.tableLayoutPanel22.ResumeLayout(false);
+            this.tableLayoutPanel22.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SectionLeftLandScape)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SectionRightLandScape)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SectionTopLandScape)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1591,5 +2359,50 @@
         private System.Windows.Forms.Button TemplateDelete;
         private System.Windows.Forms.Button TemplateSave;
         private System.Windows.Forms.Button RefreshB;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel20;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel21;
+        private System.Windows.Forms.Label label43;
+        private System.Windows.Forms.Label label44;
+        private System.Windows.Forms.Label label45;
+        private System.Windows.Forms.Label label46;
+        private System.Windows.Forms.Label label47;
+        private System.Windows.Forms.Label label48;
+        private System.Windows.Forms.NumericUpDown SectionBottomLandScape;
+        private System.Windows.Forms.NumericUpDown SectionFooterLandScape;
+        private System.Windows.Forms.NumericUpDown SectionHeaderLandScape;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel22;
+        private System.Windows.Forms.Label label49;
+        private System.Windows.Forms.Label label50;
+        private System.Windows.Forms.Label label51;
+        private System.Windows.Forms.Label label52;
+        private System.Windows.Forms.NumericUpDown SectionLeftLandScape;
+        private System.Windows.Forms.NumericUpDown SectionRightLandScape;
+        private System.Windows.Forms.NumericUpDown SectionTopLandScape;
+        private System.Windows.Forms.Label label53;
+        private System.Windows.Forms.Label label54;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel17;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel19;
+        private System.Windows.Forms.Label label42;
+        private System.Windows.Forms.Label label41;
+        private System.Windows.Forms.Label label40;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.NumericUpDown SectionBottomPortrait;
+        private System.Windows.Forms.NumericUpDown SectionFooterPortrait;
+        private System.Windows.Forms.NumericUpDown SectionHeaderPortrait;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel18;
+        private System.Windows.Forms.Label label39;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.NumericUpDown SectionLeftPortrait;
+        private System.Windows.Forms.NumericUpDown SectionRightPortrait;
+        private System.Windows.Forms.NumericUpDown SectionTopPortrait;
+        private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.Label label38;
     }
 }

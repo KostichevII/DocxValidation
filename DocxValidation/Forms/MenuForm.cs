@@ -25,7 +25,7 @@ namespace DocxValidation
         private void Bvalidation_Click(object sender, EventArgs e)
         {
             //Hide();
-            OpenOrCreateForm<ValidationForm>();
+            OpenOrCreateForm<CheckForm>();
         }
 
         public static T OpenOrCreateForm<T>() where T : Form, new()

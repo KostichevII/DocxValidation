@@ -11,6 +11,7 @@ namespace DocxValidation
 {
     public class Template
     {
+        public List<DocChecker.CheckerClasses.SectionInfo> Sections;
         public List<FieldSaver> Fields;
         public string Name;
         public DateTime date;
@@ -59,6 +60,7 @@ namespace DocxValidation
         private void ClearTemplate()
         {
             Fields = new List<FieldSaver>();
+            Sections = new List<CheckerClasses.SectionInfo>();
             Name = "NewTemplate";
             date = DateTime.MinValue;
             filepath = "";
@@ -89,6 +91,11 @@ namespace DocxValidation
                 foreach (var FileSaver in Fields)
                 {
                     Save.AppendLine(FileSaver.FileExport());
+                }
+
+                foreach( var Section in Sections)
+                {
+                    Save.AppendLine(Section.FileExport());
                 }
 
                 using (StreamWriter writer = new StreamWriter(filepath, false))
@@ -182,25 +189,58 @@ namespace DocxValidation
                 filepath = Path;
 
                 List<string> stringParams = new List<string>();
+                int ReadMode = 0; // 0 - чтение параметров текста
+                                  // 1 - чтение параметров оформления страниц
                 for (int i = 2; i< FileStrings.Count; i++) 
                 {
-                    if (FileStrings[i] == "{")
+                    switch (FileStrings[i])
                     {
-                        stringParams.Clear();
-                    }
-                    else
-                    {
-                        if (FileStrings[i] == "}")
-                        {
-                            FieldSaver fields = new FieldSaver();
-                            if (!fields.ConvertString(stringParams))
+                        case "{":
                             {
-                                throw new Exception("Ошибка чтения");
+                                stringParams.Clear();
+                                ReadMode = 0;
+                                break;
                             }
-                            Fields.Add(fields);
-                        }
-                        else { stringParams.Add(FileStrings[i]); }
+                        case "[":
+                            {
+                                stringParams.Clear();
+                                ReadMode = 1;
+                                break;
+                            }
+                        default:
+                            {
+                                switch (FileStrings[i])
+                                {
+                                    case "}":
+                                        {
+                                            FieldSaver fields = new FieldSaver();
+                                            if (!fields.ConvertString(stringParams))
+                                            {
+                                                throw new Exception("Ошибка чтения");
+                                            }
+                                            Fields.Add(fields);
+                                            break;
+                                        }
+                                    case "]":
+                                        {
+                                            DocChecker.CheckerClasses.SectionInfo fields = new DocChecker.CheckerClasses.SectionInfo();
+                                            if (!fields.ConvertString(stringParams))
+                                            {
+                                                throw new Exception("Ошибка чтения");
+                                            }
+                                            Sections.Add(fields);
+                                            break;
+                                        }
+                                    default:
+                                        {
+                                            stringParams.Add(FileStrings[i]);
+                                            break;
+                                        }
+                                }
+                                break;
+                            }
                     }
+                    
                 }
 
             }
@@ -222,6 +262,19 @@ namespace DocxValidation
                 return Exp;
             }
             catch(Exception e)  { throw e; };
+        }
+        public List<DocChecker.CheckerClasses.SectionInfo> ConvertSectionsToTwips()
+        {
+            try
+            {
+                List<DocChecker.CheckerClasses.SectionInfo> Exp = new List<CheckerClasses.SectionInfo>();
+                foreach (var saver in Sections)
+                {
+                    Exp.Add(saver.ConvertToTp());
+                }
+                return Exp;
+            }
+            catch (Exception e) { throw e; };
         }
     }
 }
