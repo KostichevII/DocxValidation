@@ -11,7 +11,7 @@ namespace DocxValidation
 {
     public class Template
     {
-        public List<DocChecker.CheckerClasses.SectionInfo> Sections;
+        public List<SectionInfo> Sections;
         public List<FieldSaver> Fields;
         public string Name;
         public DateTime date;
@@ -60,7 +60,7 @@ namespace DocxValidation
         private void ClearTemplate()
         {
             Fields = new List<FieldSaver>();
-            Sections = new List<CheckerClasses.SectionInfo>();
+            Sections = new List<SectionInfo>();
             Name = "NewTemplate";
             date = DateTime.MinValue;
             filepath = "";
@@ -223,7 +223,7 @@ namespace DocxValidation
                                         }
                                     case "]":
                                         {
-                                            DocChecker.CheckerClasses.SectionInfo fields = new DocChecker.CheckerClasses.SectionInfo();
+                                            SectionInfo fields = new SectionInfo();
                                             if (!fields.ConvertString(stringParams))
                                             {
                                                 throw new Exception("Ошибка чтения");
@@ -263,11 +263,11 @@ namespace DocxValidation
             }
             catch(Exception e)  { throw e; };
         }
-        public List<DocChecker.CheckerClasses.SectionInfo> ConvertSectionsToTwips()
+        public List<SectionInfo> ConvertSectionsToTwips()
         {
             try
             {
-                List<DocChecker.CheckerClasses.SectionInfo> Exp = new List<CheckerClasses.SectionInfo>();
+                List<SectionInfo> Exp = new List<SectionInfo>();
                 foreach (var saver in Sections)
                 {
                     Exp.Add(saver.ConvertToTp());
