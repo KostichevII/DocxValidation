@@ -89,8 +89,8 @@ namespace DocxValidation
         }
         private void SaveSectionsFields()
         {
-            DocChecker.CheckerClasses.SectionInfo PortInfo = new CheckerClasses.SectionInfo();
-            DocChecker.CheckerClasses.SectionInfo LandInfo = new CheckerClasses.SectionInfo();
+            SectionInfo PortInfo = new SectionInfo();
+            SectionInfo LandInfo = new SectionInfo();
             PortInfo.Top = Convert.ToDouble(SectionTopPortrait.Value);
             PortInfo.Bottom = Convert.ToDouble(SectionBottomPortrait.Value);
             PortInfo.Left = Convert.ToDouble(SectionLeftPortrait.Value);

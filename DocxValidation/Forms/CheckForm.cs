@@ -28,7 +28,7 @@ namespace DocxValidation
             InitializeComponent();
         }
 
-        private void GridShow(List<DocChecker.CheckerClasses.ErrorRecord> records)
+        private void GridShow(List<ErrorRecord> records)
         {
             ErrorGrid.Rows.Clear();
             int rowCounter = 0;
@@ -44,7 +44,7 @@ namespace DocxValidation
                 rowCounter++;
             }
         }
-        private void resultShow(List<DocChecker.CheckerClasses.ErrorRecord> records, string path)
+        private void resultShow(List<ErrorRecord> records, string path)
         {
             GridShow(records);
 
@@ -75,7 +75,7 @@ namespace DocxValidation
 
             if (ParamsSaved)
             {
-                List<DocChecker.CheckerClasses.ErrorRecord> result = DocChecker.CheckerFuncs.CheckDocument(DocAdress.Text, CheckParams, true);
+                List<ErrorRecord> result = DocChecker.CheckerFuncs.CheckDocument(DocAdress.Text, CheckParams, true);
                 resultShow(result, DocAdress.Text);
             }
         }

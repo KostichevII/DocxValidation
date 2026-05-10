@@ -8,6 +8,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DocChecker;
 
 namespace DocxValidation
 {
@@ -118,33 +119,33 @@ namespace DocxValidation
                     }
             }
         }
-        private DocChecker.CheckerClasses.ExpectionType TakeType()
+        private ExpectionType TakeType()
         {
             switch (Type)
             {
                 case "MainText":
                     {
-                        return DocChecker.CheckerClasses.ExpectionType.MainText;
+                        return ExpectionType.MainText;
                     }
                 case "MainHeaders":
                     {
-                        return DocChecker.CheckerClasses.ExpectionType.MainTextHeader;
+                        return ExpectionType.MainTextHeader;
                     }
                 case "Labels":
                     {
-                        return DocChecker.CheckerClasses.ExpectionType.MainTextLabel;
+                        return ExpectionType.MainTextLabel;
                     }
                 case "TableHeaders":
                     {
-                        return DocChecker.CheckerClasses.ExpectionType.TableHeader;
+                        return ExpectionType.TableHeader;
                     }
                 case "TableText":
                     {
-                        return DocChecker.CheckerClasses.ExpectionType.TableText;
+                        return ExpectionType.TableText;
                     }
                 default:
                     {
-                        return DocChecker.CheckerClasses.ExpectionType.Unknow;
+                        return ExpectionType.Unknow;
                     }
             }
         }
@@ -289,7 +290,7 @@ namespace DocxValidation
             Exp.setAllowance(AF, FR * 2, ItalicTerms, BoldHead, false);
             Exp.setFont(MF, FS * 2, Ital, Bold, Und);
             Exp.Type = TakeType();
-            if (Exp.Type == DocChecker.CheckerClasses.ExpectionType.Unknow)
+            if (Exp.Type == ExpectionType.Unknow)
             {
                 return null;
             }

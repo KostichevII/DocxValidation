@@ -28,15 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CheckForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.проверкаДокументовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.редактированиеШаблоновToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.историяПроверокToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.настройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.DocAdress = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -68,7 +60,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.CheckedFileName = new System.Windows.Forms.TextBox();
             this.ManualB = new System.Windows.Forms.Button();
-            this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tableLayoutPanel16.SuspendLayout();
@@ -79,64 +70,6 @@
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // toolStrip1
-            // 
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripDropDownButton1,
-            this.toolStripButton1});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(884, 25);
-            this.toolStrip1.TabIndex = 0;
-            this.toolStrip1.Text = "toolStrip1";
-            // 
-            // toolStripDropDownButton1
-            // 
-            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.проверкаДокументовToolStripMenuItem,
-            this.редактированиеШаблоновToolStripMenuItem,
-            this.историяПроверокToolStripMenuItem,
-            this.настройкиToolStripMenuItem});
-            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
-            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(151, 22);
-            this.toolStripDropDownButton1.Text = "Переход между окнами";
-            // 
-            // проверкаДокументовToolStripMenuItem
-            // 
-            this.проверкаДокументовToolStripMenuItem.Name = "проверкаДокументовToolStripMenuItem";
-            this.проверкаДокументовToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
-            this.проверкаДокументовToolStripMenuItem.Text = "Проверка документов";
-            // 
-            // редактированиеШаблоновToolStripMenuItem
-            // 
-            this.редактированиеШаблоновToolStripMenuItem.Name = "редактированиеШаблоновToolStripMenuItem";
-            this.редактированиеШаблоновToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
-            this.редактированиеШаблоновToolStripMenuItem.Text = "Редактирование шаблонов";
-            // 
-            // историяПроверокToolStripMenuItem
-            // 
-            this.историяПроверокToolStripMenuItem.Name = "историяПроверокToolStripMenuItem";
-            this.историяПроверокToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
-            this.историяПроверокToolStripMenuItem.Text = "История проверок";
-            // 
-            // настройкиToolStripMenuItem
-            // 
-            this.настройкиToolStripMenuItem.Name = "настройкиToolStripMenuItem";
-            this.настройкиToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
-            this.настройкиToolStripMenuItem.Text = "Настройки";
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(60, 22);
-            this.toolStripButton1.Text = "Помощь";
             // 
             // panel1
             // 
@@ -481,11 +414,8 @@
             this.Controls.Add(this.CheckStartB);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.toolStrip1);
             this.Name = "CheckForm";
             this.Text = "Проверка документов";
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -502,24 +432,15 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button FileDialogButton;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
-        private System.Windows.Forms.ToolStripMenuItem проверкаДокументовToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem редактированиеШаблоновToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem историяПроверокToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem настройкиToolStripMenuItem;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.Button TableFileDialog;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Button CheckStartB;

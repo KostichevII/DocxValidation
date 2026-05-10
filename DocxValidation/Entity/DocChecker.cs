@@ -12,783 +12,6 @@ using static JornalWriter.JornalClass;
 
 namespace DocChecker
 {
-
-    public class CheckerClasses
-    {
-        //Класс для хранения полных настроек
-        public class CheckParametrs
-        {
-            public List<Expection> exp;
-            //sections[0] - параметры книжной ориентации
-            //sections[1] - параметры альбомной ориентации
-            public List<SectionInfo> sections;
-
-            public CheckParametrs()
-            {
-                exp = new List<Expection>();
-                sections = new List<SectionInfo>();
-            }
-        }
-        // Класс для хранения допущений
-        public class Allowance
-        {
-            public string ExtraFontType;
-            public int AccRange;
-            public bool AllowItalic;
-            public bool BoldHeaders;
-            public bool AllowUnderLines;
-
-            public Allowance()
-            {
-                ExtraFontType = null;
-                AccRange = 0;
-                AllowItalic = false;
-                BoldHeaders = false;
-                AllowUnderLines = false;
-            }
-            public Allowance(string extra, int acc, bool ital, bool bold, bool under)
-            {
-                ExtraFontType = extra;
-                AccRange = acc;
-                AllowItalic = ital;
-                BoldHeaders = bold;
-                AllowUnderLines = under;
-            }
-        }
-        //Класс для хранения заданных пользователем настроек текста
-        public class Expection
-        {
-            public ExpectionType Type;
-            public ParagraphProperties paragraphExpections;
-            public RunProperties runExpections;
-            public Allowance allowance;
-            public ListInd listExpextions;
-
-            public Expection()
-            {
-                paragraphExpections = new ParagraphProperties();
-                runExpections = new RunProperties();
-                allowance = new Allowance();
-                listExpextions = new ListInd();
-            }
-            public void setType(string type)
-            {
-                switch (type)
-                {
-                    case "MainText":
-                        {
-                            Type = ExpectionType.MainText;
-                            break;
-                        }
-                    case "MainTextHeader":
-                        {
-                            Type = ExpectionType.MainTextHeader;
-                            break;
-                        }
-                    case "TableText":
-                        {
-                            Type = ExpectionType.TableText;
-                            break;
-                        }
-                    case "TableHeader":
-                        {
-                            Type = ExpectionType.TableHeader;
-                            break;
-                        }
-                    case "MainTextLabel":
-                        {
-                            Type = ExpectionType.MainTextLabel;
-                            break;
-                        }
-                    default:
-                        {
-                            Type = ExpectionType.Unknow;
-                            break;
-                        }
-                }
-            }
-            public void setJustification(string justif)
-            {
-                paragraphExpections.Justification = new Justification()
-                {
-                    Val = new JustificationValues(justif)
-                };
-            }
-            public void setSpacing(string LineRule, double Line, double Before, double After)
-            {
-                paragraphExpections.SpacingBetweenLines = new SpacingBetweenLines()
-                {
-                    Line = Line.ToString(),
-                    Before = Before.ToString(),
-                    After = After.ToString(),
-                    LineRule = new LineSpacingRuleValues(LineRule)
-                };
-            }
-            public void setIdentetion(double Hanging, double FirstLine, double Right, double Left)
-            {
-                paragraphExpections.Indentation = new Indentation()
-                {
-                    Hanging = Hanging.ToString(),
-                    FirstLine = FirstLine.ToString(),
-                    Right = Right.ToString(),
-                    Left = Left.ToString()
-                };
-            }
-            public void setAllowance(string extra, int acc, bool ital, bool bold, bool under)
-            {
-                allowance = new Allowance(extra, acc, ital, bold, under);
-            }
-            public void setFont(string SFontType, int SFontSize, bool Bitalic, bool Bbold, bool BunderLine)
-            {
-                Bold bold = null;
-                Italic italic = null;
-                Underline underLine = null;
-                ItalicComplexScript italicCompl = null;
-                BoldComplexScript boldCompl = null;
-
-                if (Bitalic)
-                {
-                    italic = new Italic();
-                    italicCompl = new ItalicComplexScript();
-                }
-
-                if (Bbold)
-                {
-                    bold = new Bold();
-                    boldCompl = new BoldComplexScript();
-                }
-
-                if (BunderLine)
-                {
-                    underLine = new Underline();
-                }
-
-                runExpections = new DocumentFormat.OpenXml.Wordprocessing.RunProperties(
-                    new RunFonts()
-                    {
-                        Ascii = SFontType,
-                        HighAnsi = SFontType,
-                        EastAsia = SFontType,
-                        ComplexScript = SFontType
-                    },
-                    new DocumentFormat.OpenXml.Wordprocessing.FontSize() { Val = SFontSize.ToString() },
-                    new FontSizeComplexScript() { Val = SFontSize.ToString() },
-                    underLine,
-                    bold,
-                    boldCompl,
-                    italicCompl,
-                    italic
-                );
-            }
-            public void setListIndentation(double hanging, double firstLine, double left, string symAfter, double tabV)
-            {
-                listExpextions.Hanging = hanging;
-                listExpextions.FirstLine = firstLine;
-                listExpextions.Left = left;
-                listExpextions.TabValue = tabV;
-                listExpextions.SymAfterNum = symAfter;
-
-            }
-        }
-        // Класс для сбора информации о шрифте
-        public class FontInfo
-        {
-            public string FontType;
-            public int FontSize;
-            public string Italic;
-            public string Bold;
-            public string UnderLine;
-
-            public FontInfo()
-            {
-                FontType = null;
-                FontSize = -1;
-                Italic = null;
-                Bold = null;
-                UnderLine = null;
-            }
-
-            public bool CheckValues()
-            {
-                if (FontType != null && FontSize != -1 && Italic != null && Bold != null && UnderLine != null)
-                {
-                    return true;
-                }
-                return false;
-            }
-        }
-        // Класс для хранения отступов в списках
-        public class ListInd
-        {
-            public double Hanging;
-            public double FirstLine;
-            public double Left;
-            public string SymAfterNum;
-            public double TabValue;
-
-            public ListInd()
-            {
-                Hanging = -1;
-                FirstLine = -1;
-                Left = -1;
-                SymAfterNum = "tab";
-                TabValue = -1;
-            }
-
-            public ListInd(double hanging, double firstLine, double left, string symbol, double tab)
-            {
-                Hanging = hanging;
-                FirstLine = firstLine;
-                Left = left;
-                SymAfterNum = symbol;
-                TabValue = tab;
-            }
-        }
-        //Перечесление типов ошибок текста
-        public enum ErrorType
-        {
-            //Ошибки Run
-            Italic,
-            Bold,
-            UnderLine,
-            FontType,
-            FontSize,
-
-            //Ошибка выравнивания
-            Justification,
-
-            //Ошибки междустрочного интервала
-            LineSpacingValue,
-            LineSpacingRule,
-            BeforeLineValue,
-            AfterLineValue,
-
-            //Ошибки отступов параграфов
-            LeftIdent,
-            RightIdent,
-            FirstLine,
-            Hanging,
-
-            //Ошибки списков
-            ListTextIdent,
-            ListNumIdentHanging,
-            ListNumIdentFirstLine,
-            ListRightIdent,
-
-            //Ошибки форматироавния страниц
-            SectionErrorTop,
-            SectionErrorBottom,
-            SectionErrorLeft,
-            SectionErrorRight,
-            SectionErrorHeader,
-            SectionErrorFooter,
-
-            SectionErrorOrientation,
-
-            SectionErrorPageWidth,
-            SectionErrorPageHeight,
-
-            none
-        }
-        //Перечисление типов текста
-        public enum ExpectionType
-        {
-            MainText,
-            MainTextHeader,
-            TableText,
-            TableHeader,
-            MainTextLabel,
-            SectionError,
-            Unknow
-        }
-        //Класс для хранения ошибок
-        public class ErrorRecord
-        {
-            public ExpectionType type;
-            // Для таблиц :
-            // Position[0] - номер таблицы
-            // Position[1] - номер строки
-            // Position[2] - номер ячейки
-            // Position[3] - номер параграфа
-
-            //Для параграфов Position[0]- номер параграфа
-            // Position[1] -текст параграфа
-
-            //Для размеров страниц:
-            //Position[0] - номер секции
-
-            public List<string> Position;
-            public List<(ErrorType, List<string>)> ErrorList;
-
-            public ErrorRecord()
-            {
-                Position = new List<string> { "", "", "", "" };
-                ErrorList = new List<(ErrorType, List<string>)>();
-            }
-            public string TypeToString()
-            {
-                switch (type)
-                {
-                    case ExpectionType.MainText:
-                        {
-                            return "Основной текст";
-                        }
-                    case ExpectionType.MainTextHeader:
-                        {
-                            return "Заголовок в тексте";
-                            break;
-                        }
-                    case ExpectionType.MainTextLabel:
-                        {
-                            return "Подпись к рисунку/таблице";
-                            break;
-                        }
-                    case ExpectionType.TableHeader:
-                        {
-                            return "Заголовок таблицы";
-                            break;
-                        }
-                    case ExpectionType.TableText:
-                        {
-                            return "Основная часть таблицы";
-                            break;
-                        }
-                    case ExpectionType.SectionError:
-                        {
-                            return "-----";
-                        }
-                    default:
-                        {
-                            return "Не опознано";
-                        }
-                }
-            }
-            public string PositionToString()
-            {
-                if (type == ExpectionType.MainText || type == ExpectionType.MainTextLabel || type == ExpectionType.MainTextHeader)
-                {
-                    return $"Параграф {Position[0]} \n{Position[1]}";
-                }
-                else
-                {
-                    if (type == ExpectionType.TableHeader || type == ExpectionType.TableText)
-                    {
-                        return $"Параграф {Position[3]} в {Position[2]} ячейке {Position[1]} строки  в таблице {Position[0]}";
-                    }
-                    else
-                    {
-                        if (type == ExpectionType.SectionError)
-                        {
-                            return $"Раздел {Position[0]}";
-                        }
-                        else
-                        {
-                            return "";
-                        }
-                    }
-                }
-            }
-            private Expection ExpectionTake(List<Expection> expList)
-            {
-                int index = -1;
-
-                for (int i = 0; i < expList.Count; i++)
-                {
-                    if (expList[i].Type == type)
-                    {
-                        index = i;
-                        break;
-                    }
-                }
-
-                if (index != -1)
-                {
-                    return expList[index];
-                }
-                else
-                {
-                    foreach (Expection exp in expList)
-                    {
-                        if (exp.Type == ExpectionType.MainText)
-                        {
-                            return exp;
-                        }
-                    }
-                }
-
-                throw new Exception("Не обнаружен стиль оформления для основного текста");
-            }
-            public string ConvertError(CheckParametrs par)
-            {
-                string ErrorMessage = "";
-                Expection expected = ExpectionTake(par.exp);
-                foreach (var Error in ErrorList)
-                {
-                    switch (Error.Item1)
-                    {
-                        case ErrorType.Justification:
-                            {
-                                string expString = expected.paragraphExpections.Justification.Val.ToString();
-                                ErrorMessage += $"Неверно заданые параметры выравнивнивания: \nПолучено: {Error.Item2[0]}  Ожидалось: {expString}\n";
-                                break;
-                            }
-
-
-                        case ErrorType.LineSpacingValue:
-                            {
-                                string exp = expected.paragraphExpections.SpacingBetweenLines.Line?.Value?.ToString() ?? "0";
-                                ErrorMessage += "Неверное значение междустрочного интервала: \nОжидалось: " + CheckerFuncs.ConvertValue("pt", "twips", Double.Parse(exp)) + " Получено: " + CheckerFuncs.ConvertValue("pt", "twips", Double.Parse(Error.Item2[0])) + "\n";
-                                break;
-                            }
-                        case ErrorType.LineSpacingRule:
-                            {
-                                string exp = "auto";
-                                if (expected.paragraphExpections.SpacingBetweenLines.LineRule != null)
-                                {
-                                    exp = CheckerFuncs.ConvertLineRule(expected.paragraphExpections.SpacingBetweenLines.LineRule.Value);
-                                }
-
-                                ErrorMessage += "Неверное правило междустрочного интервала: \nОжидалось: " + exp + " Получено: " + Error.Item2[0] + "\n";
-                                break;
-                            }
-                        case ErrorType.BeforeLineValue:
-                            {
-                                string exp = expected.paragraphExpections.SpacingBetweenLines.Before?.Value.ToString() ?? "0";
-                                ErrorMessage += "Неверное задан отступ перед абзацем: \nОжидалось: " + CheckerFuncs.ConvertValue("pt", "twips", Double.Parse(exp)) + " Получено: " + CheckerFuncs.ConvertValue("pt", "twips", Double.Parse(Error.Item2[0])) + "\n";
-                                break;
-                            }
-                        case ErrorType.AfterLineValue:
-                            {
-                                string exp = expected.paragraphExpections.SpacingBetweenLines.After?.Value.ToString() ?? "0";
-                                ErrorMessage += "Неверное задан отступ после абзаца: \nОжидалось: " + CheckerFuncs.ConvertValue("pt", "twips", Double.Parse(exp)) + " Получено: " + CheckerFuncs.ConvertValue("pt", "twips", Double.Parse(Error.Item2[0])) + "\n";
-                                break;
-                            }
-
-
-                        case ErrorType.LeftIdent:
-                            {
-                                string exp = expected.paragraphExpections.Indentation.Left?.ToString() ?? "0";
-                                ErrorMessage += "Неверно определён левый отступ текста: \nОжидалось: " + CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(exp)) + " Получено: " + CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(Error.Item2[0])) + "\n";
-                                break;
-                            }
-                        case ErrorType.RightIdent:
-                            {
-                                string exp = expected.paragraphExpections.Indentation.Right?.ToString() ?? "0";
-                                ErrorMessage += "Неверно определён правый отступ текста: \nОжидалось: " + CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(exp)) + " Получено: " + CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(Error.Item2[0])) + "\n";
-                                break;
-                            }
-                        case ErrorType.FirstLine:
-                            {
-                                string exp = expected.paragraphExpections.Indentation.FirstLine?.ToString() ?? "0";
-                                ErrorMessage += "Неверно определён отступ красной строки текста: \nОжидалось: " + CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(exp)) + " Получено: " + CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(Error.Item2[0])) + "\n";
-                                break;
-                            }
-                        case ErrorType.Hanging:
-                            {
-                                string exp = expected.paragraphExpections.Indentation.Hanging?.ToString() ?? "0";
-                                ErrorMessage += "Неверно определён выступ первой строки текста: \nОжидалось: " + CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(exp)) + " Получено: " + CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(Error.Item2[0])) + "\n";
-                                break;
-                            }
-
-
-                        case ErrorType.ListTextIdent:
-                            {
-                                string exp = expected.listExpextions.Left.ToString();
-                                ErrorMessage += $"Обнаружена ошибка отступа текста элемента списка: \nОжидалось:{exp}  Получено:{Error.Item2[0]}\n";
-                                break;
-                            }
-                        case ErrorType.ListNumIdentHanging:
-                            {
-                                string exp = expected.listExpextions.Hanging.ToString();
-                                ErrorMessage += $"Обнаружена ошибка отступа номера элемента списка: \nОжидалось:{expected.listExpextions.Hanging}  Получено:{Error.Item2[0]}\n";
-                                break;
-                            }
-                        case ErrorType.ListNumIdentFirstLine:
-                            {
-                                string exp = expected.listExpextions.FirstLine.ToString();
-                                ErrorMessage += $"Обнаружена ошибка отступа номера элемента списка: \nОжидалось:{expected.listExpextions.FirstLine}  Получено:{Error.Item2[0]}\n";
-                                break;
-                            }
-                        case ErrorType.ListRightIdent:
-                            {
-                                ErrorMessage += $"Обнаружена правый отступ текста элемента списка: \nПолучено:{Error.Item2[0]}\n";
-                                break;
-                            }
-
-
-                        case ErrorType.Bold:
-                            {
-                                ErrorMessage += "Обнаружен полужирный текст\n";
-                                break;
-                            }
-                        case ErrorType.Italic:
-                            {
-                                ErrorMessage += "Обнаружено выделение текста курсивом\n";
-                                break;
-                            }
-                        case ErrorType.UnderLine:
-                            {
-                                ErrorMessage += "Обнаружено подчёркивание текста\n";
-                                break;
-                            }
-                        case ErrorType.FontType:
-                            {
-                                string exp = expected.runExpections.RunFonts?.Ascii?.ToString() ?? "Не определён";
-                                ErrorMessage += "Неверно заданный тип шрифта: \nОжидалось: " +
-                                     exp + "Получено: ";
-                                for (int i = 0; i < Error.Item2.Count; i++)
-                                {
-                                    ErrorMessage += Error.Item2[i];
-                                    if (i + 1 < Error.Item2.Count)
-                                    {
-                                        ErrorMessage += ", ";
-                                    }
-                                }
-                                ErrorMessage += "\n";
-                                break;
-                            }
-                        case ErrorType.FontSize:
-                            {
-                                ErrorMessage += "Неверно заданный размер шрифта: \nОжидалось: " +
-                                    Convert.ToString((int.Parse(expected.runExpections.FontSize.Val) / 2.0)) + "+-"
-                                    + Convert.ToString((expected.allowance.AccRange / 2.0)) + " Получено: ";
-                                for (int i = 0; i < Error.Item2.Count; i++)
-                                {
-                                    ErrorMessage += Error.Item2[i];
-                                    if (i + 1 < Error.Item2.Count)
-                                    {
-                                        ErrorMessage += ", ";
-                                    }
-                                }
-                                ErrorMessage += "\n";
-                                break;
-                            }
-
-                        case ErrorType.SectionErrorTop:
-                            {
-                                string ExpPar = par.sections[1].Top.ToString();
-                                if (Error.Item2[1] == "portrait")
-                                {
-                                    ExpPar = par.sections[0].Top.ToString();
-                                }
-
-                                ErrorMessage += $"Неверно заданы параметры верхнего отступа форматирования страниц: Ожидалось:{ExpPar} Получено:{Error.Item2[0]}\n";
-                                break;
-                            }
-                        case ErrorType.SectionErrorBottom:
-                            {
-                                string ExpPar = par.sections[1].Bottom.ToString();
-                                if (Error.Item2[1] == "portrait")
-                                {
-                                    ExpPar = par.sections[0].Bottom.ToString();
-                                }
-
-                                ErrorMessage += $"Неверно заданы параметры отступа снизу форматирования страниц: Ожидалось:{ExpPar} Получено:{Error.Item2[0]}\n";
-                                break;
-                            }
-                        case ErrorType.SectionErrorLeft:
-                            {
-                                string ExpPar = par.sections[1].Left.ToString();
-                                if (Error.Item2[1] == "portrait")
-                                {
-                                    ExpPar = par.sections[0].Left.ToString();
-                                }
-
-                                ErrorMessage += $"Неверно заданы параметры левого отступа форматирования страниц: Ожидалось:{ExpPar} Получено:{Error.Item2[0]}\n";
-                                break;
-                            }
-                        case ErrorType.SectionErrorRight:
-                            {
-                                string ExpPar = par.sections[1].Right.ToString();
-                                if (Error.Item2[1] == "portrait")
-                                {
-                                    ExpPar = par.sections[0].Right.ToString();
-                                }
-
-                                ErrorMessage += $"Неверно заданы параметры правого отступа форматирования страниц: Ожидалось:{ExpPar} Получено:{Error.Item2[0]}\n";
-                                break;
-                            }
-                        case ErrorType.SectionErrorHeader:
-                            {
-                                string ExpPar = par.sections[1].Header.ToString();
-                                if (Error.Item2[1] == "portrait")
-                                {
-                                    ExpPar = par.sections[0].Header.ToString();
-                                }
-
-                                ErrorMessage += $"Неверно заданы параметры верхнего колонтитула форматирования страниц: Ожидалось:{ExpPar} Получено:{Error.Item2[0]}\n";
-                                break;
-                            }
-                        case ErrorType.SectionErrorFooter:
-                            {
-                                string ExpPar = par.sections[1].Footer.ToString();
-                                if (Error.Item2[1] == "portrait")
-                                {
-                                    ExpPar = par.sections[0].Footer.ToString();
-                                }
-
-                                ErrorMessage += $"Неверно заданы параметры нижнего колонтитула форматирования страниц: Ожидалось:{ExpPar} Получено:{Error.Item2[0]}\n";
-                                break;
-                            }
-
-                        //case ErrorType.SectionErrorOrientation:
-                        //    {
-                        //        string ExpPar = par.sections[1].Top.ToString();
-                        //        if (Error.Item2[1] == "portrait")
-                        //        {
-                        //            ExpPar = par.sections[0].Top.ToString();
-                        //        }
-
-                        //        ErrorMessage += $"Неверно заданы параметры верхнего отступа форматирования страниц: Ожидалось:{ExpPar} Получено:{Error.Item2[0]}\n";
-                        //        break;
-                        //    }
-
-                        case ErrorType.SectionErrorPageWidth:
-                            {
-                                string ExpPar = par.sections[1].PageWidth.ToString();
-                                if (Error.Item2[1] == "portrait")
-                                {
-                                    ExpPar = par.sections[0].PageWidth.ToString();
-                                }
-
-                                ErrorMessage += $"Неверно заданы параметры ширины форматирования страниц: Ожидалось:{ExpPar} Получено:{Error.Item2[0]}\n";
-                                break;
-                            }
-                        case ErrorType.SectionErrorPageHeight:
-                            {
-                                string ExpPar = par.sections[1].PageHeight.ToString();
-                                if (Error.Item2[1] == "portrait")
-                                {
-                                    ExpPar = par.sections[0].PageHeight.ToString();
-                                }
-
-                                ErrorMessage += $"Неверно заданы параметры высоты форматирования страниц: Ожидалось:{ExpPar} Получено:{Error.Item2[0]}\n";
-                                break;
-                            }
-
-                        default:
-                            {
-                                break;
-                            }
-                    }
-                }
-                return ErrorMessage;
-            }
-            public string ConvertToString(CheckParametrs par)
-            {
-                string Res = "";
-                if (type == ExpectionType.MainText || type == ExpectionType.MainTextLabel || type == ExpectionType.MainTextHeader)
-                {
-                    Res = $"В параграфе {Position[0]} ";
-                    Res += $"(Распознан как {TypeToString()})\n";
-                }
-                else
-                {
-                    if (type == ExpectionType.TableHeader || type == ExpectionType.TableText)
-                    {
-                        Res = $"В параграфе {Position[3]} в {Position[2]} ячейке {Position[1]} строки  в таблице {Position[0]} ";
-                        Res += $"(Распознан как {TypeToString()})\n";
-                    }
-                    else {
-                        if (type == ExpectionType.SectionError)
-                        {
-                            Res = $"В разделе {Position[0]} обнаружены ошибки макета страниц: ";
-                        }
-                        else
-                        {
-                            return "";
-                        }
-                    }
-                }
-
-                if (type == ExpectionType.MainText || type == ExpectionType.MainTextLabel || type == ExpectionType.MainTextHeader)
-                {
-                    Res += Position[1];
-                }
-
-                Res += $"Найденные ошибки: \n{ConvertError(par)}\n";
-
-                return Res;
-            }
-            public int ErrorsCount()
-            {
-                return ErrorList.Count;
-            }
-        }
-        //Класс для хранения информации о форматировании разделов
-        public class SectionInfo
-        {
-            public int SectionIndex { get; set; }
-            public double Top { get; set; }
-            public double Bottom { get; set; }
-            public double Left { get; set; }
-            public double Right { get; set; }
-            public double Header { get; set; }
-            public double Footer { get; set; }
-            public string Orientation { get; set; }     // "portrait" или "landscape"
-            public double PageWidth { get; set; }
-            public double PageHeight { get; set; }
-
-            public SectionInfo() { }
-
-
-            public string FileExport()
-            {
-                StringBuilder exportString = new StringBuilder();
-
-                exportString.AppendLine("[");
-                exportString.AppendLine($"{Orientation}");
-                exportString.AppendLine($"{Top}");
-                exportString.AppendLine($"{Bottom}");
-                exportString.AppendLine($"{Left}");
-                exportString.AppendLine($"{Right}");
-                exportString.AppendLine($"{Header}");
-                exportString.AppendLine($"{Footer}");
-                exportString.AppendLine($"{PageWidth}");
-                exportString.AppendLine($"{PageHeight}");
-                exportString.AppendLine("]");
-
-                return exportString.ToString();
-            }
-
-            public bool ConvertString(List<string> stringParams)
-            {
-                try
-                {
-                    this.Orientation = stringParams[0];
-
-                    this.Top = Double.Parse(stringParams[1]);
-                    this.Bottom = Double.Parse(stringParams[2]);
-                    this.Left = Double.Parse(stringParams[3]);
-                    this.Right = Double.Parse(stringParams[4]);
-                    this.Header = Double.Parse(stringParams[5]);
-                    this.Footer = Double.Parse(stringParams[6]);
-                    this.PageWidth = Double.Parse(stringParams[7]);
-                    this.PageHeight = Double.Parse(stringParams[8]);
-                }
-                catch (Exception e)
-                {
-                    return false;
-                }
-                return true;
-            }
-            public SectionInfo ConvertToTp()
-            {
-                SectionInfo output = new SectionInfo();
-                output.Top = CheckerFuncs.ConvertValue("twips", "cm", this.Top);
-                output.Bottom = CheckerFuncs.ConvertValue("twips", "cm", this.Bottom);
-                output.Left = CheckerFuncs.ConvertValue("twips", "cm", this.Left);
-                output.Right = CheckerFuncs.ConvertValue("twips", "cm", this.Right);
-                output.Header = CheckerFuncs.ConvertValue("twips", "cm", this.Header);
-                output.Footer = CheckerFuncs.ConvertValue("twips", "cm", this.Footer);
-                output.Orientation = this.Orientation;
-                output.PageWidth = this.PageWidth;
-                output.PageHeight = this.PageHeight;
-
-                return output;
-        }
-        }
-    }
     public class CheckerFuncs
     {
         static Jornal jornal = new Jornal();
@@ -1273,11 +496,11 @@ namespace DocChecker
             return record;
         }
         // Проверка параграфа (вспомогательный метод без проверки типа)
-        public static List<(DocChecker.CheckerClasses.ErrorType, List<string>)> CheckParagraph(Paragraph paragraph, List<Style> styles, Expection exp, Numbering numbering)
+        public static List<(ErrorType, List<string>)> CheckParagraph(Paragraph paragraph, List<Style> styles, Expection exp, Numbering numbering)
         {
 
-            List<(DocChecker.CheckerClasses.ErrorType, List<string>)> FinalErrorList = new List<(DocChecker.CheckerClasses.ErrorType, List<string>)>();
-            List<(DocChecker.CheckerClasses.ErrorType, List<string>)> ErrorList = new List<(DocChecker.CheckerClasses.ErrorType, List<string>)>();
+            List<(ErrorType, List<string>)> FinalErrorList = new List<(ErrorType, List<string>)>();
+            List<(ErrorType, List<string>)> ErrorList = new List<(ErrorType, List<string>)>();
 
             ErrorList = CheckLineSpacing(paragraph.ParagraphProperties, exp.paragraphExpections.SpacingBetweenLines, styles);
             if (ErrorList.Count != 0)
@@ -1412,11 +635,11 @@ namespace DocChecker
 
         }
         // Проверка выравнивания текста
-        private static List<(DocChecker.CheckerClasses.ErrorType, List<string>)> CheckJustification(ParagraphProperties paragrah, Justification expected, List<Style> styles)
+        private static List<(ErrorType, List<string>)> CheckJustification(ParagraphProperties paragrah, Justification expected, List<Style> styles)
         {
             Justification recieved = GetEffectiveJustification(paragrah, styles);
 
-            List<(DocChecker.CheckerClasses.ErrorType, List<string>)> ErrorList = new List<(DocChecker.CheckerClasses.ErrorType, List<string>)>();
+            List<(ErrorType, List<string>)> ErrorList = new List<(ErrorType, List<string>)>();
             string recString = recieved.Val.ToString();
             string expString = expected.Val.ToString();
 
@@ -1492,9 +715,9 @@ namespace DocChecker
             return null;
         }
         // Проверка междустрочного интервала абзаца
-        public static List<(DocChecker.CheckerClasses.ErrorType, List<string>)> CheckLineSpacing(ParagraphProperties paragraph, SpacingBetweenLines expected, List<Style> styles)
+        public static List<(ErrorType, List<string>)> CheckLineSpacing(ParagraphProperties paragraph, SpacingBetweenLines expected, List<Style> styles)
         {
-            List<(DocChecker.CheckerClasses.ErrorType, List<string>)> ErrorList = new List<(DocChecker.CheckerClasses.ErrorType, List<string>)>();
+            List<(ErrorType, List<string>)> ErrorList = new List<(ErrorType, List<string>)>();
 
 
             // Читаем междустрочный интервал в иерархии <явно заданый-заданый стилем- заданый настройками документа>
@@ -1576,10 +799,10 @@ namespace DocChecker
             return null;
         }
         //Проверка отступа первой строки
-        public static List<(DocChecker.CheckerClasses.ErrorType, List<string>)> CheckIndentation(ParagraphProperties paragraph, Indentation expected, List<Style> styles)
+        public static List<(ErrorType, List<string>)> CheckIndentation(ParagraphProperties paragraph, Indentation expected, List<Style> styles)
         {
 
-            List<(DocChecker.CheckerClasses.ErrorType, List<string>)> ErrorList = new List<(DocChecker.CheckerClasses.ErrorType, List<string>)>();
+            List<(ErrorType, List<string>)> ErrorList = new List<(ErrorType, List<string>)>();
 
             Indentation indentation = GetEffectiveIndentation(paragraph, styles);
 
@@ -1652,10 +875,10 @@ namespace DocChecker
             return ErrorList;
         }
         //Проверка отступов элементов списка
-        public static List<(DocChecker.CheckerClasses.ErrorType, List<string>)> CheckListIndentation(ParagraphProperties paragraph, ListInd expected, Numbering numbering)
+        public static List<(ErrorType, List<string>)> CheckListIndentation(ParagraphProperties paragraph, ListInd expected, Numbering numbering)
         {
             ListInd recieved = GetEffectiveListIndentation(paragraph, numbering);
-            List<(DocChecker.CheckerClasses.ErrorType, List<string>)> ErrorList = new List<(DocChecker.CheckerClasses.ErrorType, List<string>)>();
+            List<(ErrorType, List<string>)> ErrorList = new List<(ErrorType, List<string>)>();
             if (recieved == null)
             {
                 return ErrorList;
@@ -1767,7 +990,7 @@ namespace DocChecker
 
 
         //Конвертация списка ошибок в строку
-        private static string ConvertErrorRuns(List<(DocChecker.CheckerClasses.ErrorType, List<string>)> ErrorList, RunProperties expected, Allowance allow)
+        private static string ConvertErrorRuns(List<(ErrorType, List<string>)> ErrorList, RunProperties expected, Allowance allow)
         {
             string FoundetErrors = "";
 
@@ -1831,12 +1054,12 @@ namespace DocChecker
             return FoundetErrors;
         }
         // Проверка всех Run в параграфе
-        public static List<(DocChecker.CheckerClasses.ErrorType, List<string>)> CheckRuns(Paragraph paragraph, List<Style> styles, RunProperties expected, Allowance allow)
+        public static List<(ErrorType, List<string>)> CheckRuns(Paragraph paragraph, List<Style> styles, RunProperties expected, Allowance allow)
         {
             //string Errors = "";
 
             var runs = paragraph.Elements<Run>();
-            List<(DocChecker.CheckerClasses.ErrorType, List<string>)> ErrorList = new List<(DocChecker.CheckerClasses.ErrorType, List<string>)>();
+            List<(ErrorType, List<string>)> ErrorList = new List<(ErrorType, List<string>)>();
             bool foundet;
             bool header = ParagraphIsHeader(paragraph, styles);
             foreach (var run in runs)
@@ -1844,7 +1067,7 @@ namespace DocChecker
                 RunProperties recVal = GetEffectiveFontInfo(run, paragraph, styles);
 
 
-                List<(DocChecker.CheckerClasses.ErrorType, string)> RunErrorList = CheckFonts(recVal, expected, allow, header);
+                List<(ErrorType, string)> RunErrorList = CheckFonts(recVal, expected, allow, header);
 
                 // Добавление ошибок из проверки Run
                 if (RunErrorList.Count != 0)
@@ -1895,9 +1118,9 @@ namespace DocChecker
             return ErrorList;
         }
         // Проверка типа и размера шрифта
-        public static List<(DocChecker.CheckerClasses.ErrorType, string)> CheckFonts(RunProperties recieved, RunProperties expected, Allowance allow, bool header)
+        public static List<(ErrorType, string)> CheckFonts(RunProperties recieved, RunProperties expected, Allowance allow, bool header)
         {
-            List<(DocChecker.CheckerClasses.ErrorType, string)> ErrorList = new List<(DocChecker.CheckerClasses.ErrorType, string)>();
+            List<(ErrorType, string)> ErrorList = new List<(ErrorType, string)>();
 
             //bool result = true;
             //string ErrorMessage = "";

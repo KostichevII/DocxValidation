@@ -30,9 +30,6 @@
         {
             this.Bvalidation = new System.Windows.Forms.Button();
             this.Btemplates = new System.Windows.Forms.Button();
-            this.Bhistory = new System.Windows.Forms.Button();
-            this.Bsettings = new System.Windows.Forms.Button();
-            this.Bguide = new System.Windows.Forms.Button();
             this.BJornal = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -56,39 +53,9 @@
             this.Btemplates.UseVisualStyleBackColor = true;
             this.Btemplates.Click += new System.EventHandler(this.Btemplates_Click);
             // 
-            // Bhistory
-            // 
-            this.Bhistory.Location = new System.Drawing.Point(12, 166);
-            this.Bhistory.Name = "Bhistory";
-            this.Bhistory.Size = new System.Drawing.Size(319, 62);
-            this.Bhistory.TabIndex = 2;
-            this.Bhistory.Text = "История проверок";
-            this.Bhistory.UseVisualStyleBackColor = true;
-            this.Bhistory.Click += new System.EventHandler(this.Bhistory_Click);
-            // 
-            // Bsettings
-            // 
-            this.Bsettings.Location = new System.Drawing.Point(12, 234);
-            this.Bsettings.Name = "Bsettings";
-            this.Bsettings.Size = new System.Drawing.Size(319, 62);
-            this.Bsettings.TabIndex = 3;
-            this.Bsettings.Text = "Настройки";
-            this.Bsettings.UseVisualStyleBackColor = true;
-            this.Bsettings.Click += new System.EventHandler(this.Bsettings_Click);
-            // 
-            // Bguide
-            // 
-            this.Bguide.Location = new System.Drawing.Point(12, 376);
-            this.Bguide.Name = "Bguide";
-            this.Bguide.Size = new System.Drawing.Size(319, 62);
-            this.Bguide.TabIndex = 4;
-            this.Bguide.Text = "Руководство пользователя";
-            this.Bguide.UseVisualStyleBackColor = true;
-            this.Bguide.Click += new System.EventHandler(this.Bguide_Click);
-            // 
             // BJornal
             // 
-            this.BJornal.Location = new System.Drawing.Point(12, 302);
+            this.BJornal.Location = new System.Drawing.Point(12, 166);
             this.BJornal.Name = "BJornal";
             this.BJornal.Size = new System.Drawing.Size(319, 62);
             this.BJornal.TabIndex = 5;
@@ -100,11 +67,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(343, 450);
+            this.ClientSize = new System.Drawing.Size(343, 243);
             this.Controls.Add(this.BJornal);
-            this.Controls.Add(this.Bguide);
-            this.Controls.Add(this.Bsettings);
-            this.Controls.Add(this.Bhistory);
             this.Controls.Add(this.Btemplates);
             this.Controls.Add(this.Bvalidation);
             this.Name = "MenuForm";
@@ -117,9 +81,6 @@
 
         private System.Windows.Forms.Button Bvalidation;
         private System.Windows.Forms.Button Btemplates;
-        private System.Windows.Forms.Button Bhistory;
-        private System.Windows.Forms.Button Bsettings;
-        private System.Windows.Forms.Button Bguide;
         private System.Windows.Forms.Button BJornal;
     }
 }

@@ -54,6 +54,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity\CheckerClasses.cs" />
+    <Compile Include="Entity\ErrorRecord.cs" />
+    <Compile Include="Entity\SectionInfo.cs" />
     <Compile Include="Entity\Template.cs" />
     <Compile Include="Entity\FieldSaver.cs" />
     <Compile Include="Entity\Jornal.cs" />
