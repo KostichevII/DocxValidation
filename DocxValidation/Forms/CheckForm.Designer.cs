@@ -28,22 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
             this.DocAdress = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.FileDialogButton = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel16 = new System.Windows.Forms.TableLayoutPanel();
-            this.TemplatePath = new System.Windows.Forms.TextBox();
-            this.label33 = new System.Windows.Forms.Label();
+            this.TemplateList = new System.Windows.Forms.ListBox();
             this.tableLayoutPanel15 = new System.Windows.Forms.TableLayoutPanel();
             this.label31 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
             this.TemplateName = new System.Windows.Forms.TextBox();
             this.TemplateDate = new System.Windows.Forms.TextBox();
-            this.TableFileDialog = new System.Windows.Forms.Button();
+            this.ListRefresh = new System.Windows.Forms.Button();
             this.label18 = new System.Windows.Forms.Label();
             this.CheckStartB = new System.Windows.Forms.Button();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
@@ -59,10 +57,8 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label4 = new System.Windows.Forms.Label();
             this.CheckedFileName = new System.Windows.Forms.TextBox();
-            this.ManualB = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.tableLayoutPanel16.SuspendLayout();
             this.tableLayoutPanel15.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorGrid)).BeginInit();
@@ -86,6 +82,7 @@
             // 
             this.DocAdress.Location = new System.Drawing.Point(12, 26);
             this.DocAdress.Name = "DocAdress";
+            this.DocAdress.ReadOnly = true;
             this.DocAdress.Size = new System.Drawing.Size(202, 20);
             this.DocAdress.TabIndex = 3;
             // 
@@ -116,50 +113,23 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.panel2.Controls.Add(this.tableLayoutPanel16);
+            this.panel2.Controls.Add(this.TemplateList);
             this.panel2.Controls.Add(this.tableLayoutPanel15);
-            this.panel2.Controls.Add(this.TableFileDialog);
+            this.panel2.Controls.Add(this.ListRefresh);
             this.panel2.Controls.Add(this.label18);
             this.panel2.Location = new System.Drawing.Point(12, 130);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(227, 178);
+            this.panel2.Size = new System.Drawing.Size(227, 321);
             this.panel2.TabIndex = 2;
             // 
-            // tableLayoutPanel16
+            // TemplateList
             // 
-            this.tableLayoutPanel16.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
-            this.tableLayoutPanel16.ColumnCount = 1;
-            this.tableLayoutPanel16.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel16.Controls.Add(this.TemplatePath, 0, 1);
-            this.tableLayoutPanel16.Controls.Add(this.label33, 0, 0);
-            this.tableLayoutPanel16.Location = new System.Drawing.Point(12, 92);
-            this.tableLayoutPanel16.Name = "tableLayoutPanel16";
-            this.tableLayoutPanel16.RowCount = 2;
-            this.tableLayoutPanel16.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel16.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel16.Size = new System.Drawing.Size(200, 45);
-            this.tableLayoutPanel16.TabIndex = 4;
-            // 
-            // TemplatePath
-            // 
-            this.TemplatePath.Location = new System.Drawing.Point(4, 18);
-            this.TemplatePath.Name = "TemplatePath";
-            this.TemplatePath.ReadOnly = true;
-            this.TemplatePath.Size = new System.Drawing.Size(194, 20);
-            this.TemplatePath.TabIndex = 2;
-            // 
-            // label33
-            // 
-            this.label33.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(4, 1);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(194, 13);
-            this.label33.TabIndex = 3;
-            this.label33.Text = "Положение файла";
-            this.label33.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.TemplateList.FormattingEnabled = true;
+            this.TemplateList.Location = new System.Drawing.Point(3, 92);
+            this.TemplateList.Name = "TemplateList";
+            this.TemplateList.Size = new System.Drawing.Size(221, 186);
+            this.TemplateList.TabIndex = 4;
+            this.TemplateList.SelectedIndexChanged += new System.EventHandler(this.TemplateList_SelectedIndexChanged);
             // 
             // tableLayoutPanel15
             // 
@@ -221,15 +191,15 @@
             this.TemplateDate.Size = new System.Drawing.Size(100, 20);
             this.TemplateDate.TabIndex = 3;
             // 
-            // TableFileDialog
+            // ListRefresh
             // 
-            this.TableFileDialog.Location = new System.Drawing.Point(12, 143);
-            this.TableFileDialog.Name = "TableFileDialog";
-            this.TableFileDialog.Size = new System.Drawing.Size(202, 23);
-            this.TableFileDialog.TabIndex = 1;
-            this.TableFileDialog.Text = "Выбрать шаблон";
-            this.TableFileDialog.UseVisualStyleBackColor = true;
-            this.TableFileDialog.Click += new System.EventHandler(this.TableFileDialog_Click);
+            this.ListRefresh.Location = new System.Drawing.Point(12, 284);
+            this.ListRefresh.Name = "ListRefresh";
+            this.ListRefresh.Size = new System.Drawing.Size(202, 23);
+            this.ListRefresh.TabIndex = 1;
+            this.ListRefresh.Text = "Обновить список";
+            this.ListRefresh.UseVisualStyleBackColor = true;
+            this.ListRefresh.Click += new System.EventHandler(this.ListRefresh_Click);
             // 
             // label18
             // 
@@ -243,7 +213,7 @@
             // CheckStartB
             // 
             this.CheckStartB.Enabled = false;
-            this.CheckStartB.Location = new System.Drawing.Point(12, 382);
+            this.CheckStartB.Location = new System.Drawing.Point(13, 457);
             this.CheckStartB.Name = "CheckStartB";
             this.CheckStartB.Size = new System.Drawing.Size(226, 42);
             this.CheckStartB.TabIndex = 4;
@@ -262,7 +232,7 @@
             this.panel3.Controls.Add(this.groupBox1);
             this.panel3.Location = new System.Drawing.Point(250, 28);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(622, 408);
+            this.panel3.Size = new System.Drawing.Size(622, 471);
             this.panel3.TabIndex = 5;
             // 
             // ErrorGrid
@@ -273,19 +243,19 @@
             this.Position,
             this.Type,
             this.Errors});
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.ErrorGrid.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.ErrorGrid.DefaultCellStyle = dataGridViewCellStyle4;
             this.ErrorGrid.Location = new System.Drawing.Point(8, 73);
             this.ErrorGrid.Name = "ErrorGrid";
             this.ErrorGrid.RowHeadersVisible = false;
             this.ErrorGrid.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.ErrorGrid.Size = new System.Drawing.Size(605, 328);
+            this.ErrorGrid.Size = new System.Drawing.Size(605, 390);
             this.ErrorGrid.TabIndex = 2;
             // 
             // Position
@@ -392,24 +362,13 @@
             this.CheckedFileName.Size = new System.Drawing.Size(168, 20);
             this.CheckedFileName.TabIndex = 1;
             // 
-            // ManualB
-            // 
-            this.ManualB.Location = new System.Drawing.Point(13, 314);
-            this.ManualB.Name = "ManualB";
-            this.ManualB.Size = new System.Drawing.Size(226, 35);
-            this.ManualB.TabIndex = 6;
-            this.ManualB.Text = "Задать параметры вручную";
-            this.ManualB.UseVisualStyleBackColor = true;
-            this.ManualB.Click += new System.EventHandler(this.ManualB_Click);
-            // 
             // CheckForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(884, 441);
-            this.Controls.Add(this.ManualB);
+            this.ClientSize = new System.Drawing.Size(884, 511);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.CheckStartB);
             this.Controls.Add(this.panel2);
@@ -420,8 +379,6 @@
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            this.tableLayoutPanel16.ResumeLayout(false);
-            this.tableLayoutPanel16.PerformLayout();
             this.tableLayoutPanel15.ResumeLayout(false);
             this.tableLayoutPanel15.PerformLayout();
             this.panel3.ResumeLayout(false);
@@ -441,18 +398,10 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Button TableFileDialog;
+        private System.Windows.Forms.Button ListRefresh;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Button CheckStartB;
         private System.Windows.Forms.TextBox DocAdress;
-        private System.Windows.Forms.TextBox TemplatePath;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel16;
-        private System.Windows.Forms.Label label33;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel15;
-        private System.Windows.Forms.Label label31;
-        private System.Windows.Forms.Label label32;
-        private System.Windows.Forms.TextBox TemplateName;
-        private System.Windows.Forms.TextBox TemplateDate;
         private System.Windows.Forms.OpenFileDialog openFileDialog2;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.DataGridView ErrorGrid;
@@ -466,6 +415,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Position;
         private System.Windows.Forms.DataGridViewTextBoxColumn Type;
         private System.Windows.Forms.DataGridViewTextBoxColumn Errors;
-        private System.Windows.Forms.Button ManualB;
+        private System.Windows.Forms.ListBox TemplateList;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel15;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.TextBox TemplateName;
+        private System.Windows.Forms.TextBox TemplateDate;
     }
 }

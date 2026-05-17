@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DocChecker;
-using DocumentFormat.OpenXml.Presentation;
 using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace DocxValidation
@@ -19,15 +18,29 @@ namespace DocxValidation
         List<FieldSaver> FieldsSavers = new List<FieldSaver>();
         DocChecker.CheckerClasses.CheckParametrs CheckParams = new DocChecker.CheckerClasses.CheckParametrs();
         List<DocChecker.CheckerClasses.Expection> SavedExpections = new List<DocChecker.CheckerClasses.Expection>();
-        Template template = null;
-        bool ParamsSaved = true;
+        Template template = new Template();
+        bool ParamsSaved = false;
+        bool DocSaved = false;
+        int position=-1;
 
 
         public CheckForm()
         {
             InitializeComponent();
+            ReadAndShowFiles();
         }
 
+        private void CheckReady()
+        {
+            if (DocSaved && ParamsSaved)
+            {
+                CheckStartB.Enabled = true;
+            }
+            else
+            {
+                CheckStartB.Enabled = false;
+            }
+        }
         private void GridShow(List<ErrorRecord> records)
         {
             ErrorGrid.Rows.Clear();
@@ -63,6 +76,8 @@ namespace DocxValidation
                 return;
             string fileName = openFileDialog1.FileName;
             DocAdress.Text = fileName;
+            DocSaved = true;
+            CheckReady();
         }
         private void button2_Click(object sender, EventArgs e)
         {
@@ -79,52 +94,84 @@ namespace DocxValidation
                 resultShow(result, DocAdress.Text);
             }
         }
-        private void TableFileDialog_Click(object sender, EventArgs e)
+        private void ReadAndShowFiles()
         {
+            TemplateList.Items.Clear();
             string path = Path.Combine(Directory.GetCurrentDirectory(), "templates");
             if (!Directory.Exists(path))
             {
-                openFileDialog2.InitialDirectory= Directory.GetCurrentDirectory();
-            }
-            else
-            {
-                openFileDialog2.InitialDirectory = path;
+                Directory.CreateDirectory(path);
             }
 
             try
             {
-                if (openFileDialog2.ShowDialog() == DialogResult.Cancel)
-                    return;
-                string fileName = openFileDialog2.FileName;
-                template = new Template();
-                if (!template.ReadFile(fileName))
+                string[] files = Directory.GetFiles(path, "*.temp");
+
+                if (files.Length == 0)
                 {
-                    MessageBox.Show("Ошибка чтения файла");
-                    template = null;
+                    TemplateList.Text = "Шаблонов не найдено";
                     return;
                 }
-                FieldsSavers = template.Fields;
 
-                TemplateDate.Text = template.date.Date.ToString("d");
-                TemplateName.Text = template.Name;
-                TemplatePath.Text = template.filepath;
-
-                SavedExpections = template.ConvertToExpection();
-                CheckParams.sections = template.ConvertSectionsToTwips();
-                ParamsSaved = true;
-                CheckStartB.Enabled = true;
-                
+                foreach (string file in files)
+                {
+                    TemplateList.Items.Add(Path.GetFileNameWithoutExtension(file));
+                }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                template = null;
-                MessageBox.Show($"Ошибка импорта файла: {ex.Message}");
+                MessageBox.Show($"Ошибка: {e}");
             }
         }
-
         private void ManualB_Click(object sender, EventArgs e)
         {
 
+        }
+        private void TemplateList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (TemplateList.SelectedIndex != -1)
+            {
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "templates");
+                if (!Directory.Exists(path))
+                {
+                    MessageBox.Show("Ошибка: папка templates не обнаружен");
+                    TemplateList.SelectedIndex = position;
+                    return;
+                }
+
+                try
+                {
+                    string file = Path.Combine(path, TemplateList.SelectedItem + ".temp");
+                    if (!template.ReadFile(file))
+                    {
+                        MessageBox.Show("Ошибка чтения файла");
+                        TemplateList.SelectedIndex = position;
+                        return;
+                    }
+
+                    position = TemplateList.SelectedIndex;
+                    TemplateDate.Text = template.date.Date.ToString("d");
+                    TemplateName.Text = template.Name;
+
+                    SavedExpections = template.ConvertToExpection();
+                    CheckParams.sections = template.ConvertSectionsToTwips();
+
+                    ParamsSaved = true;
+                    CheckReady();
+                }
+                catch (Exception exp)
+                {
+                    MessageBox.Show($"Ошибка открытия файла: {exp}");
+                }
+            }
+        }
+
+        private void ListRefresh_Click(object sender, EventArgs e)
+        {
+            ReadAndShowFiles();
+            position = -1; 
+            ParamsSaved= false;
+            CheckReady();
         }
     }
 }

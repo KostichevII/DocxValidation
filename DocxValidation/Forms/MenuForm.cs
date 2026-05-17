@@ -64,19 +64,5 @@ namespace DocxValidation
             OpenOrCreateForm<JornalForm>();
         }
 
-        private void Bhistory_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Bsettings_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Bguide_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

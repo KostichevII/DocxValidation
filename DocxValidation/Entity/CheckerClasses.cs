@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Wordprocessing;
+﻿using DocumentFormat.OpenXml.Drawing.Charts;
+using DocumentFormat.OpenXml.Wordprocessing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -174,13 +175,30 @@ namespace DocChecker
                     italic
                 );
             }
-            public void setListIndentation(double hanging, double firstLine, double left, string symAfter, double tabV)
+            public void setListIndentation(double firstLine, double left, string symAfter, double tabV)
             {
-                listExpextions.Hanging = hanging;
-                listExpextions.FirstLine = firstLine;
-                listExpextions.Left = left;
-                listExpextions.TabValue = tabV;
                 listExpextions.SymAfterNum = symAfter;
+                listExpextions.TabValue = tabV;
+
+                if (firstLine > left)
+                {
+                    // не факт
+                    listExpextions.Left = left;
+                    listExpextions.FirstLine = firstLine - left;
+                    listExpextions.Hanging = -1;
+                }
+                else if (firstLine < left)
+                {
+                    listExpextions.Left = left;
+                    listExpextions.Hanging = left - firstLine;
+                    listExpextions.FirstLine = -1;
+                }
+                else
+                {
+                    listExpextions.Left = left;
+                    listExpextions.FirstLine = 0;
+                    listExpextions.Hanging = 0;
+                }
 
             }
         }
@@ -237,6 +255,33 @@ namespace DocChecker
                 SymAfterNum = symbol;
                 TabValue = tab;
             }
+
+            public void SetParams(double firstLine, double left, string symbol, double tab)
+            {
+                SymAfterNum = symbol;
+                TabValue = tab;
+
+                if (firstLine > left)
+                {
+                    // не факт
+                    Left = left;
+                    FirstLine = firstLine - left;
+                    Hanging = -1;
+                }
+                else if (firstLine< left)
+                {
+                    Left = left;
+                    Hanging = left - firstLine;
+                    FirstLine = -1;
+                }
+                else
+                {
+                    Left= left;
+                    FirstLine = 0;
+                    Hanging = 0;
+                }
+            }
+
         }
     }
 }

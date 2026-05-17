@@ -167,6 +167,8 @@ namespace DocxValidation
         public bool ReadFile(string Path)
         {
             List<string> FileStrings = new List<string>();
+            List<SectionInfo> ReadetSections = new List<SectionInfo>() ;
+            List<FieldSaver> ReadetFields = new List<FieldSaver>();
 
             try
             {
@@ -218,7 +220,7 @@ namespace DocxValidation
                                             {
                                                 throw new Exception("Ошибка чтения");
                                             }
-                                            Fields.Add(fields);
+                                            ReadetFields.Add(fields);
                                             break;
                                         }
                                     case "]":
@@ -228,7 +230,7 @@ namespace DocxValidation
                                             {
                                                 throw new Exception("Ошибка чтения");
                                             }
-                                            Sections.Add(fields);
+                                            ReadetSections.Add(fields);
                                             break;
                                         }
                                     default:
@@ -243,6 +245,9 @@ namespace DocxValidation
                     
                 }
 
+
+                Fields = ReadetFields;
+                Sections = ReadetSections;
             }
             catch(Exception e)
             {

@@ -199,7 +199,7 @@ namespace DocChecker
                     case ErrorType.LineSpacingValue:
                         {
                             string exp = expected.paragraphExpections.SpacingBetweenLines.Line?.Value?.ToString() ?? "0";
-                            ErrorMessage += "Неверное значение междустрочного интервала: \nОжидалось: " + CheckerFuncs.ConvertValue("pt", "twips", Double.Parse(exp)) + " Получено: " + CheckerFuncs.ConvertValue("pt", "twips", Double.Parse(Error.Item2[0])) + "\n";
+                            ErrorMessage += "Неверное значение междустрочного интервала: \nОжидалось: " + CheckerFuncs.ConvertValue("pt", "twips", Double.Parse(exp)) + "пт Получено: " + CheckerFuncs.ConvertValue("pt", "twips", Double.Parse(Error.Item2[0])) + "пт\n";
                             break;
                         }
                     case ErrorType.LineSpacingRule:
@@ -216,13 +216,13 @@ namespace DocChecker
                     case ErrorType.BeforeLineValue:
                         {
                             string exp = expected.paragraphExpections.SpacingBetweenLines.Before?.Value.ToString() ?? "0";
-                            ErrorMessage += "Неверное задан отступ перед абзацем: \nОжидалось: " + CheckerFuncs.ConvertValue("pt", "twips", Double.Parse(exp)) + " Получено: " + CheckerFuncs.ConvertValue("pt", "twips", Double.Parse(Error.Item2[0])) + "\n";
+                            ErrorMessage += "Неверное задан отступ перед абзацем: \nОжидалось: " + CheckerFuncs.ConvertValue("pt", "twips", Double.Parse(exp)) + "пт Получено: " + CheckerFuncs.ConvertValue("pt", "twips", Double.Parse(Error.Item2[0])) + "пт\n";
                             break;
                         }
                     case ErrorType.AfterLineValue:
                         {
                             string exp = expected.paragraphExpections.SpacingBetweenLines.After?.Value.ToString() ?? "0";
-                            ErrorMessage += "Неверное задан отступ после абзаца: \nОжидалось: " + CheckerFuncs.ConvertValue("pt", "twips", Double.Parse(exp)) + " Получено: " + CheckerFuncs.ConvertValue("pt", "twips", Double.Parse(Error.Item2[0])) + "\n";
+                            ErrorMessage += "Неверное задан отступ после абзаца: \nОжидалось: " + CheckerFuncs.ConvertValue("pt", "twips", Double.Parse(exp)) + "пт Получено: " + CheckerFuncs.ConvertValue("pt", "twips", Double.Parse(Error.Item2[0])) + "пт\n";
                             break;
                         }
 
@@ -230,25 +230,25 @@ namespace DocChecker
                     case ErrorType.LeftIdent:
                         {
                             string exp = expected.paragraphExpections.Indentation.Left?.ToString() ?? "0";
-                            ErrorMessage += "Неверно определён левый отступ текста: \nОжидалось: " + CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(exp)) + " Получено: " + CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(Error.Item2[0])) + "\n";
+                            ErrorMessage += "Неверно определён левый отступ текста: \nОжидалось: " + CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(exp)) + "см Получено: " + CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(Error.Item2[0])) + "см\n";
                             break;
                         }
                     case ErrorType.RightIdent:
                         {
                             string exp = expected.paragraphExpections.Indentation.Right?.ToString() ?? "0";
-                            ErrorMessage += "Неверно определён правый отступ текста: \nОжидалось: " + CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(exp)) + " Получено: " + CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(Error.Item2[0])) + "\n";
+                            ErrorMessage += "Неверно определён правый отступ текста: \nОжидалось: " + CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(exp)) + "см Получено: " + CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(Error.Item2[0])) + "см\n";
                             break;
                         }
                     case ErrorType.FirstLine:
                         {
                             string exp = expected.paragraphExpections.Indentation.FirstLine?.ToString() ?? "0";
-                            ErrorMessage += "Неверно определён отступ красной строки текста: \nОжидалось: " + CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(exp)) + " Получено: " + CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(Error.Item2[0])) + "\n";
+                            ErrorMessage += "Неверно определён отступ красной строки текста: \nОжидалось: " + CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(exp)) + "см Получено: " + CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(Error.Item2[0])) + "см\n";
                             break;
                         }
                     case ErrorType.Hanging:
                         {
                             string exp = expected.paragraphExpections.Indentation.Hanging?.ToString() ?? "0";
-                            ErrorMessage += "Неверно определён выступ первой строки текста: \nОжидалось: " + CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(exp)) + " Получено: " + CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(Error.Item2[0])) + "\n";
+                            ErrorMessage += "Неверно определён выступ первой строки текста: \nОжидалось: " + CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(exp)) + "см Получено: " + CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(Error.Item2[0])) + "см\n";
                             break;
                         }
 
@@ -256,24 +256,24 @@ namespace DocChecker
                     case ErrorType.ListTextIdent:
                         {
                             string exp = expected.listExpextions.Left.ToString();
-                            ErrorMessage += $"Обнаружена ошибка отступа текста элемента списка: \nОжидалось:{exp}  Получено:{Error.Item2[0]}\n";
+                            ErrorMessage += $"Обнаружена ошибка отступа текста элемента списка: \nОжидалось:{CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(exp))}см  Получено:{CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(Error.Item2[0]))}см\n";
                             break;
                         }
                     case ErrorType.ListNumIdentHanging:
                         {
                             string exp = expected.listExpextions.Hanging.ToString();
-                            ErrorMessage += $"Обнаружена ошибка отступа номера элемента списка: \nОжидалось:{expected.listExpextions.Hanging}  Получено:{Error.Item2[0]}\n";
+                            ErrorMessage += $"Обнаружена ошибка отступа номера элемента списка: \nОжидалось:{CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(exp))}см  Получено:{CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(Error.Item2[0]))}см\n";
                             break;
                         }
                     case ErrorType.ListNumIdentFirstLine:
                         {
                             string exp = expected.listExpextions.FirstLine.ToString();
-                            ErrorMessage += $"Обнаружена ошибка отступа номера элемента списка: \nОжидалось:{expected.listExpextions.FirstLine}  Получено:{Error.Item2[0]}\n";
+                            ErrorMessage += $"Обнаружена ошибка отступа номера элемента списка: \nОжидалось:{CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(exp))}см  Получено:{CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(Error.Item2[0]))}см\n";
                             break;
                         }
                     case ErrorType.ListRightIdent:
                         {
-                            ErrorMessage += $"Обнаружена правый отступ текста элемента списка: \nПолучено:{Error.Item2[0]}\n";
+                            ErrorMessage += $"Обнаружена правый отступ текста элемента списка: \nПолучено:{CheckerFuncs.ConvertValue("cm", "twips", Double.Parse(Error.Item2[0]))}см\n";
                             break;
                         }
 
@@ -297,7 +297,7 @@ namespace DocChecker
                         {
                             string exp = expected.runExpections.RunFonts?.Ascii?.ToString() ?? "Не определён";
                             ErrorMessage += "Неверно заданный тип шрифта: \nОжидалось: " +
-                                 exp + "Получено: ";
+                                 exp + " Получено: ";
                             for (int i = 0; i < Error.Item2.Count; i++)
                             {
                                 ErrorMessage += Error.Item2[i];

@@ -1,19 +1,8 @@
 ﻿using DocChecker;
-using DocumentFormat.OpenXml.Bibliography;
-using DocumentFormat.OpenXml.Drawing.Diagrams;
-using DocumentFormat.OpenXml.Wordprocessing;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Drawing.Printing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static JornalWriter.JornalClass;
 
 namespace DocxValidation
 {
@@ -150,6 +139,35 @@ namespace DocxValidation
             ListTextInd.Value = 0;
             SymAfterNum.Text = "Табуляция";
             TabVal.Value = 0;
+
+            SectionLeftPortrait.Value = Convert.ToDecimal(2.54);
+            SectionLeftLandScape.Value = Convert.ToDecimal(2.54);
+            SectionRightPortrait.Value = Convert.ToDecimal(2.54);
+            SectionRightLandScape.Value = Convert.ToDecimal(2.54);
+            SectionTopLandScape.Value = Convert.ToDecimal(2.54);
+            SectionTopPortrait.Value = Convert.ToDecimal(2.54);
+            SectionBottomLandScape.Value = Convert.ToDecimal(2.54);
+            SectionBottomPortrait.Value = Convert.ToDecimal(2.54);
+            SectionHeaderLandScape.Value = Convert.ToDecimal(1);
+            SectionHeaderPortrait.Value = Convert.ToDecimal(1);
+            SectionFooterLandScape.Value = Convert.ToDecimal(1);
+            SectionFooterPortrait.Value = Convert.ToDecimal(1);
+        }
+        private void SetSections()
+        {
+            SectionLeftPortrait.Value = Convert.ToDecimal(template.Sections[0].Left);
+            SectionRightPortrait.Value = Convert.ToDecimal(template.Sections[0].Right);
+            SectionTopPortrait.Value = Convert.ToDecimal(template.Sections[0].Top);
+            SectionBottomPortrait.Value = Convert.ToDecimal(template.Sections[0].Bottom);
+            SectionHeaderPortrait.Value = Convert.ToDecimal(template.Sections[0].Header);
+            SectionFooterPortrait.Value = Convert.ToDecimal(template.Sections[0].Footer);
+
+            SectionLeftLandScape.Value = Convert.ToDecimal(template.Sections[1].Left);
+            SectionRightLandScape.Value = Convert.ToDecimal(template.Sections[1].Right);
+            SectionTopLandScape.Value = Convert.ToDecimal(template.Sections[1].Top);
+            SectionBottomLandScape.Value = Convert.ToDecimal(template.Sections[1].Bottom);
+            SectionHeaderLandScape.Value = Convert.ToDecimal(template.Sections[1].Header);
+            SectionFooterLandScape.Value = Convert.ToDecimal(template.Sections[1].Footer);
         }
         private void SetField(string Type)
         {
@@ -340,17 +358,28 @@ namespace DocxValidation
             TempSavers = template.Fields;
             TemplateName.Text = template.Name;
             CreateDate.Text = template.date.Date.ToString("d");
-            foreach(var saver in FieldsSavers)
+            bool set;
+
+            for (int i = 0; i < CheckSavedTypes.Items.Count; i++)
             {
-                for (int i = 0; i < CheckSavedTypes.Items.Count; i++)
+                set = false;
+                foreach (var saver in FieldsSavers)
                 {
                     if (CheckSavedTypes.Items[i].ToString() == saver.TypeToString())
                     {
                         CheckSavedTypes.SetItemChecked(i, true);
+                        set = true;
+                        break;
                     }
                 }
+                if (!set)
+                {
+                    CheckSavedTypes.SetItemChecked(i, false);
+                }
             }
+
             SetField(CurrectType);
+            SetSections();
         }
 
         private void LineST_TextChanged(object sender, EventArgs e)
@@ -472,7 +501,7 @@ namespace DocxValidation
                 File.Copy(fileName, savePath);
                 TemplateList.Items.Add(Path.GetFileNameWithoutExtension(fileName));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка импорта файла: {ex.Message}");
             }

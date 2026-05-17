@@ -263,22 +263,30 @@ namespace DocxValidation
             {
                 case "Табуляция":
                     {
-                        Exp.setListIndentation(LNP, LNP, LTP, "tab", -1);
+                        Exp.setListIndentation(Math.Round(DocChecker.CheckerFuncs.ConvertValue("twips", "cm", LNP)),
+                            Math.Round(DocChecker.CheckerFuncs.ConvertValue("twips", "cm", LTP)),
+                            "tab", -1);
                         break;
                     }
                 case "Табуляция с настройкой позиции":
                     {
-                        Exp.setListIndentation(LNP, LNP, LTP, "tab", TS);
+                        Exp.setListIndentation(Math.Round(DocChecker.CheckerFuncs.ConvertValue("twips", "cm", LNP)),
+                            Math.Round(DocChecker.CheckerFuncs.ConvertValue("twips", "cm", LTP)), 
+                            "tab", TS);
                         break;
                     }
                 case "Пробел":
                     {
-                        Exp.setListIndentation(LNP, LNP, LTP, "space", -1);
+                        Exp.setListIndentation(Math.Round(DocChecker.CheckerFuncs.ConvertValue("twips", "cm", LNP)),
+                            Math.Round(DocChecker.CheckerFuncs.ConvertValue("twips", "cm", LTP)), 
+                            "space", -1);
                         break;
                     }
                 case "(нет)":
                     {
-                        Exp.setListIndentation(LNP, LNP, LTP, "nothing", -1);
+                        Exp.setListIndentation( Math.Round(DocChecker.CheckerFuncs.ConvertValue("twips", "cm", LNP)), 
+                            Math.Round(DocChecker.CheckerFuncs.ConvertValue("twips", "cm", LTP)), 
+                            "nothing", -1);
                         break;
                     }
                 default:
