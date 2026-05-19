@@ -150,7 +150,7 @@ namespace DocChecker
                 }
             }
         }
-        private Expection ExpectionTake(List<Expection> expList)
+        public Expection ExpectionTake(List<Expection> expList)
         {
             int index = -1;
 
@@ -392,19 +392,6 @@ namespace DocChecker
                             ErrorMessage += $"Неверно заданы параметры нижнего колонтитула форматирования страниц: Ожидалось:{ExpPar} Получено:{Error.Item2[0]}\n";
                             break;
                         }
-
-                    //case ErrorType.SectionErrorOrientation:
-                    //    {
-                    //        string ExpPar = par.sections[1].Top.ToString();
-                    //        if (Error.Item2[1] == "portrait")
-                    //        {
-                    //            ExpPar = par.sections[0].Top.ToString();
-                    //        }
-
-                    //        ErrorMessage += $"Неверно заданы параметры верхнего отступа форматирования страниц: Ожидалось:{ExpPar} Получено:{Error.Item2[0]}\n";
-                    //        break;
-                    //    }
-
                     case ErrorType.SectionErrorPageWidth:
                         {
                             string ExpPar = par.sections[1].PageWidth.ToString();

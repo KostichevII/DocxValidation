@@ -11,10 +11,10 @@ namespace JornalWriter
     {
         public class Record
         {
-            private RecordType type;
-            private string Message;
-            private string ModuleName;
-            private string Time;
+            public RecordType type;
+            public string Message;
+            public string ModuleName;
+            public string Time;
 
             public Record()
             {
@@ -130,9 +130,9 @@ namespace JornalWriter
         }
         public class Jornal
         {
-            private List<Record> records;
+            public List<Record> records;
             private int writeRegularity;
-            private string filePath;
+            public string filePath;
             private int writenRecords;
 
             public Jornal()
@@ -140,10 +140,6 @@ namespace JornalWriter
                 records = new List<Record>();
                 writeRegularity = 10;
                 writenRecords = 0;
-            }
-            public void SetRegularity(int reg)
-            {
-                writeRegularity = reg;
             }
             public bool CreateRecordSession()
             {
@@ -185,10 +181,6 @@ namespace JornalWriter
             public void AddRecord(string message, string type, string Module)
             {
                 records.Add(new Record(type, message, DateTime.Now.TimeOfDay, Module));
-                //if (records.Count % writeRegularity == 0)
-                //{
-                //    RecordsWrite();
-                //}
             }
             public void RecordsWrite()
             {
@@ -234,7 +226,7 @@ namespace JornalWriter
 
                 }
             }
-            private Record ReadRecord(string record)
+            public Record ReadRecord(string record)
             {
                 try
                 {
@@ -256,14 +248,6 @@ namespace JornalWriter
                 }
                 catch(Exception e)
                 {
-                    //if (e.ToString() == "System.Exception: Ошибка обработки записи: запись не соответствует шаблону")
-                    //{
-                    //    throw e;
-                    //}
-                    //else
-                    //{
-                    //    throw new Exception($"Ошибка обработки записи: {e}");
-                    //}
                     throw e;
                 }
             }

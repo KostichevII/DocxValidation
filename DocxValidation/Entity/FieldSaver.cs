@@ -119,7 +119,7 @@ namespace DocxValidation
                     }
             }
         }
-        private ExpectionType TakeType()
+        public ExpectionType TakeType()
         {
             switch (Type)
             {
@@ -258,6 +258,10 @@ namespace DocxValidation
                            DocChecker.CheckerFuncs.ConvertValue("twips", "pt", SA));
                         break;
                     }
+                default:
+                    {
+                        return null;
+                    }
             }
             switch (LSN)
             {
@@ -336,7 +340,7 @@ namespace DocxValidation
 
             return exportString.ToString();
         }
-        private bool StringToBool(string val)
+        public bool StringToBool(string val)
         {
             if (val == "True")
             {

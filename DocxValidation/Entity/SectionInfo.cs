@@ -41,7 +41,6 @@ namespace DocChecker
 
             return exportString.ToString();
         }
-
         public bool ConvertString(List<string> stringParams)
         {
             try

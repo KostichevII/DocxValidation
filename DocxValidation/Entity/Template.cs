@@ -57,7 +57,7 @@ namespace DocxValidation
             }
             return true;
         }
-        private void ClearTemplate()
+        public void ClearTemplate()
         {
             Fields = new List<FieldSaver>();
             Sections = new List<SectionInfo>();
