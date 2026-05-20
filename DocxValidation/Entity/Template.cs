@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DocChecker;
 
-namespace DocxValidation
+namespace DocChecker
 {
     public class Template
     {

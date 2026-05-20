@@ -543,54 +543,6 @@ namespace DocChecker
         }
 
 
-
-        // Проверка параграфов
-        public static string CheckAllParagraphs(Body body, Expection exp, List<Style> styles, int parSymbols, Numbering numbering)
-        {
-            string Result = "";
-            StringBuilder OutPut = new StringBuilder("");
-            int counter = 1;
-
-            foreach (var paragraph in body.Elements<Paragraph>())
-            {
-                //Console.WriteLine($"Параграф {counter} : \n{Result}");
-                //Console.WriteLine(paragraph.InnerText.ToString());
-                //Console.WriteLine("");
-                //Console.WriteLine($"{String.IsNullOrWhiteSpace(paragraph.InnerText.ToString())}");
-                //Console.WriteLine("");
-
-                if (!String.IsNullOrWhiteSpace(paragraph.InnerText.ToString()))
-                {
-                    //Result = CheckParagraph(paragraph, styles, exp, numbering);
-
-                    //Console.WriteLine($"Параграф {counter} : \n{Result}");
-                    //OutPut.AppendLine($"Параграф {counter} :");
-                    if (Result == "")
-                    {
-                        OutPut.AppendLine($"В параграфе {counter} не обнаружено ошибок\n");
-                    }
-                    else
-                    {
-                        OutPut.AppendLine($"В параграфе {counter} обнаружены ошибки:");
-                        if (paragraph.InnerText.ToString().Length <= parSymbols)
-                        {
-                            OutPut.AppendLine($"Текст параграфа: {paragraph.InnerText.ToString()}");
-                        }
-                        else
-                        {
-                            OutPut.AppendLine($"Первые {parSymbols} символов параграфа: {paragraph.InnerText.ToString().Substring(0, parSymbols)}");
-                        }
-                        OutPut.AppendLine("Обнаруженные ошибки:");
-                        OutPut.AppendLine(Result);
-                    }
-
-                    counter++;
-                }
-            }
-            Console.WriteLine(OutPut.ToString());
-            return OutPut.ToString();
-        }
-
         // Получение выравнивания текста
         private static Justification GetEffectiveJustification(ParagraphProperties paragraph, List<Style> styles)
         {
@@ -988,71 +940,6 @@ namespace DocChecker
 
         }
 
-
-        //Конвертация списка ошибок в строку
-        private static string ConvertErrorRuns(List<(ErrorType, List<string>)> ErrorList, RunProperties expected, Allowance allow)
-        {
-            string FoundetErrors = "";
-
-            foreach (var Error in ErrorList)
-            {
-                switch (Error.Item1)
-                {
-                    case ErrorType.Bold:
-                        {
-                            FoundetErrors += "Обнаружен полужирный текст\n";
-                            break;
-                        }
-                    case ErrorType.Italic:
-                        {
-                            FoundetErrors += "Обнаружено выделение текста курсивом\n";
-                            break;
-                        }
-                    case ErrorType.UnderLine:
-                        {
-                            FoundetErrors += "Обнаружено подчёркивание текста\n";
-                            break;
-                        }
-                    case ErrorType.FontType:
-                        {
-                            string exp = expected.RunFonts?.Ascii?.ToString() ?? "Не определён";
-                            FoundetErrors += "Неверно заданный тип шрифта: \nОжидалось: " +
-                                 exp + "\nПолучено: ";
-                            for (int i = 0; i < Error.Item2.Count; i++)
-                            {
-                                FoundetErrors += Error.Item2[i];
-                                if (i + 1 < Error.Item2.Count)
-                                {
-                                    FoundetErrors += ", ";
-                                }
-                            }
-                            FoundetErrors += "\n";
-                            break;
-                        }
-                    case ErrorType.FontSize:
-                        {
-                            FoundetErrors += "Неверно заданный размер шрифта: \nОжидалось: " +
-                                Convert.ToString((int.Parse(expected.FontSize.Val) / 2.0)) + "+-"
-                                + Convert.ToString((allow.AccRange / 2.0)) + "\nПолучено: ";
-                            for (int i = 0; i < Error.Item2.Count; i++)
-                            {
-                                FoundetErrors += Error.Item2[i];
-                                if (i + 1 < Error.Item2.Count)
-                                {
-                                    FoundetErrors += ", ";
-                                }
-                            }
-                            FoundetErrors += "\n";
-                            break;
-                        }
-                    default:
-                        {
-                            break;
-                        }
-                }
-            }
-            return FoundetErrors;
-        }
         // Проверка всех Run в параграфе
         public static List<(ErrorType, List<string>)> CheckRuns(Paragraph paragraph, List<Style> styles, RunProperties expected, Allowance allow)
         {

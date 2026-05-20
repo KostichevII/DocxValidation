@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DocChecker;
 
-namespace DocxValidation
+namespace DocChecker
 {
     public class FieldSaver
     {

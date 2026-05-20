@@ -1145,6 +1145,11 @@ namespace ValidationTesting
             JornalWriter.JornalClass.Record rec = new JornalClass.Record("Fatal", "1", "1", "1");
             Assert.IsTrue(rec.CheckType("Fatal"));
         }
+        public void CheckTypeTesting2()
+        {
+            JornalWriter.JornalClass.Record rec = new JornalClass.Record("Fatal", "1", "1", "1");
+            Assert.IsTrue(rec.CheckType("Normal"));
+        }
         [TestMethod]
         public void TypePriorityTesting1()
         {
@@ -1476,7 +1481,6 @@ namespace ValidationTesting
             if (File.Exists(temp.filepath))
             {
                 File.Delete(temp.filepath);
-                Directory.Delete(Path.Combine(Directory.GetCurrentDirectory(), "templates"));
                 Assert.IsTrue(true);
             }
             else
@@ -1495,7 +1499,6 @@ namespace ValidationTesting
             {
                 File.Delete(temp.filepath);
                 File.Delete(first);
-                Directory.Delete(Path.Combine(Directory.GetCurrentDirectory(), "templates"));
                 Assert.IsTrue(true);
             }
             else
@@ -1781,5 +1784,122 @@ namespace ValidationTesting
             Assert.AreEqual(exp.listExpextions.Hanging, 1);
         }
        
+    }
+
+    [TestClass]
+    public class DocCheckerTesting
+    {
+        [TestMethod]
+        public void FullDocCheckTesting()
+        {
+            CheckParametrs Params = new CheckParametrs();
+            Expection exp = new Expection();
+            exp.Type = ExpectionType.MainText;
+            exp.paragraphExpections.Justification = new Justification()
+            {
+                Val = new JustificationValues("left")
+            };
+            exp.paragraphExpections.SpacingBetweenLines = new SpacingBetweenLines()
+            {
+                Line = "240",
+                Before = "0",
+                After = "0",
+                LineRule = new LineSpacingRuleValues("auto")
+            };
+            exp.paragraphExpections.Indentation = new Indentation()
+            {
+                Hanging = "0",
+                FirstLine = "0",
+                Right = "0",
+                Left = "0"
+            };
+
+            exp.allowance.BoldHeaders = true;
+            exp.allowance.AccRange = 4;
+            exp.allowance.AllowItalic = true;
+            exp.allowance.AllowUnderLines = true;
+            exp.allowance.ExtraFontType = "Calibry";
+
+            exp.runExpections = new DocumentFormat.OpenXml.Wordprocessing.RunProperties(
+                new RunFonts()
+                {
+                    Ascii = "Calibry",
+                    HighAnsi = "Calibry",
+                    EastAsia = "Calibry",
+                    ComplexScript = "Calibry"
+                },
+                new DocumentFormat.OpenXml.Wordprocessing.FontSize() { Val = "12" },
+                new FontSizeComplexScript() { Val = "12" },
+                new Underline(),
+                new Bold(),
+                new BoldComplexScript(),
+                new ItalicComplexScript(),
+                new Italic()
+            );
+
+            exp.listExpextions.Left = 240;
+            exp.listExpextions.FirstLine = 240;
+            exp.listExpextions.Hanging = -1;
+
+            List<Expection> list = new List<Expection>();
+            list.Add(exp);
+
+            SectionInfo section = new SectionInfo()
+            {
+                SectionIndex = 1,
+                Top = 1,
+                Bottom = 1,
+                Left = 1,
+                Right = 1,
+                Header = 1,
+                Footer = 1,
+                Orientation = "portrait",    // "portrait" или "landscape"
+                PageWidth = 1,
+                PageHeight = 1,
+            };
+            List<SectionInfo> sections = new List<SectionInfo>();
+            sections.Add(section);
+            section.Orientation = "landscape";
+            sections.Add(section);
+
+            Params.exp = list;
+            Params.sections = sections;
+
+
+            string dir = Path.Combine(Directory.GetCurrentDirectory(), "FileTesting", "test.docx");
+
+            List<ErrorRecord> result = DocChecker.CheckerFuncs.CheckDocument(dir, Params, false);
+            if(result.Count > 0)
+            {
+                Assert.IsTrue(true);
+            }
+            else
+            {
+                Assert.Fail();
+            }
+
+        }
+
+        [TestMethod]
+        public void ConvertLineRuleTesting()
+        {
+            LineSpacingRuleValues rule = new LineSpacingRuleValues("auto");
+            string rulestr = DocChecker.CheckerFuncs.ConvertLineRule(rule);
+            Assert.AreEqual("auto", rulestr);
+        }
+        [TestMethod]
+        public void ConvertLineRuleTesting2()
+        {
+            LineSpacingRuleValues rule = new LineSpacingRuleValues("atLeast");
+            string rulestr = DocChecker.CheckerFuncs.ConvertLineRule(rule);
+            Assert.AreEqual("atLeast", rulestr);
+        }
+        [TestMethod]
+        public void ConvertLineRuleTesting3()
+        {
+            LineSpacingRuleValues rule = new LineSpacingRuleValues("exact");
+            string rulestr = DocChecker.CheckerFuncs.ConvertLineRule(rule);
+            Assert.AreEqual("exactly", rulestr);
+        }
     }
 }
