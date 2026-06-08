@@ -1888,7 +1888,6 @@
             // 
             // ParamsClear
             // 
-            this.ParamsClear.Enabled = false;
             this.ParamsClear.Location = new System.Drawing.Point(6, 58);
             this.ParamsClear.Name = "ParamsClear";
             this.ParamsClear.Size = new System.Drawing.Size(264, 23);
@@ -1900,7 +1899,6 @@
             // TextType
             // 
             this.TextType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.TextType.Enabled = false;
             this.TextType.FormattingEnabled = true;
             this.TextType.Items.AddRange(new object[] {
             "Основной текст",
@@ -1916,7 +1914,6 @@
             // 
             // TextB
             // 
-            this.TextB.Enabled = false;
             this.TextB.Location = new System.Drawing.Point(6, 30);
             this.TextB.Name = "TextB";
             this.TextB.Size = new System.Drawing.Size(264, 23);

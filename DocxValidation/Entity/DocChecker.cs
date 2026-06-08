@@ -482,8 +482,16 @@ namespace DocChecker
                 }
                 else
                 {
-                    exp = ExpectionTake(expList, ExpectionType.MainText);
-                    record.type = ExpectionType.MainText;
+                    if (ParagraphIsLabel(paragraph))
+                    {
+                        exp = ExpectionTake(expList, ExpectionType.MainTextLabel);
+                        record.type = ExpectionType.MainTextLabel;
+                    }
+                    else
+                    {
+                        exp = ExpectionTake(expList, ExpectionType.MainText);
+                        record.type = ExpectionType.MainText;
+                    }
                 }
             }
             catch (Exception error)
@@ -1432,6 +1440,67 @@ namespace DocChecker
                 if (NameStyle.Contains("heading"))
                 {
                     return true;
+                }
+            }
+            return false;
+        }
+        // Проверка параграфа на подпись к рисунку/таблице
+        static private bool ParagraphIsLabel(Paragraph par)
+        {
+            string STR;
+            if (par.InnerText.Length > 200)
+            {
+                STR = par.InnerText.Substring(0, 200).Trim();
+            }
+            else
+            {
+                STR = par.InnerText.Trim();
+            }
+            string[] Tokens = STR.Split(' ');
+            if (Tokens.Length < 3)
+            {
+                return false;
+            }
+
+            if (Tokens[0] == "Рисунок" || Tokens[0] == "Таблица")
+            {
+                if (Tokens[0] == "Рисунок")
+                {
+                    List<char> nums = new List<char>() { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+                    foreach (char symbol in Tokens[1])
+                    {
+                        if (!nums.Contains(symbol))
+                        {
+                            return false;
+                        }
+                    }
+
+                    List<char> dash = new List<char>() { '-', '—' };
+                    if (Tokens[2].Length > 1 || dash.Contains(Tokens[2][0]))
+                    {
+                        return false;
+                    }
+
+                    return true;
+                }
+                else
+                {
+                    List<char> nums = new List<char>() { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+
+                    for (int i = 0; i < Tokens[1].Length; i++)
+                    {
+                        if (i+1 >= Tokens[1].Length)
+                        {
+                            if (Tokens[1][i] == '.')
+                            {
+                                return true;
+                            }
+                        }
+                        if (!nums.Contains(Tokens[1][i]))
+                        {
+                            return false;
+                        }
+                    }
                 }
             }
             return false;

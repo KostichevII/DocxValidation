@@ -190,14 +190,15 @@ namespace JornalWriter
                 }
                 try
                 {
-                    using (var tw = new StreamWriter(filePath, true))
+                    StringBuilder builder = new StringBuilder("");
+
+                    for (int i = writenRecords; i < records.Count; i++)
                     {
-                        for (int i = writenRecords; i < records.Count; i++)
-                        {
-                            tw.WriteLine(records[i].ToString());
-                            writenRecords++;
-                        }
+                        builder.AppendLine(records[i].ToString());
+                        writenRecords++;
                     }
+
+                    File.WriteAllText(filePath, builder.ToString());
                 }
                 catch(Exception e)
                 {

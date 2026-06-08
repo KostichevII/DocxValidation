@@ -19,17 +19,7 @@ namespace DocxValidation
         List<FieldSaver> FieldsSavers = new List<FieldSaver>();
         List<FieldSaver> TempSavers = new List<FieldSaver>();
         Template template = new Template();
-        bool DeleteStarted = false;
 
-        private void DeleteCheck()
-        {
-            if (DeleteStarted)
-            {
-                DeleteStarted = false;
-                TemplateDelete.Text = "Удалить шаблон";
-            }
-            return;
-        }
         private void SaveFields(string Type)
         {
             int SaverPosition = -1;
@@ -117,6 +107,7 @@ namespace DocxValidation
             template.Sections.Add(LandInfo);
         }
 
+
         private void SetStandartFields()
         {
             LeftM.Value = 0;
@@ -164,32 +155,19 @@ namespace DocxValidation
         }
         private void SetSections()
         {
-            if (template.Sections.Count >= 2)
-            {
+            SectionLeftPortrait.Value = Convert.ToDecimal(template.Sections[0].Left);
+            SectionRightPortrait.Value = Convert.ToDecimal(template.Sections[0].Right);
+            SectionTopPortrait.Value = Convert.ToDecimal(template.Sections[0].Top);
+            SectionBottomPortrait.Value = Convert.ToDecimal(template.Sections[0].Bottom);
+            SectionHeaderPortrait.Value = Convert.ToDecimal(template.Sections[0].Header);
+            SectionFooterPortrait.Value = Convert.ToDecimal(template.Sections[0].Footer);
 
-                SectionLeftPortrait.Value = Convert.ToDecimal(template.Sections[0].Left);
-                SectionRightPortrait.Value = Convert.ToDecimal(template.Sections[0].Right);
-                SectionTopPortrait.Value = Convert.ToDecimal(template.Sections[0].Top);
-                SectionBottomPortrait.Value = Convert.ToDecimal(template.Sections[0].Bottom);
-                SectionHeaderPortrait.Value = Convert.ToDecimal(template.Sections[0].Header);
-                SectionFooterPortrait.Value = Convert.ToDecimal(template.Sections[0].Footer);
-
-                SectionLeftLandScape.Value = Convert.ToDecimal(template.Sections[1].Left);
-                SectionRightLandScape.Value = Convert.ToDecimal(template.Sections[1].Right);
-                SectionTopLandScape.Value = Convert.ToDecimal(template.Sections[1].Top);
-                SectionBottomLandScape.Value = Convert.ToDecimal(template.Sections[1].Bottom);
-                SectionHeaderLandScape.Value = Convert.ToDecimal(template.Sections[1].Header);
-                SectionFooterLandScape.Value = Convert.ToDecimal(template.Sections[1].Footer);
-            }
-            else
-            {
-                SectionLeftPortrait.Value = SectionLeftLandScape.Value = Convert.ToDecimal(2.54);
-                SectionRightPortrait.Value = SectionRightLandScape.Value = Convert.ToDecimal(2.54);
-                SectionTopPortrait.Value = SectionTopLandScape.Value = Convert.ToDecimal(2.54);
-                SectionBottomPortrait.Value= SectionBottomLandScape.Value = Convert.ToDecimal(2.54);
-                SectionHeaderPortrait.Value = SectionHeaderLandScape.Value = Convert.ToDecimal(2.54);
-                SectionFooterPortrait.Value = SectionFooterLandScape.Value = Convert.ToDecimal(2.54);
-            }
+            SectionLeftLandScape.Value = Convert.ToDecimal(template.Sections[1].Left);
+            SectionRightLandScape.Value = Convert.ToDecimal(template.Sections[1].Right);
+            SectionTopLandScape.Value = Convert.ToDecimal(template.Sections[1].Top);
+            SectionBottomLandScape.Value = Convert.ToDecimal(template.Sections[1].Bottom);
+            SectionHeaderLandScape.Value = Convert.ToDecimal(template.Sections[1].Header);
+            SectionFooterLandScape.Value = Convert.ToDecimal(template.Sections[1].Footer);
         }
         private void SetField(string Type)
         {
@@ -406,7 +384,6 @@ namespace DocxValidation
 
         private void LineST_TextChanged(object sender, EventArgs e)
         {
-            DeleteCheck();
             string type = LineST.Text;
             switch (type)
             {
@@ -439,7 +416,6 @@ namespace DocxValidation
         }
         private void TextType_TextChanged(object sender, EventArgs e)
         {
-            DeleteCheck();
             if (CurrectType != "")
             {
                 SaveFields(CurrectType);
@@ -449,7 +425,7 @@ namespace DocxValidation
         }
         private void TextB_Click(object sender, EventArgs e)
         {
-            DeleteCheck();
+
             string Type;
 
             switch (TextType.Text)
@@ -505,14 +481,12 @@ namespace DocxValidation
         }
         private void TemplateCreate_Click(object sender, EventArgs e)
         {
-            DeleteCheck();
             template.CreateNewTemplate();
             TemplateList.Items.Add(Path.GetFileNameWithoutExtension(template.filepath));
             SetStandartFields();
         }
         private void TemplateImport_Click(object sender, EventArgs e)
         {
-            DeleteCheck();
             try
             {
                 if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
@@ -534,55 +508,30 @@ namespace DocxValidation
         }
         private void TemplateDelete_Click(object sender, EventArgs e)
         {
-            if (currectPos == -1)
+            try
             {
-                MessageBox.Show("Выберите шаблон, который хотите удалить");
-                return;
-            }
-
-            if (!DeleteStarted)
-            {
-                DeleteStarted = true;
-                TemplateDelete.Text = "Нажмите для подтверждения удаления";
-            }
-            else
-            {
-                try
+                template.DeleteFile();
+                SetStandartFields();
+                int couter = 0;
+                foreach (var Check in CheckSavedTypes.Items)
                 {
-                    template.DeleteFile();
-                    SetStandartFields();
-                    int couter = 0;
-                    foreach (var Check in CheckSavedTypes.Items)
-                    {
-                        CheckSavedTypes.SetItemChecked(couter, false);
-                        couter++;
-                    }
-
-                    TextType.Text = "Основной текст";
-                    FieldsSavers.Clear();
-                    TempSavers.Clear();
-                    ReadAndShowFiles();
-                }
-                catch (Exception exc)
-                {
-                    MessageBox.Show($"Ошибка удаления файла: {exc.Message}");
-                    return;
+                    CheckSavedTypes.SetItemChecked(couter, false);
+                    couter++;
                 }
 
-                DeleteStarted = false;
-                TemplateDelete.Text = "Удалить шаблон";
+                TextType.Text = "Основной текст";
+                FieldsSavers.Clear();
+                TempSavers.Clear();
+                ReadAndShowFiles();
 
-                TemplateName.Text = "";
-                CreateDate.Text = "";
-                currectPos = -1;
-                TextB.Enabled = false;
-                ParamsClear.Enabled = false;
-                TextType.Enabled = false;
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show($"Ошибка удаления файла: {exc.Message}");
             }
         }
         private void TemplateSave_Click(object sender, EventArgs e)
         {
-            DeleteCheck();
             try
             {
                 DateTime date = DateTime.Parse(CreateDate.Text);
@@ -614,16 +563,10 @@ namespace DocxValidation
         }
         private void RefreshB_Click(object sender, EventArgs e)
         {
-            DeleteCheck();
-            currectPos = -1;
-            TextB.Enabled = false;
-            ParamsClear.Enabled = false;
-            TextType.Enabled = false;
             ReadAndShowFiles();
         }
         private void TemplateList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DeleteCheck();
             if (TemplateList.SelectedIndex != -1)
             {
                 string path = Path.Combine(Directory.GetCurrentDirectory(), "templates");
@@ -649,18 +592,12 @@ namespace DocxValidation
                 catch (Exception exp)
                 {
                     MessageBox.Show($"Ошибка открытия файла: {exp}");
-                    TemplateList.SelectedIndex = currectPos;
-                    return;
                 }
-
-                TextB.Enabled = true;
-                ParamsClear.Enabled = true;
-                TextType.Enabled = true;
             }
         }
         private void ParamsClear_Click(object sender, EventArgs e)
         {
-            DeleteCheck();
+
             SetStandartFields();
             int Pos = -1;
             string Type;
