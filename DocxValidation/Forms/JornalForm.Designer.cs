@@ -113,6 +113,7 @@
             // TextList
             // 
             this.TextList.FormattingEnabled = true;
+            this.TextList.HorizontalScrollbar = true;
             this.TextList.Location = new System.Drawing.Point(4, 64);
             this.TextList.Name = "TextList";
             this.TextList.Size = new System.Drawing.Size(547, 394);

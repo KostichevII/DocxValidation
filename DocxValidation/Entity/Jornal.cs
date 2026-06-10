@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DocChecker;
+using DocumentFormat.OpenXml.Drawing.Charts;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -211,13 +213,31 @@ namespace JornalWriter
                 writenRecords= 0;
                 try
                 {
-                    using (StreamReader sr = new StreamReader(filePath))
+                    string text = File.ReadAllText(filePath);
+
+                    if (text == "")
                     {
-                        string line;
-                        while ((line = sr.ReadLine()) != null)
+                        return;
+                    }
+
+                    string[] textParsed = (text.Replace("\r", "")).Split('\n');
+
+                    foreach (string line in textParsed)
+                    {
+                        try
                         {
                             records.Add(ReadRecord(line));
-                            writenRecords++;
+                        }
+                        catch (Exception e)
+                        {
+                            if (records.Count != 0)
+                            {
+                                records[records.Count - 1].Message += line;
+                            }
+                            else
+                            {
+                                throw e;
+                            }
                         }
                     }
                 }
@@ -231,25 +251,19 @@ namespace JornalWriter
             {
                 try
                 {
-                    string[] parts = record.Split(':');
-                    if (parts.Length != 4)  
-                    {
-                        throw new Exception($"Ошибка обработки записи: запись не соответствует шаблону");
-                    }
+                    int Pos = record.IndexOf(']');
+                    char[] TrimSymbols = { '[', ']' };
+                    string time = record.Substring( 0 ,Pos + 1).Trim(TrimSymbols);
+                    string nextPart = record.Substring(Pos + 2);
+                    Pos = nextPart.IndexOf(":");
+                    string[] TypeAndModule = nextPart.Substring(0,Pos).Split(' ');
+                    string message = nextPart.Substring(Pos+2).Trim(' ');
 
-                    string firstPart = $"{parts[0]}:{parts[1]}:{parts[2]}";
-                    string[] secondParts = firstPart.Split(' ');
-
-                    // Извлечение сообщения
-                    string message = parts[3].Substring(1, parts[3].Length - 1);
-                    string time = secondParts[0].Substring(1, secondParts[0].Length - 2);
-                    string module = secondParts[2];
-                    string type = secondParts[1];
-                    return new Record(type, message, time, module);
+                    return new Record(TypeAndModule[0], message, time, TypeAndModule[1]);
                 }
                 catch(Exception e)
                 {
-                    throw e;
+                    throw new Exception($"Ошибка обработки записи: запись не соответствует шаблону");
                 }
             }
             public List<Record> GetRecordsWithSorting(List<string> types)
