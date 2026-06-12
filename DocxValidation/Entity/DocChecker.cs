@@ -215,6 +215,7 @@ namespace DocChecker
             ErrorRecord result = new ErrorRecord();
             List<ErrorRecord> FinalResults = new List<ErrorRecord>();
             int Paragraphcounter = 1;
+            int EmptyParCounter = 1;
             int TableCounter = 1;
             foreach (var element in body.Elements())
             {
@@ -247,6 +248,24 @@ namespace DocChecker
                             jornal.AddRecord($"Ошибка проверки параграфа {Paragraphcounter}: {e.Message.ToString()}", "Error", "MainParagraphCheck");
                         }
                         Paragraphcounter++;
+                    }
+                    else 
+                    {
+                        try
+                        {
+                            result = CheckEmptyParagraph(paragraph, styles, exp.exp, EmptyParCounter, Paragraphcounter);
+
+                            if (result.ErrorList.Count != 0)
+                            {
+                               FinalResults.Add(result);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            jornal.AddRecord($"Ошибка проверки пустого параграфа {EmptyParCounter}: {e.Message.ToString()}", "Error", "MainParagraphCheck");
+                        }
+
+                        EmptyParCounter++;
                     }
                 }
 
@@ -285,6 +304,137 @@ namespace DocChecker
             return FinalResults;
         }
 
+        // Проверка пустых строк
+        private static ErrorRecord CheckEmptyParagraph(Paragraph paragraph, List<Style> styles, List<Expection> expList, int emptyNum, int parNum)
+        {
+            Expection exp = new Expection();
+            ErrorRecord record = new ErrorRecord();
+
+            record.Position[0] = parNum.ToString();
+            record.Position[1] = emptyNum.ToString();
+            record.Position[3] = "empty";
+            record.type = ExpectionType.MainText;
+
+            exp = ExpectionTake(expList, ExpectionType.MainText);
+            record.type = ExpectionType.MainText;
+
+            List<(ErrorType, List<string>)> FinalErrorList = new List<(ErrorType, List<string>)>();
+            List<(ErrorType, List<string>)> ErrorList = new List<(ErrorType, List<string>)>();
+
+            ErrorList = CheckLineSpacing(paragraph.ParagraphProperties, exp.paragraphExpections.SpacingBetweenLines, styles);
+
+            if (ErrorList.Count != 0)
+            {
+                FinalErrorList = FinalErrorList.Union(ErrorList).ToList();
+            }
+
+            RunProperties recVal = GetParagraphFontInfo(paragraph, styles);
+
+            string expTypeFont = exp.runExpections.RunFonts?.Ascii?.ToString() ?? "Не определен";
+            string recTypeFont = recVal.RunFonts.Ascii?.ToString() ?? "Не определен";
+
+            int recFontSize, expFontSize;
+            expFontSize = int.Parse(exp.runExpections.FontSize.Val);
+            recFontSize = int.Parse(recVal.FontSize.Val);
+
+            if (expFontSize - exp.allowance.AccRange > recFontSize || recFontSize > expFontSize + exp.allowance.AccRange)
+            {
+                FinalErrorList.Add((ErrorType.FontSize, new List<string> { Convert.ToString((recFontSize / 2.0)) }));
+            }
+            if (recTypeFont != expTypeFont)
+            {
+                FinalErrorList.Add((ErrorType.FontType, new List<string> { recTypeFont }));
+            }
+
+            record.ErrorList = FinalErrorList;
+            return record;
+        }
+        // Получение форматирование шрифта для параграфа
+        private static RunProperties GetParagraphFontInfo(Paragraph paragraph, List<Style> styles)
+        {
+            FontInfo fontInfo = new FontInfo();
+
+            fontInfo.Italic = "0";
+            fontInfo.Bold = "0";
+            fontInfo.UnderLine = null;
+
+            if (paragraph.ParagraphProperties!= null)
+            {
+                if (paragraph.ParagraphProperties.ParagraphMarkRunProperties != null)
+                {
+                    var Params = paragraph.ParagraphProperties.ParagraphMarkRunProperties;
+
+                    var FontsInfo = Params.GetFirstChild<RunFonts>();
+                    var FontSize = Params.GetFirstChild<FontSize>();
+
+                    if (FontsInfo != null)
+                    {
+                        fontInfo.FontType = FontsInfo.Ascii?.Value ??
+                               FontsInfo.HighAnsi?.Value ??
+                               FontsInfo.EastAsia?.Value ??
+                               FontsInfo.ComplexScript?.Value;
+                    }
+                    if (FontSize != null && FontSize.Val != null)
+                    { 
+                        int.TryParse(FontSize.Val.Value, out fontInfo.FontSize);
+                    }
+                }
+            }
+
+            if (fontInfo.FontType != null && fontInfo.FontSize != -1)
+            {
+                return GenerateRunProperties(fontInfo);
+            }
+
+            if (paragraph.ParagraphProperties?.ParagraphStyleId != null)
+            {
+                FontInfo paraStyleFont = GetFontFromStyle(paragraph.ParagraphProperties?.ParagraphStyleId.Val.ToString(), StyleValues.Paragraph, styles);
+
+                if (fontInfo.FontType == null)
+                {
+                    fontInfo.FontType = paraStyleFont.FontType;
+                }
+                if (fontInfo.FontSize == -1)
+                {
+                    fontInfo.FontSize = paraStyleFont.FontSize;
+                }
+            }
+            if (fontInfo.FontType != null && fontInfo.FontSize != -1)
+            {
+                return GenerateRunProperties(fontInfo);
+            }
+
+            var defaultStyle = GetDefaultParagraphStyle(styles);
+
+            if (defaultStyle != null)
+            {
+                FontInfo normalStyle = GetFontFromStyleProperties(defaultStyle.StyleRunProperties);
+
+                if (fontInfo.FontType == null)
+                {
+                    fontInfo.FontType = normalStyle.FontType;
+                }
+                if (fontInfo.FontSize == -1)
+                {
+                    fontInfo.FontSize = normalStyle.FontSize;
+                }
+            }
+
+            if (fontInfo.FontType != null && fontInfo.FontSize != -1)
+            {
+                return GenerateRunProperties(fontInfo);
+            }
+
+            if (fontInfo.FontType == null)
+            {
+                fontInfo.FontType = "Calibry";
+            }
+            if (fontInfo.FontSize == -1)
+            {
+                fontInfo.FontSize = 22;
+            }
+            return GenerateRunProperties(fontInfo);
+        }
 
         // Метод проверки таблиц
         private static List<ErrorRecord> CheckTable(Table table, List<Expection> expList, List<Style> styles, Numbering numbering, int tableNum)
@@ -486,6 +636,22 @@ namespace DocChecker
                     {
                         exp = ExpectionTake(expList, ExpectionType.MainTextLabel);
                         record.type = ExpectionType.MainTextLabel;
+                        string STR;
+                        if (paragraph.InnerText.Length > 200)
+                        {
+                            STR = paragraph.InnerText.Substring(0, 200).Trim();
+                        }
+                        else
+                        {
+                            STR = paragraph.InnerText.Trim();
+                        }
+
+                        if (STR.Contains("Продолжение таблицы"))
+                        {
+                            exp.setJustification("left");
+                            exp.setIdentetion(0, 0, 0, 0);
+                        }
+
                     }
                     else
                     {
@@ -501,6 +667,7 @@ namespace DocChecker
 
             record.ErrorList = CheckParagraph(paragraph, styles, exp, numbering);
             record.Position[0] = parNum.ToString();
+            record.Position[3] = "standart";
             return record;
         }
         // Проверка параграфа (вспомогательный метод без проверки типа)
@@ -1447,24 +1614,24 @@ namespace DocChecker
         // Проверка параграфа на подпись к рисунку/таблице
         static private bool ParagraphIsLabel(Paragraph par)
         {
-            string STR;
-            if (par.InnerText.Length > 200)
+            try
             {
-                STR = par.InnerText.Substring(0, 200).Trim();
-            }
-            else
-            {
-                STR = par.InnerText.Trim();
-            }
-            string[] Tokens = STR.Split(' ');
-            if (Tokens.Length < 3)
-            {
-                return false;
-            }
+                string STR;
+                if (par.InnerText.Length > 200)
+                {
+                    STR = par.InnerText.Substring(0, 200).Trim();
+                }
+                else
+                {
+                    STR = par.InnerText.Trim();
+                }
+                string[] Tokens = STR.Split(' ');
+                if (Tokens.Length < 3)
+                {
+                    return false;
+                }
 
-            if (Tokens[0] == "Рисунок" || Tokens[0] == "Таблица")
-            {
-                if (Tokens[0] == "Рисунок")
+                if (Tokens[0] == "Рисунок" || Tokens[0] == "Таблица")
                 {
                     List<char> nums = new List<char>() { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
                     foreach (char symbol in Tokens[1])
@@ -1482,27 +1649,27 @@ namespace DocChecker
                     }
 
                     return true;
+
                 }
-                else
+
+                if (Tokens[0] == "Продолжение" && Tokens[1] == "таблицы")
                 {
                     List<char> nums = new List<char>() { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
-
-                    for (int i = 0; i < Tokens[1].Length; i++)
+                    foreach (char symbol in Tokens[2])
                     {
-                        if (i+1 >= Tokens[1].Length)
-                        {
-                            if (Tokens[1][i] == '.')
-                            {
-                                return true;
-                            }
-                        }
-                        if (!nums.Contains(Tokens[1][i]))
+                        if (!nums.Contains(symbol))
                         {
                             return false;
                         }
                     }
+                    return true;
                 }
             }
+            catch(Exception e)
+            {
+                return false;
+            }
+
             return false;
         }
 
@@ -1622,8 +1789,6 @@ namespace DocChecker
 
             return errors;
         }
-
-
     }
 }
   

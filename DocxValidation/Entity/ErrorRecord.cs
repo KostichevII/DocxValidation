@@ -73,8 +73,18 @@ namespace DocChecker
         // Position[2] - номер ячейки
         // Position[3] - номер параграфа
 
+        // Для параграфов и пустых параграфов
+        // Position[3] - тип параграфа
+        // empty - пустой
+        // standart -  обычный
+
         //Для параграфов Position[0]- номер параграфа
-        // Position[1] -текст параграфа
+        // Position[1] - текст параграфа
+
+        //Для пустых параграфов
+        // Position[0] - номер параграфа перед этим
+        // Position[1] - номер пустого параграфа
+
 
         //Для размеров страниц:
         //Position[0] - номер секции
@@ -129,7 +139,14 @@ namespace DocChecker
         {
             if (type == ExpectionType.MainText || type == ExpectionType.MainTextLabel || type == ExpectionType.MainTextHeader)
             {
-                return $"Параграф {Position[0]} \n{Position[1]}";
+                if (Position[3] == "empty")
+                {
+                    return $"Пустая строка {Position[1]}, находящаяся после параграфа {Position[0]}";
+                }
+                else
+                {
+                    return $"Параграф {Position[0]} \n{Position[1]}";
+                }
             }
             else
             {
@@ -428,8 +445,15 @@ namespace DocChecker
             string Res = "";
             if (type == ExpectionType.MainText || type == ExpectionType.MainTextLabel || type == ExpectionType.MainTextHeader)
             {
-                Res = $"В параграфе {Position[0]} ";
-                Res += $"(Распознан как {TypeToString()})\n";
+                if (Position[3] == "empty")
+                {
+                    Res = $"В пустой строке {Position[1]}, находящейся после параграфа {Position[0]}\n";
+                }
+                else
+                {
+                    Res = $"В параграфе {Position[0]} ";
+                    Res += $"(Распознан как {TypeToString()})\n";
+                }
             }
             else
             {
@@ -453,7 +477,10 @@ namespace DocChecker
 
             if (type == ExpectionType.MainText || type == ExpectionType.MainTextLabel || type == ExpectionType.MainTextHeader)
             {
-                Res += Position[1];
+                if (Position[3] == "standart")
+                {
+                    Res += Position[1];
+                }
             }
 
             Res += $"Найденные ошибки: \n{ConvertError(par)}\n";
