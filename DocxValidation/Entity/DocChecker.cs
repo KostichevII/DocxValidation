@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using static DocChecker.CheckerClasses;
 using static JornalWriter.JornalClass;
 
 namespace DocChecker
@@ -15,6 +14,14 @@ namespace DocChecker
     public class CheckerFuncs
     {
         static Jornal jornal = new Jornal();
+
+        // TLH = 0 - нормальный порядок
+        // TLH = 1 - ожидается пустой параграф после подписи рисунка
+        // TLH = 2 - ожидается пустой параграф после таблицы
+        // TLH = 3 - ожидается пустой параграф после заголовка
+        static int TLH = 0;
+        static int numberOfParagraph = 0;
+
 
         // Метод для конвертации типов
         public static double ConvertValue(string OutputType, string InputType, double InputValue)
@@ -219,6 +226,20 @@ namespace DocChecker
             int TableCounter = 1;
             foreach (var element in body.Elements())
             {
+                if (TLH != 0)
+                {
+                    if (exp.restriction.EmptySpaceAfterTablesAndLabels || exp.restriction.EmptySpaceAfterHeaders)
+                    {
+                        result = CheckEmptyPar(element, TableCounter - 1 , exp.restriction, Paragraphcounter -1);
+                        if (result != null)
+                        {
+                            FinalResults.Add(result);
+                        }
+                    }
+                    TLH = 0;
+                }
+
+
                 if (element is Paragraph)
                 {
                     Paragraph paragraph = (Paragraph)element;
@@ -249,7 +270,7 @@ namespace DocChecker
                         }
                         Paragraphcounter++;
                     }
-                    else 
+                    else
                     {
                         try
                         {
@@ -257,7 +278,7 @@ namespace DocChecker
 
                             if (result.ErrorList.Count != 0)
                             {
-                               FinalResults.Add(result);
+                                FinalResults.Add(result);
                             }
                         }
                         catch (Exception e)
@@ -290,6 +311,7 @@ namespace DocChecker
                         jornal.AddRecord($"Ошибка проверки таблицы {TableCounter}: {e.Message.ToString()}", "Error", "CheckTable");
                     }
                     TableCounter++;
+                    TLH = 2;
                 }
             }
 
@@ -297,7 +319,7 @@ namespace DocChecker
             {
                 FinalResults = FinalResults.Union(CheckSections(GetSectionSize(body), exp.sections)).ToList();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 jornal.AddRecord($"Ошибка проверки форматирования разделов: {e.ToString()}", "Error", "CheckSections");
             }
@@ -358,7 +380,7 @@ namespace DocChecker
             fontInfo.Bold = "0";
             fontInfo.UnderLine = null;
 
-            if (paragraph.ParagraphProperties!= null)
+            if (paragraph.ParagraphProperties != null)
             {
                 if (paragraph.ParagraphProperties.ParagraphMarkRunProperties != null)
                 {
@@ -375,7 +397,7 @@ namespace DocChecker
                                FontsInfo.ComplexScript?.Value;
                     }
                     if (FontSize != null && FontSize.Val != null)
-                    { 
+                    {
                         int.TryParse(FontSize.Val.Value, out fontInfo.FontSize);
                     }
                 }
@@ -628,6 +650,7 @@ namespace DocChecker
                 if (ParagraphIsHeader(paragraph, styles))
                 {
                     exp = ExpectionTake(expList, ExpectionType.MainTextHeader);
+                    TLH = 3;
                     record.type = ExpectionType.MainTextHeader;
                 }
                 else
@@ -648,10 +671,10 @@ namespace DocChecker
 
                         if (STR.Contains("Продолжение таблицы"))
                         {
+
                             exp.setJustification("left");
                             exp.setIdentetion(0, 0, 0, 0);
                         }
-
                     }
                     else
                     {
@@ -1642,6 +1665,12 @@ namespace DocChecker
                         }
                     }
 
+                    if (Tokens[0] == "Рисунок")
+                    {
+                        numberOfParagraph = int.Parse(Tokens[1]);
+                        TLH = 1;
+                    }
+
                     List<char> dash = new List<char>() { '-', '—' };
                     if (Tokens[2].Length > 1 || dash.Contains(Tokens[2][0]))
                     {
@@ -1665,7 +1694,7 @@ namespace DocChecker
                     return true;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return false;
             }
@@ -1678,7 +1707,7 @@ namespace DocChecker
         {
             List<SectionProperties> bodySections = body.Elements<SectionProperties>().ToList();
             List<SectionInfo> AllSections = new List<SectionInfo>();
-           
+
             if (!bodySections.Any())
             {
                 bodySections.Add(new SectionProperties());
@@ -1780,14 +1809,103 @@ namespace DocChecker
                 {
                     record.ErrorList.Add((ErrorType.SectionErrorPageHeight, new List<string> { section.PageHeight.ToString(), expected.Orientation }));
                 }
-                
-                if (record.ErrorList.Count != 0) 
+
+                if (record.ErrorList.Count != 0)
                 {
                     errors.Add(record);
                 }
             }
 
             return errors;
+        }
+
+        //Проверка пустого поля
+        private static ErrorRecord CheckEmptyPar(Object obj, int NumOfTable, GeneralRestriction restrictions, int NumOfParagraph)
+        {
+            var recievedObj = obj;
+            bool Error = false;
+            if (recievedObj is Paragraph)
+            {
+                Paragraph paragraph = (Paragraph)recievedObj;
+                if (!String.IsNullOrWhiteSpace(paragraph.InnerText.ToString()))
+                {
+                    try
+                    {
+                        string STR;
+                        if (paragraph.InnerText.Length > 200)
+                        {
+                            STR = paragraph.InnerText.Substring(0, 200).Trim();
+                        }
+                        else
+                        {
+                            STR = paragraph.InnerText.Trim();
+                        }
+                        string[] Tokens = STR.Split(' ');
+
+                        if (Tokens[0].ToLower() == "продолжение" && Tokens[1].ToLower() == "таблицы")
+                        {
+                            return null;
+                        }
+
+                        Error = true;
+
+                    }
+                    catch (Exception e)
+                    {
+                        Error = true;
+                    }
+                }
+            }
+
+            if (recievedObj is Table)
+            {
+                Error = true;
+            }
+
+
+            if (Error)
+            {
+                ErrorRecord record = new ErrorRecord();
+                switch (TLH)
+                {
+                    case 1:
+                        {
+                            if (restrictions.EmptySpaceAfterTablesAndLabels)
+                            {
+                                record.Position[0] = numberOfParagraph.ToString();
+                                record.Position[1] = NumOfParagraph.ToString();
+                                record.ErrorList.Add((ErrorType.EmptyLineError, new List<string> { "Label" }));
+                            }
+                            break;
+                        }
+                    case 2:
+                        {
+                            if (restrictions.EmptySpaceAfterTablesAndLabels)
+                            {
+                                record.Position[0] = NumOfTable.ToString();
+                                record.ErrorList.Add((ErrorType.EmptyLineError, new List<string> { "Table" }));
+                            }
+                            break;
+                        }
+                    case 3:
+                        {
+                            if (restrictions.EmptySpaceAfterHeaders)
+                            {
+                                record.Position[0] = NumOfParagraph.ToString();
+                                record.ErrorList.Add((ErrorType.EmptyLineError, new List<string> { "Header" }));
+                            }
+                            break;
+                        }
+                    default:
+                        {
+                            jornal.AddRecord("Ошибка формировании ошибки", "Error", "CheckEmptyPar");
+                            return null;
+                        }
+                }
+                record.type = ExpectionType.GeneralError;
+                return record;
+            }
+            return null;
         }
     }
 }

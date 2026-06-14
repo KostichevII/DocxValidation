@@ -149,9 +149,9 @@ namespace DocChecker
                     }
             }
         }
-        public DocChecker.CheckerClasses.Expection ConvertToExpection()
+        public DocChecker.Expection ConvertToExpection()
         {
-            DocChecker.CheckerClasses.Expection Exp = new DocChecker.CheckerClasses.Expection();
+            DocChecker.Expection Exp = new DocChecker.Expection();
 
 
             switch (TAL)

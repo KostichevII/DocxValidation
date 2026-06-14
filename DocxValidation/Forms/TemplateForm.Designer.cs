@@ -165,6 +165,10 @@
             this.TemplateDelete = new System.Windows.Forms.Button();
             this.TemplateSave = new System.Windows.Forms.Button();
             this.RefreshB = new System.Windows.Forms.Button();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel23 = new System.Windows.Forms.TableLayoutPanel();
+            this.SpaceAfterLabels = new System.Windows.Forms.CheckBox();
+            this.SpaceAfterHeaders = new System.Windows.Forms.CheckBox();
             this.panel3.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox9.SuspendLayout();
@@ -224,6 +228,8 @@
             this.panel1.SuspendLayout();
             this.tableLayoutPanel16.SuspendLayout();
             this.tableLayoutPanel15.SuspendLayout();
+            this.groupBox10.SuspendLayout();
+            this.tableLayoutPanel23.SuspendLayout();
             this.SuspendLayout();
             // 
             // label2
@@ -242,8 +248,9 @@
             // panel3
             // 
             this.panel3.AutoScroll = true;
-            this.panel3.AutoScrollMinSize = new System.Drawing.Size(0, 900);
+            this.panel3.AutoScrollMinSize = new System.Drawing.Size(0, 1200);
             this.panel3.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.panel3.Controls.Add(this.groupBox10);
             this.panel3.Controls.Add(this.groupBox7);
             this.panel3.Controls.Add(this.groupBox4);
             this.panel3.Controls.Add(this.groupBox3);
@@ -259,7 +266,7 @@
             this.groupBox7.Controls.Add(this.groupBox8);
             this.groupBox7.Location = new System.Drawing.Point(31, 589);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(463, 292);
+            this.groupBox7.Size = new System.Drawing.Size(463, 265);
             this.groupBox7.TabIndex = 11;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Параметры настройки форматирования страниц";
@@ -2088,6 +2095,50 @@
             this.RefreshB.UseVisualStyleBackColor = true;
             this.RefreshB.Click += new System.EventHandler(this.RefreshB_Click);
             // 
+            // groupBox10
+            // 
+            this.groupBox10.Controls.Add(this.tableLayoutPanel23);
+            this.groupBox10.Location = new System.Drawing.Point(31, 860);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(463, 75);
+            this.groupBox10.TabIndex = 12;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Пробелы после элементов";
+            // 
+            // tableLayoutPanel23
+            // 
+            this.tableLayoutPanel23.ColumnCount = 1;
+            this.tableLayoutPanel23.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel23.Controls.Add(this.SpaceAfterLabels, 0, 0);
+            this.tableLayoutPanel23.Controls.Add(this.SpaceAfterHeaders, 0, 1);
+            this.tableLayoutPanel23.Location = new System.Drawing.Point(12, 19);
+            this.tableLayoutPanel23.Name = "tableLayoutPanel23";
+            this.tableLayoutPanel23.RowCount = 2;
+            this.tableLayoutPanel23.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel23.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel23.Size = new System.Drawing.Size(435, 46);
+            this.tableLayoutPanel23.TabIndex = 0;
+            // 
+            // SpaceAfterLabels
+            // 
+            this.SpaceAfterLabels.AutoSize = true;
+            this.SpaceAfterLabels.Location = new System.Drawing.Point(3, 3);
+            this.SpaceAfterLabels.Name = "SpaceAfterLabels";
+            this.SpaceAfterLabels.Size = new System.Drawing.Size(230, 17);
+            this.SpaceAfterLabels.TabIndex = 0;
+            this.SpaceAfterLabels.Text = "Пустая строка после таблиц и рисунков";
+            this.SpaceAfterLabels.UseVisualStyleBackColor = true;
+            // 
+            // SpaceAfterHeaders
+            // 
+            this.SpaceAfterHeaders.AutoSize = true;
+            this.SpaceAfterHeaders.Location = new System.Drawing.Point(3, 26);
+            this.SpaceAfterHeaders.Name = "SpaceAfterHeaders";
+            this.SpaceAfterHeaders.Size = new System.Drawing.Size(195, 17);
+            this.SpaceAfterHeaders.TabIndex = 1;
+            this.SpaceAfterHeaders.Text = "Пустая строка после заголовков";
+            this.SpaceAfterHeaders.UseVisualStyleBackColor = true;
+            // 
             // TemplateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2189,6 +2240,9 @@
             this.tableLayoutPanel16.PerformLayout();
             this.tableLayoutPanel15.ResumeLayout(false);
             this.tableLayoutPanel15.PerformLayout();
+            this.groupBox10.ResumeLayout(false);
+            this.tableLayoutPanel23.ResumeLayout(false);
+            this.tableLayoutPanel23.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2331,5 +2385,9 @@
         private System.Windows.Forms.NumericUpDown SectionTopPortrait;
         private System.Windows.Forms.Label label37;
         private System.Windows.Forms.Label label38;
+        private System.Windows.Forms.GroupBox groupBox10;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel23;
+        private System.Windows.Forms.CheckBox SpaceAfterLabels;
+        private System.Windows.Forms.CheckBox SpaceAfterHeaders;
     }
 }

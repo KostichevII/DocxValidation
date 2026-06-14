@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static DocChecker.CheckerClasses;
 
 namespace DocChecker
 {
@@ -50,6 +49,8 @@ namespace DocChecker
         SectionErrorPageWidth,
         SectionErrorPageHeight,
 
+        EmptyLineError,
+
         none
     }
     //Перечисление типов текста
@@ -61,6 +62,7 @@ namespace DocChecker
         TableHeader,
         MainTextLabel,
         SectionError,
+        GeneralError,
         Unknow
     }
     //Класс для хранения ошибок
@@ -129,6 +131,10 @@ namespace DocChecker
                     {
                         return "-----";
                     }
+                case ExpectionType.GeneralError:
+                    {
+                        return "-----";
+                    }
                 default:
                     {
                         return "Не опознано";
@@ -160,10 +166,25 @@ namespace DocChecker
                     {
                         return $"Раздел {Position[0]}";
                     }
-                    else
+                    if (type == ExpectionType.GeneralError)
                     {
-                        return "";
+                        switch (ErrorList[0].Item2[0])
+                        {
+                            case "Label":
+                                {
+                                    return $"После подписи к рисунку {Position[0]} (в документе параграф {Position[1]})";
+                                }
+                            case "Table":
+                                {
+                                    return $"После таблицы {Position[0]}";
+                                }
+                            case "Header":
+                                {
+                                    return $"После заголовка в параграфе {Position[0]}";
+                                }
+                        }
                     }
+                    return "";
                 }
             }
         }
@@ -432,6 +453,12 @@ namespace DocChecker
                             break;
                         }
 
+                    case ErrorType.EmptyLineError:
+                        {
+                            ErrorMessage += $"Ожидалась пустая строка";
+                            break;
+                        }
+
                     default:
                         {
                             break;
@@ -470,7 +497,28 @@ namespace DocChecker
                     }
                     else
                     {
-                        return "";
+                        if (type == ExpectionType.GeneralError)
+                        {
+                            switch (ErrorList[0].Item2[0])
+                            {
+                                case "Label":
+                                    {
+                                        return $"После подписи к рисунку {Position[0]} (в документе параграф {Position[1]}) требуется пустая строка";
+                                    }
+                                case "Table":
+                                    {
+                                        return $"После таблицы {Position[0]} требуется пустая строка";
+                                    }
+                                case "Header":
+                                    {
+                                        return $"После заголовка в параграфе {Position[0]} требуется пустая строка";
+                                    }
+                            }
+                        }
+                        else
+                        {
+                            return "";
+                        }
                     }
                 }
             }

@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 
 namespace DocChecker
 {
-    public class CheckerClasses
-    {
         //Класс для хранения полных настроек
         public class CheckParametrs
         {
@@ -17,6 +15,8 @@ namespace DocChecker
             //sections[0] - параметры книжной ориентации
             //sections[1] - параметры альбомной ориентации
             public List<SectionInfo> sections;
+
+            public GeneralRestriction restriction;
 
             public CheckParametrs()
             {
@@ -283,5 +283,4 @@ namespace DocChecker
             }
 
         }
-    }
 }

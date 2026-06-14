@@ -16,8 +16,8 @@ namespace DocxValidation
     public partial class CheckForm : Form
     {
         List<FieldSaver> FieldsSavers = new List<FieldSaver>();
-        DocChecker.CheckerClasses.CheckParametrs CheckParams = new DocChecker.CheckerClasses.CheckParametrs();
-        List<DocChecker.CheckerClasses.Expection> SavedExpections = new List<DocChecker.CheckerClasses.Expection>();
+        DocChecker.CheckParametrs CheckParams = new DocChecker.CheckParametrs();
+        List<DocChecker.Expection> SavedExpections = new List<DocChecker.Expection>();
         Template template = new Template();
         bool ParamsSaved = false;
         bool DocSaved = false;
@@ -84,7 +84,7 @@ namespace DocxValidation
             CheckParams.exp = SavedExpections;
             if (String.IsNullOrEmpty(DocAdress.Text))
             {
-                MessageBox.Show("Не выбран проверяемый документ");
+                MessageBox.Show("Не выбран проверяемый документ", "Ошибка", (MessageBoxButtons)0, (MessageBoxIcon)16);
                 return;
             }
 
@@ -120,7 +120,7 @@ namespace DocxValidation
             }
             catch (Exception e)
             {
-                MessageBox.Show($"Ошибка: {e}");
+                MessageBox.Show($"{e}", "Ошибка", (MessageBoxButtons)0, (MessageBoxIcon)16);
             }
         }
         private void ManualB_Click(object sender, EventArgs e)
@@ -155,6 +155,7 @@ namespace DocxValidation
 
                     SavedExpections = template.ConvertToExpection();
                     CheckParams.sections = template.ConvertSectionsToTwips();
+                    CheckParams.restriction = template.Restrictions;
 
                     ParamsSaved = true;
                     CheckReady();

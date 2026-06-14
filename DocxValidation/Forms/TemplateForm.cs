@@ -18,6 +18,7 @@ namespace DocxValidation
         int currectPos = -1;
         List<FieldSaver> FieldsSavers = new List<FieldSaver>();
         List<FieldSaver> TempSavers = new List<FieldSaver>();
+        GeneralRestriction restriction = new GeneralRestriction();
         Template template = new Template();
         bool DeleteStarted = false;
 
@@ -48,7 +49,7 @@ namespace DocxValidation
             {
                 if (!Fields.SetType(TextType.Text))
                 {
-                    MessageBox.Show("Ошибка сохранения настроек");
+                    MessageBox.Show("Не выбран сохраняемый шаблон","Ошибка сохранения настроек", (MessageBoxButtons)0, (MessageBoxIcon)16);
                     return;
                 }
             }
@@ -113,8 +114,30 @@ namespace DocxValidation
             LandInfo.PageWidth = 16838;
             LandInfo.PageHeight = 11906;
 
-            template.Sections.Add(PortInfo);
-            template.Sections.Add(LandInfo);
+            List<SectionInfo> sections = new List<SectionInfo> { PortInfo, LandInfo };
+            bool foundet;
+            foreach (var section in sections)
+            {
+                foundet = false;
+                for (int i = 0; i < template.Sections.Count; i++)
+                {
+                    if (section.Orientation == template.Sections[i].Orientation)
+                    {
+                        template.Sections[i] = section;
+                        foundet = true;
+                        break;
+                    }
+                }
+                if (!foundet)
+                {
+                    template.Sections.Add(section);
+                }
+            }
+        }
+        private void SaveGeneralFields()
+        {
+            restriction.EmptySpaceAfterHeaders = SpaceAfterHeaders.Checked;
+            restriction.EmptySpaceAfterTablesAndLabels = SpaceAfterLabels.Checked;
         }
 
         private void SetStandartFields()
@@ -161,6 +184,9 @@ namespace DocxValidation
             SectionHeaderPortrait.Value = Convert.ToDecimal(1);
             SectionFooterLandScape.Value = Convert.ToDecimal(1);
             SectionFooterPortrait.Value = Convert.ToDecimal(1);
+
+            SpaceAfterHeaders.Checked = false;
+            SpaceAfterLabels.Checked = false;
         }
         private void SetSections()
         {
@@ -236,6 +262,11 @@ namespace DocxValidation
                 TabVal.Value = Convert.ToDecimal(Fields.TS);
             }
         }
+        private void SetGeneral()
+        {
+            SpaceAfterHeaders.Checked = template.Restrictions.EmptySpaceAfterHeaders;
+            SpaceAfterLabels.Checked = template.Restrictions.EmptySpaceAfterTablesAndLabels;
+        }
         private bool CheckSave()
         {
             foreach (var Params in TempSavers)
@@ -246,7 +277,7 @@ namespace DocxValidation
                 }
             }
 
-            MessageBox.Show("Ошибка: Обязательно должны быть заданы параметры для основного текста");
+            MessageBox.Show("Обязательно должны быть заданы параметры для основного текста", "Внимание", (MessageBoxButtons)0, (MessageBoxIcon)48);
             return false;
         }
         private bool ReadFields(string type)
@@ -272,7 +303,7 @@ namespace DocxValidation
             }
             else
             {
-                MessageBox.Show("Заполните все поля!");
+                MessageBox.Show("Заполните все поля!", "Ошибка", (MessageBoxButtons)0, (MessageBoxIcon)48);
                 return false;
             }
 
@@ -285,7 +316,7 @@ namespace DocxValidation
             }
             else
             {
-                MessageBox.Show("Заполните все поля!");
+                MessageBox.Show("Заполните все поля!", "Ошибка", (MessageBoxButtons)0, (MessageBoxIcon)48);
                 return false;
             }
 
@@ -295,7 +326,7 @@ namespace DocxValidation
             }
             else
             {
-                MessageBox.Show("Заполните все поля!");
+                MessageBox.Show("Заполните все поля!", "Ошибка", (MessageBoxButtons)0, (MessageBoxIcon)48);
                 return false;
             }
 
@@ -306,7 +337,7 @@ namespace DocxValidation
             }
             else
             {
-                MessageBox.Show("Заполните все поля!");
+                MessageBox.Show("Заполните все поля!", "Ошибка", (MessageBoxButtons)0, (MessageBoxIcon)48);
                 return false;
             }
 
@@ -371,7 +402,7 @@ namespace DocxValidation
             }
             catch (Exception e)
             {
-                MessageBox.Show($"Ошибка: {e}");
+                MessageBox.Show($"{e}", "Ошибка", (MessageBoxButtons)0, (MessageBoxIcon)16);
             }
         }
         private void TemplateShow()
@@ -402,6 +433,7 @@ namespace DocxValidation
 
             SetField(CurrectType);
             SetSections();
+            SetGeneral();
         }
 
         private void LineST_TextChanged(object sender, EventArgs e)
@@ -483,7 +515,7 @@ namespace DocxValidation
                 default:
                     {
 
-                        MessageBox.Show("Выберите тип текста, параметры которого хотите сохранить");
+                        MessageBox.Show("Выберите тип текста, параметры которого хотите сохранить", "Внимание", (MessageBoxButtons)0, (MessageBoxIcon)48);
                         return;
                     }
             }
@@ -501,7 +533,7 @@ namespace DocxValidation
                     couter++;
                 }
             }
-            MessageBox.Show("Ошибка отметки сохранения типа текста");
+            MessageBox.Show("Ошибка отметки сохранения типа текста", "Ошибка", (MessageBoxButtons)0, (MessageBoxIcon)48);
         }
         private void TemplateCreate_Click(object sender, EventArgs e)
         {
@@ -529,14 +561,14 @@ namespace DocxValidation
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка импорта файла: {ex.Message}");
+                MessageBox.Show($"{ex.Message}", "Ошибка импорта файла", (MessageBoxButtons)0, (MessageBoxIcon)16);
             }
         }
         private void TemplateDelete_Click(object sender, EventArgs e)
         {
             if (currectPos == -1)
             {
-                MessageBox.Show("Выберите шаблон, который хотите удалить");
+                MessageBox.Show("Выберите шаблон, который хотите удалить", "Внимание", (MessageBoxButtons)0, (MessageBoxIcon)48);
                 return;
             }
 
@@ -565,7 +597,7 @@ namespace DocxValidation
                 }
                 catch (Exception exc)
                 {
-                    MessageBox.Show($"Ошибка удаления файла: {exc.Message}");
+                    MessageBox.Show($"{exc.Message}", "Ошибка удаления файла", (MessageBoxButtons)0, (MessageBoxIcon)16);
                     return;
                 }
 
@@ -590,7 +622,7 @@ namespace DocxValidation
 
                 if (string.IsNullOrEmpty(name))
                 {
-                    MessageBox.Show("Имя шаблона не может быть пустым");
+                    MessageBox.Show("Имя шаблона не может быть пустым", "Внимание", (MessageBoxButtons)0, (MessageBoxIcon)48);
                     return;
                 }
                 if (!CheckSave())
@@ -599,16 +631,17 @@ namespace DocxValidation
                 }
                 template.Fields = TempSavers;
                 SaveSectionsFields();
+                SaveGeneralFields();
                 template.date = date;
                 template.Name = name;
                 template.SaveFile();
                 template.RenameFilePath();
                 ReadAndShowFiles();
-                MessageBox.Show("Шаблон сохранён");
+                MessageBox.Show("Шаблон сохранён", "Успех", (MessageBoxButtons)0, (MessageBoxIcon)64);
             }
             catch (Exception er)
             {
-                MessageBox.Show($"Ошибка сохранения файла: {er.Message}");
+                MessageBox.Show($"{er.Message}", "Ошибка сохранения файла", (MessageBoxButtons)0, (MessageBoxIcon)16);
             }
 
         }
@@ -629,7 +662,7 @@ namespace DocxValidation
                 string path = Path.Combine(Directory.GetCurrentDirectory(), "templates");
                 if (!Directory.Exists(path))
                 {
-                    MessageBox.Show("Ошибка: папка templates не обнаружен");
+                    MessageBox.Show("Папка templates не обнаружен", "Ошибка", (MessageBoxButtons)0, (MessageBoxIcon)16);
                     TemplateList.SelectedIndex = currectPos;
                     return;
                 }
@@ -639,7 +672,7 @@ namespace DocxValidation
                     string file = Path.Combine(path, TemplateList.SelectedItem + ".temp");
                     if (!template.ReadFile(file))
                     {
-                        MessageBox.Show("Ошибка чтения файла");
+                        MessageBox.Show("Ошибка чтения файла", "Ошибка", (MessageBoxButtons)0, (MessageBoxIcon)16);
                         TemplateList.SelectedIndex = currectPos;
                         return;
                     }
@@ -648,7 +681,7 @@ namespace DocxValidation
                 }
                 catch (Exception exp)
                 {
-                    MessageBox.Show($"Ошибка открытия файла: {exp}");
+                    MessageBox.Show($"{exp}", "Ошибка открытия файла", (MessageBoxButtons)0, (MessageBoxIcon)16);
                     TemplateList.SelectedIndex = currectPos;
                     return;
                 }
@@ -695,7 +728,7 @@ namespace DocxValidation
                     }
                 default:
                     {
-                        MessageBox.Show("Ошибка удаления сохранённых параметров");
+                        MessageBox.Show("Ошибка удаления сохранённых параметров", "Ошибка", (MessageBoxButtons)0, (MessageBoxIcon)16);
                         return;
                     }
             }

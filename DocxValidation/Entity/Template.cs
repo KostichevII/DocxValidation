@@ -13,6 +13,11 @@ namespace DocChecker
     {
         public List<SectionInfo> Sections;
         public List<FieldSaver> Fields;
+        public GeneralRestriction Restrictions;
+
+        public bool EmptySpaceAfterTablesAndLabels;
+        public bool EmptySpaceAfterHeaders;
+
         public string Name;
         public DateTime date;
         public string filepath;
@@ -61,6 +66,7 @@ namespace DocChecker
         {
             Fields = new List<FieldSaver>();
             Sections = new List<SectionInfo>();
+            Restrictions = new GeneralRestriction();
             Name = "NewTemplate";
             date = DateTime.MinValue;
             filepath = "";
@@ -97,6 +103,8 @@ namespace DocChecker
                 {
                     Save.AppendLine(Section.FileExport());
                 }
+
+                Save.AppendLine(Restrictions.FileExport());
 
                 using (StreamWriter writer = new StreamWriter(filepath, false))
                 {
@@ -169,7 +177,7 @@ namespace DocChecker
             List<string> FileStrings = new List<string>();
             List<SectionInfo> ReadetSections = new List<SectionInfo>() ;
             List<FieldSaver> ReadetFields = new List<FieldSaver>();
-
+            GeneralRestriction ReadetRestrictions = new GeneralRestriction();
             try
             {
                 using (StreamReader reader = new StreamReader(Path))
@@ -193,6 +201,7 @@ namespace DocChecker
                 List<string> stringParams = new List<string>();
                 int ReadMode = 0; // 0 - чтение параметров текста
                                   // 1 - чтение параметров оформления страниц
+                                  // 2 - чтение общих параметров
                 for (int i = 2; i< FileStrings.Count; i++) 
                 {
                     switch (FileStrings[i])
@@ -207,6 +216,12 @@ namespace DocChecker
                             {
                                 stringParams.Clear();
                                 ReadMode = 1;
+                                break;
+                            }
+                        case "(":
+                            {
+                                stringParams.Clear();
+                                ReadMode = 2;
                                 break;
                             }
                         default:
@@ -233,6 +248,14 @@ namespace DocChecker
                                             ReadetSections.Add(fields);
                                             break;
                                         }
+                                    case ")":
+                                        {
+                                            if (!ReadetRestrictions.ConvertString(stringParams))
+                                            {
+                                                throw new Exception("Ошибка чтения");
+                                            }
+                                            break;
+                                        }
                                     default:
                                         {
                                             stringParams.Add(FileStrings[i]);
@@ -245,7 +268,7 @@ namespace DocChecker
                     
                 }
 
-
+                Restrictions = ReadetRestrictions;
                 Fields = ReadetFields;
                 Sections = ReadetSections;
             }
@@ -255,11 +278,11 @@ namespace DocChecker
             }
             return true;
         }
-        public List<DocChecker.CheckerClasses.Expection> ConvertToExpection()
+        public List<DocChecker.Expection> ConvertToExpection()
         {
             try
             {
-                List<DocChecker.CheckerClasses.Expection> Exp = new List<CheckerClasses.Expection>();
+                List<DocChecker.Expection> Exp = new List<Expection>();
                 foreach(var saver in Fields)
                 {
                     Exp.Add(saver.ConvertToExpection());

@@ -29,7 +29,7 @@ namespace DocxValidation
             string path = Path.Combine(Directory.GetCurrentDirectory(), "logs");
             if (!Directory.Exists(path) ) 
             {
-                MessageBox.Show("Ошибка: Не обнаружена папка logs");
+                MessageBox.Show("Не обнаружена папка logs", "Ошибка", (MessageBoxButtons)0, (MessageBoxIcon)16);
                 return;
             }
 
@@ -50,7 +50,7 @@ namespace DocxValidation
             }
             catch(Exception e )
             {
-                MessageBox.Show($"Ошибка: {e}");
+                MessageBox.Show($"{e}", "Ошибка", (MessageBoxButtons)0, (MessageBoxIcon)16);
             }
         }
         private List<string> GetFilter()
@@ -111,7 +111,7 @@ namespace DocxValidation
                     }
                 default:
                     {
-                        MessageBox.Show("Задан неверный способ сортировки");
+                        MessageBox.Show("Задан неверный способ сортировки", "Внимание", (MessageBoxButtons)0, (MessageBoxIcon)48);
                         return;
                     }
             }
@@ -148,7 +148,7 @@ namespace DocxValidation
                 string path = Path.Combine(Directory.GetCurrentDirectory(), "logs");
                 if(!Directory.Exists(path) ) 
                 {
-                    MessageBox.Show("Ошибка: файл logs не обнаружен");
+                    MessageBox.Show("Файл logs не обнаружен", "Ошибка", (MessageBoxButtons)0, (MessageBoxIcon)16);
                     return;
                 }
 
@@ -160,7 +160,7 @@ namespace DocxValidation
                 }
                 catch(Exception exp)
                 {
-                    MessageBox.Show($"Ошибка открытия файла: {exp}");
+                    MessageBox.Show($"{exp}", "Ошибка открытия файла", (MessageBoxButtons)0, (MessageBoxIcon)16);
                 }
             }
         }
